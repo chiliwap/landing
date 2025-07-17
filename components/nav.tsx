@@ -2,12 +2,16 @@
 import { motion, useScroll } from "motion/react";
 import { useRef } from "react";
 
+import { useRouter } from "next/navigation";
+
 export default function Nav() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["end end", "start start"],
   });
+
+  const router = useRouter();
 
   return (
     <>
@@ -49,7 +53,10 @@ export default function Nav() {
             >
               Support
             </a>
-            <button className="bg-zinc-900 hover:bg-neutral-800 hover:text-white transition-all duration-350 p-1.5 px-4 cursor-pointer rounded-md text-gray-300 ">
+            <button
+              onClick={() => router.push("/login")}
+              className="bg-zinc-900 hover:bg-neutral-800 hover:text-white transition-all duration-350 p-1.5 px-4 cursor-pointer rounded-md text-gray-300 "
+            >
               Login
             </button>
           </div>
