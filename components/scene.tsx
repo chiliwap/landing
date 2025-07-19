@@ -1,19 +1,42 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import useSpline from "@splinetool/r3f-spline";
 import { useFrame } from "@react-three/fiber";
 import { OrbitControls, OrthographicCamera } from "@react-three/drei";
 import { Mesh, Group } from "three";
 
-export default function Scene({ ...props }) {
+export default function Scene({
+  rotationState,
+  currentState,
+}: {
+  rotationState: { rotateY: number; rotateX: number; rotateZ: number };
+  currentState: number;
+}) {
   const houseRef = useRef<Group>(null);
 
-  useFrame((state) => {
+  useEffect(() => {
     if (houseRef.current) {
-      //   houseRef.current.rotation.y = -Math.sin(state.clock.elapsedTime * 0.2);
+      // Animate to new rotation state
+      const targetRotationY = (rotationState.rotateY * Math.PI) / 180;
+      const targetRotationX = (rotationState.rotateX * Math.PI) / 180;
+      const targetRotationZ = (rotationState.rotateZ * Math.PI) / 180;
+
+      // Smooth transition to new rotation
+      const animate = () => {
+        if (houseRef.current) {
+          houseRef.current.rotation.y +=
+            (targetRotationY - houseRef.current.rotation.y) * 0.1;
+          houseRef.current.rotation.x +=
+            (targetRotationX - houseRef.current.rotation.x) * 0.1;
+          houseRef.current.rotation.z +=
+            (targetRotationZ - houseRef.current.rotation.z) * 0.1;
+        }
+        requestAnimationFrame(animate);
+      };
+      animate();
     }
-  });
+  }, [rotationState]);
 
   const { nodes, materials } = useSpline(
     "https://prod.spline.design/VclDxkUtIXJcxYUs/scene.splinecode"
@@ -26,7 +49,7 @@ export default function Scene({ ...props }) {
         enablePan={false}
         enableZoom={false}
       />
-      <group {...props} dispose={null}>
+      <group dispose={null}>
         <scene name="Scene">
           <group name="House_04" ref={houseRef}>
             <group
