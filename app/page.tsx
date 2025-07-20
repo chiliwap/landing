@@ -37,12 +37,20 @@ export default function Landing() {
             </p>
           </header>
           <div className="absolute bottom-18 flex flex-row justify-center items-center space-x-4 md:text-xl sm:text-base text-xs">
-            <button className="border-white border-4 bg-white text-black hover:bg-neutral-300 hover:border-gray-200 transition-all duration-350 p-2 md:px-20 px-8 cursor-pointer rounded-md">
+            <a
+              href="/solutions"
+              title="Find your solution"
+              className="border-white border-4 bg-white text-black hover:bg-neutral-300 hover:border-gray-200 transition-all duration-350 p-2 md:px-20 px-8 cursor-pointer rounded-md"
+            >
               Find your solution
-            </button>
-            <button className="border-white border-4 bg-transparent text-white hover:border-neutral-300 hover:text-gray-200 transition-all duration-350 p-2 md:px-12 px-2 cursor-pointer rounded-md">
+            </a>
+            <a
+              href="/consultation"
+              title="Schedule a consultation"
+              className="border-white border-4 bg-transparent text-white hover:border-neutral-300 hover:text-gray-200 transition-all duration-350 p-2 md:px-12 px-2 cursor-pointer rounded-md"
+            >
               Schedule a consultation
-            </button>
+            </a>
           </div>
         </div>
       </motion.div>
