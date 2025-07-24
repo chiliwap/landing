@@ -579,7 +579,7 @@ export default function Nav() {
             className="fixed bg-stone-900/20 backdrop-blur-lg top-0 left-0 w-full z-50"
           >
             <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
-              <a
+              <Link
                 href="/"
                 className="text-2xl font-bold text-white inline-flex items-center"
               >
@@ -589,26 +589,26 @@ export default function Nav() {
                   className="inline-block h-8 mr-2"
                 />{" "}
                 CHILIWAP
-              </a>
+              </Link>
               <div className="space-x-4 text-xs font-bold ">
-                <a
+                <Link
                   href="/consultation"
                   className="text-gray-300 hover:text-white transition-colors duration-350"
                 >
                   Schedule a Consultation
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/support"
                   className="text-gray-300 hover:text-white transition-colors duration-350"
                 >
                   Support
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/login"
                   className="bg-zinc-900 hover:bg-neutral-800 hover:text-white transition-all duration-350 p-1.5 px-4 cursor-pointer rounded-md text-gray-300 "
                 >
                   Login
-                </a>
+                </Link>
               </div>
             </div>
           </motion.nav>
