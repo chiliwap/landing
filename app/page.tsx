@@ -36,7 +36,7 @@ export default function Landing() {
               Imagine a home that protects itself
             </h3>
             <p className="text-sm md:text-base lg:text-lg">
-              Have peace of mind with Chiliwap's automated fire protection
+              Have peace of mind with Chiliwap&apos;s automated fire protection
             </p>
           </header>
           <div className="absolute bottom-18 flex flex-row justify-center items-center space-x-4 md:text-xl sm:text-base text-xs">

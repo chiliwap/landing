@@ -16,7 +16,6 @@ interface ThreeCanvasWrapperProps {
 }
 
 export default function ThreeCanvasWrapper({
-  scrollProgress,
   rotationState,
   currentState,
 }: ThreeCanvasWrapperProps) {

@@ -1,5 +1,6 @@
 "use client";
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function Nav() {
@@ -355,7 +356,7 @@ export default function Nav() {
         className="fade-in absolute top-0 left-0 w-full z-50"
       >
         <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
-          <a
+          <Link
             href="/"
             className="text-2xl font-bold text-white inline-flex items-center"
           >
@@ -365,7 +366,7 @@ export default function Nav() {
               className="inline-block h-8 mr-2"
             />{" "}
             CHILIWAP
-          </a>
+          </Link>
 
           <div className="hidden lg:flex items-center space-x-8">
             {navigationItems.map((item) => (
@@ -377,7 +378,7 @@ export default function Nav() {
                 }
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                <a
+                <Link
                   href={item.href}
                   className={`text-white hover:text-gray-300 group transition-colors duration-300 flex items-center space-x-1 py-2 ${
                     activeDropdown === item.name ? "text-gray-300" : ""
@@ -405,13 +406,13 @@ export default function Nav() {
                     className="absolute group-hover:bg-black/15 bg-transparent inset-0 rounded-4xl -z-10 -mx-3 transition-colors duration-350"
                   />
                   {/* )} */}
-                </a>
+                </Link>
               </div>
             ))}
           </div>
 
           <div className="space-x-4 text-xs font-bold">
-            <a
+            <Link
               className="hover:text-gray-300 transition-colors duration-350"
               href="/news"
               title="News"
@@ -430,8 +431,8 @@ export default function Nav() {
                   d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"
                 />
               </svg>
-            </a>
-            <a
+            </Link>
+            <Link
               className="hover:text-gray-300 transition-colors duration-350"
               href="/support"
               title="Support"
@@ -450,8 +451,8 @@ export default function Nav() {
                   d="M16.712 4.33a9.027 9.027 0 0 1 1.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 0 0-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 0 1 0 9.424m-4.138-5.976a3.736 3.736 0 0 0-.88-1.388 3.737 3.737 0 0 0-1.388-.88m2.268 2.268a3.765 3.765 0 0 1 0 2.528m-2.268-4.796a3.765 3.765 0 0 0-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 0 1-1.388.88m2.268-2.268 4.138 3.448m0 0a9.027 9.027 0 0 1-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0-3.448-4.138m3.448 4.138a9.014 9.014 0 0 1-9.424 0m5.976-4.138a3.765 3.765 0 0 1-2.528 0m0 0a3.736 3.736 0 0 1-1.388-.88 3.737 3.737 0 0 1-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 0 1-1.652-1.306 9.027 9.027 0 0 1-1.306-1.652m0 0 4.138-3.448M4.33 16.712a9.014 9.014 0 0 1 0-9.424m4.138 5.976a3.765 3.765 0 0 1 0-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 0 1 1.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 0 0-1.652 1.306A9.025 9.025 0 0 0 4.33 7.288"
                 />
               </svg>
-            </a>
-            <a
+            </Link>
+            <Link
               className="cursor-pointer hover:text-gray-300 transition-colors duration-350"
               href="/login"
               title="Login"
@@ -470,7 +471,7 @@ export default function Nav() {
                   d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 
