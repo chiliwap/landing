@@ -516,30 +516,33 @@ export default function Nav() {
                                   <div className="space-y-2">
                                     {section.items.map(
                                       (dropdownItem, index) => (
-                                        <motion.a
+                                        <Link
                                           key={dropdownItem.name}
                                           href={dropdownItem.href}
-                                          className="group flex items-start space-x-3 p-3 rounded-lg transition-all duration-200"
-                                          // initial={{ opacity: 0, y: 10 }}
-                                          // animate={{ opacity: 1, y: 0 }}
-                                          // transition={{
-                                          //   delay:
-                                          //     (sectionIndex * 2 + index) * 0.03,
-                                          //   duration: 0.2,
-                                          // }}
                                         >
-                                          <div className="text-base mt-0.5 flex-shrink-0 border border-gray-800 group-hover:border-white rounded p-1 group-hover:text-black text-gray-300 group-hover:bg-white transition-colors duration-200">
-                                            {dropdownItem.icon}
-                                          </div>
-                                          <div className="flex-1 min-w-0">
-                                            <h4 className="text-white text-sm font-medium transition-colors truncate">
-                                              {dropdownItem.name}
-                                            </h4>
-                                            <p className="text-gray-400 group-hover:text-gray-300 text-xs mt-0.5 line-clamp-2 h-8 transition-colors">
-                                              {dropdownItem.description}
-                                            </p>
-                                          </div>
-                                        </motion.a>
+                                          <motion.div
+                                            className="group flex items-start space-x-3 p-3 rounded-lg transition-all duration-200"
+                                            // initial={{ opacity: 0, y: 10 }}
+                                            // animate={{ opacity: 1, y: 0 }}
+                                            // transition={{
+                                            //   delay:
+                                            //     (sectionIndex * 2 + index) * 0.03,
+                                            //   duration: 0.2,
+                                            // }}
+                                          >
+                                            <div className="text-base mt-0.5 flex-shrink-0 border border-gray-800 group-hover:border-white rounded p-1 group-hover:text-black text-gray-300 group-hover:bg-white transition-colors duration-200">
+                                              {dropdownItem.icon}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                              <h4 className="text-white text-sm font-medium transition-colors truncate">
+                                                {dropdownItem.name}
+                                              </h4>
+                                              <p className="text-gray-400 group-hover:text-gray-300 text-xs mt-0.5 line-clamp-2 h-8 transition-colors">
+                                                {dropdownItem.description}
+                                              </p>
+                                            </div>
+                                          </motion.div>
+                                        </Link>
                                       )
                                     )}
                                   </div>
