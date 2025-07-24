@@ -9,7 +9,7 @@ export default function Nav() {
   const navigationItems = [
     {
       name: "Solutions",
-      href: "/solutions",
+      href: "#solutions",
       dropdown: {
         sections: [
           {
@@ -18,7 +18,7 @@ export default function Nav() {
               {
                 name: "Fire Protection Systems",
                 description: "Advanced sprinkler and suppression systems",
-                href: "/solutions/fire-protection",
+                href: "#solutions-fire-protection",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ export default function Nav() {
               {
                 name: "System Design",
                 description: "Custom fire protection system planning",
-                href: "/solutions/system-design",
+                href: "#solutions-system-design",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@ export default function Nav() {
               {
                 name: "Sprinkler Installation",
                 description: "Professional installation services",
-                href: "/solutions/sprinkler-installation",
+                href: "#solutions-sprinkler-installation",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@ export default function Nav() {
               {
                 name: "Maintenance Services",
                 description: "Regular maintenance and inspections",
-                href: "/solutions/maintenance",
+                href: "#solutions-maintenance",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

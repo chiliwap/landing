@@ -1,6 +1,9 @@
 import Interactive from "@/components/interactive";
 import Nav from "@/components/nav";
+import Pricing from "@/components/pricing";
+import Solutions from "@/components/solutions";
 import * as motion from "motion/react-client";
+import Link from "next/link";
 
 export default function Landing() {
   return (
@@ -37,20 +40,20 @@ export default function Landing() {
             </p>
           </header>
           <div className="absolute bottom-18 flex flex-row justify-center items-center space-x-4 md:text-xl sm:text-base text-xs">
-            <a
-              href="/solutions"
+            <Link
+              href="#solutions"
               title="Find your solution"
               className="border-white border-4 bg-white text-black hover:bg-neutral-300 hover:border-gray-200 transition-all duration-350 p-2 md:px-20 px-8 cursor-pointer rounded-md"
             >
               Find your solution
-            </a>
-            <a
+            </Link>
+            <Link
               href="/consultation"
               title="Schedule a consultation"
               className="border-white border-4 bg-transparent text-white hover:border-neutral-300 hover:text-gray-200 transition-all duration-350 p-2 md:px-12 px-2 cursor-pointer rounded-md"
             >
               Schedule a consultation
-            </a>
+            </Link>
           </div>
         </div>
       </motion.div>
@@ -58,46 +61,22 @@ export default function Landing() {
       {/* Main Content Section */}
       <Interactive />
 
-      {/* 24/7 Monitoring Section */}
-      <motion.div
-        initial={{ opacity: 0, filter: "blur(10px)" }}
-        animate={{
-          opacity: 1,
-          filter: "blur(0px)",
-        }}
-        transition={{
-          duration: 0.4,
-          delay: 0.2,
-          ease: [0.48, 0.15, 0.25, 0.96],
-        }}
-        className="text-white px-6 py-16"
-      >
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            24/7 Monitoring
-          </h2>
-          <p className="text-lg md:text-xl mb-8">
-            Our automated fire protection system ensures your home is monitored
-            around the clock, providing peace of mind and immediate response to
-            any fire threats. Access your personalized dashboard anytime to view
-            your home's status and check real-time wildfire risk assessments for
-            your region.
-          </p>
-          <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-6 rounded transition-all duration-350">
-            Learn More
-          </button>
-        </div>
-      </motion.div>
+      {/* Solutions Section */}
+      <Solutions />
+      <hr className="justify-self-center w-3/4 border-gray-600 my-8" />
+
+      {/* Pricing Section */}
+      <Pricing />
 
       {/* Footer */}
       <footer className="text-gray-200 text-xs font-bold px-6 pt-8 mb-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-center items-center gap-12">
-          <a href="/about">Chiliwap © 2025</a>
-          <a href="/privacy">Privacy Policy</a>
-          <a href="/contact">Contact</a>
-          <a href="/news">News</a>
-          <a href="/updates">Get Updates</a>
-          <a href="/updates">Location</a>
+          <Link href="/about">Chiliwap © 2025</Link>
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/contact">Contact</Link>
+          <Link href="/news">News</Link>
+          <Link href="/updates">Get Updates</Link>
+          <Link href="/location">Location</Link>
         </div>
       </footer>
     </div>
