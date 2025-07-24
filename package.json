@@ -21,7 +21,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@react-three/drei": "^10.5.1",
+    "@react-three/drei": "10.5.1",
     "@react-three/fiber": "^9.2.0",
     "@types/three": "^0.149.0",
     "three": "0.149.0",
