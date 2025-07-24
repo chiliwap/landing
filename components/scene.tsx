@@ -144,6 +144,7 @@ export default function Scene({
             shadow-camera-bottom={-500}
             position={[200, 300, 300]}
           />
+          {/* @ts-ignore */}
           <OrthographicCamera
             name="1"
             makeDefault={true}
