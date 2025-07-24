@@ -144,7 +144,7 @@ export default function Scene({
             shadow-camera-bottom={-500}
             position={[200, 300, 300]}
           />
-          {/* @ts-expect-error */}
+          {/* @ts-expect-error this ver of drei requires all 77 camera options */}
           <OrthographicCamera
             name="1"
             makeDefault={true}
