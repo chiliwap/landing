@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import Link from "next/link";
 import { useState } from "react";
 
 const pricingTiers = [
@@ -188,92 +189,93 @@ export default function Pricing() {
         {/* Pricing Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           {pricingTiers.map((tier, index) => (
-            <motion.div
-              key={tier.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                delay: index * 0.1,
-                duration: 0.6,
-                ease: [0.48, 0.15, 0.25, 0.96],
-              }}
-              onMouseEnter={() => setHoveredTier(tier.id)}
-              onMouseLeave={() => setHoveredTier(null)}
-              className={`relative bg-gray-900/50 backdrop-blur-sm border rounded-2xl p-8 transition-all duration-500 ${
-                tier.popular
-                  ? "border-orange-500/50 bg-gradient-to-b from-orange-500/5 to-red-600/5 scale-105"
-                  : "border-gray-800 hover:border-gray-600"
-              }`}
-            >
-              {/* Popular Badge */}
-              {tier.popular && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
-                  className="absolute -top-4 left-1/2 transform -translate-x-1/2"
-                >
-                  <span className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                    Most Popular
-                  </span>
-                </motion.div>
-              )}
-
-              {/* Header */}
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold mb-2">{tier.name}</h3>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold">{tier.price}</span>
-                  {tier.price !== "Custom" && (
-                    <span className="text-gray-400 ml-2">{tier.period}</span>
-                  )}
-                </div>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  {tier.description}
-                </p>
-              </div>
-
-              {/* CTA Button */}
-              <motion.button
-                className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-300 mb-8 ${tier.buttonStyle}`}
-                whileHover={{ scale: 1.02, y: -1 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {tier.buttonText}
-              </motion.button>
-
-              {/* Key Features Preview */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-400">Coverage:</span>
-                  <span className="text-white font-medium">
-                    {tier.features.coverage}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-400">Sprinklers:</span>
-                  <span className="text-white font-medium">
-                    {tier.features.sprinklers}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-400">Warranty:</span>
-                  <span className="text-white font-medium">
-                    {tier.features.warranty}
-                  </span>
-                </div>
-              </div>
-
-              {/* Hover Effect */}
+            <Link href={`/pricing/${tier.id}`} key={tier.id}>
               <motion.div
-                className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/5 to-red-600/5 opacity-0 transition-opacity duration-500"
-                animate={{
-                  opacity: hoveredTier === tier.id ? 1 : 0,
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  delay: index * 0.1,
+                  duration: 0.6,
+                  ease: [0.48, 0.15, 0.25, 0.96],
                 }}
-              />
-            </motion.div>
+                onMouseEnter={() => setHoveredTier(tier.id)}
+                onMouseLeave={() => setHoveredTier(null)}
+                className={`relative group bg-neutral-900/30 backdrop-blur-sm border rounded-2xl p-8 transition-all duration-500 ${
+                  tier.popular
+                    ? "border-orange-500/50 bg-gradient-to-b from-orange-500/5 to-red-600/5 scale-105"
+                    : "border-neutral-800 hover:border-neutral-600"
+                }`}
+              >
+                {/* Popular Badge */}
+                {tier.popular && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
+                    className="absolute -top-4 left-1/2 transform -translate-x-1/2"
+                  >
+                    <span className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                      Most Popular
+                    </span>
+                  </motion.div>
+                )}
+
+                {/* Header */}
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold mb-2">{tier.name}</h3>
+                  <div className="mb-4">
+                    {tier.price !== "Custom" && (
+                      <span className="text-gray-400">{tier.period}</span>
+                    )}
+                    <span className="text-4xl font-bold"> {tier.price}</span>
+                  </div>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {tier.description}
+                  </p>
+                </div>
+
+                {/* CTA Button */}
+                <motion.button
+                  className={`w-full py-4 px-6 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-600 transition-all duration-300 mb-8 ${tier.buttonStyle}`}
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {tier.buttonText}
+                </motion.button>
+
+                {/* Key Features Preview */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-400">Coverage:</span>
+                    <span className="text-white font-medium">
+                      {tier.features.coverage}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-400">Sprinklers:</span>
+                    <span className="text-white font-medium">
+                      {tier.features.sprinklers}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-400">Warranty:</span>
+                    <span className="text-white font-medium">
+                      {tier.features.warranty}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Hover Effect */}
+                <motion.div
+                  className="absolute z-10 inset-0 rounded-2xl bg-gradient-to-br from-orange-500/5 to-red-600/5 opacity-0 transition-opacity duration-500"
+                  animate={{
+                    opacity: hoveredTier === tier.id ? 1 : 0,
+                  }}
+                />
+              </motion.div>
+            </Link>
           ))}
         </div>
 
@@ -287,10 +289,10 @@ export default function Pricing() {
             duration: 0.6,
             ease: [0.48, 0.15, 0.25, 0.96],
           }}
-          className="bg-gray-900/30 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden"
+          className="bg-neutral-900/30 backdrop-blur-sm border border-neutral-800 rounded-2xl overflow-hidden"
         >
           {/* Table Header */}
-          <div className="grid grid-cols-4 gap-4 p-6 border-b border-gray-800 bg-gray-900/50">
+          <div className="grid grid-cols-4 gap-4 p-6 border-b border-neutral-800 bg-neutral-900/50">
             <div className="text-lg font-semibold text-gray-300">Features</div>
             {pricingTiers.map((tier) => (
               <div key={tier.id} className="text-center">
@@ -311,7 +313,7 @@ export default function Pricing() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: categoryIndex * 0.1, duration: 0.5 }}
-                className="px-6 py-4 bg-gray-800/30 border-b border-gray-800"
+                className="px-6 py-4 bg-neutral-800/30 border-b border-neutral-800"
               >
                 <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
                   {category.name}
@@ -329,7 +331,7 @@ export default function Pricing() {
                     delay: categoryIndex * 0.1 + featureIndex * 0.05,
                     duration: 0.5,
                   }}
-                  className="grid grid-cols-4 gap-4 p-6 border-b border-gray-800/50 hover:bg-gray-800/20 transition-colors"
+                  className="grid grid-cols-4 gap-4 p-6 border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors"
                 >
                   <div className="text-gray-300 font-medium">
                     {feature.label}
