@@ -9,7 +9,7 @@ const pricingTiers = [
     id: "basic",
     name: "Basic Protection",
     price: "$2,499",
-    period: "starting at",
+    period: "from",
     description:
       "Essential fire protection for small properties and residential homes",
     popular: false,
@@ -24,7 +24,6 @@ const pricingTiers = [
       warranty: "2 years",
       support: "Business hours",
       customization: false,
-      training: false,
       priority: false,
     },
     buttonText: "Get Started",
@@ -35,7 +34,7 @@ const pricingTiers = [
     id: "professional",
     name: "Professional",
     price: "$4,999",
-    period: "starting at",
+    period: "from",
     description:
       "Comprehensive protection for commercial properties and larger homes",
     popular: true,
@@ -50,7 +49,6 @@ const pricingTiers = [
       warranty: "5 years",
       support: "24/7 support",
       customization: true,
-      training: "Basic training",
       priority: true,
     },
     buttonText: "Most Popular",
@@ -76,7 +74,6 @@ const pricingTiers = [
       warranty: "10 years",
       support: "Dedicated support team",
       customization: true,
-      training: "Comprehensive training",
       priority: true,
     },
     buttonText: "Contact Sales",
@@ -110,7 +107,6 @@ const featureCategories = [
       { key: "monitoring", label: "System Monitoring" },
       { key: "compliance", label: "Compliance Reporting" },
       { key: "warranty", label: "Warranty Coverage" },
-      { key: "training", label: "Staff Training" },
     ],
   },
 ];
@@ -227,7 +223,7 @@ export default function Pricing() {
                   <h3 className="text-2xl font-bold mb-2">{tier.name}</h3>
                   <div className="mb-4">
                     {tier.price !== "Custom" && (
-                      <span className="text-gray-400">{tier.period}</span>
+                      <span className="text-gray-400 -ml-4">{tier.period}</span>
                     )}
                     <span className="text-4xl font-bold"> {tier.price}</span>
                   </div>
