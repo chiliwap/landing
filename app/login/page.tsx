@@ -54,7 +54,7 @@ export default function Login() {
               Sign In with Email
             </button>
           </form>
-          <p className="text-sm text-gray-400 mt-6">
+          <p className="text-sm text-neutral-400 mt-6">
             Don't have an account?{" "}
             <a
               href="/signup"
@@ -63,10 +63,10 @@ export default function Login() {
               Sign up
             </a>
           </p>
-          <div className="w-full max-w-md flex justify-center items-center">
-            <hr className="my-6 w-1/2 border-neutral-900" />
-            <p className="px-4 font-bold text-neutral-400 text-sm">OR</p>
-            <hr className="my-6 w-1/2 border-neutral-900" />
+          <div className="w-full max-w-lg flex justify-center items-center">
+            <hr className="my-6 w-1/2 border-neutral-900 taper-left" />
+            <p className="px-4 font-semibold text-neutral-500 text-sm">OR</p>
+            <hr className="my-6 w-1/2 border-neutral-900 taper-right" />
           </div>
           {/* Google Sign-In Button */}
           <div className="w-full max-w-sm flex justify-center items-center">

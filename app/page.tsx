@@ -64,7 +64,7 @@ export default function Landing() {
 
       {/* Solutions Section */}
       <Solutions />
-      <hr className="taper-edges justify-self-center w-3/4 border-gray-600 my-8" />
+      <hr className="taper-edges justify-self-center w-full border-neutral-700 my-8" />
 
       {/* Pricing Section */}
       <Pricing />
