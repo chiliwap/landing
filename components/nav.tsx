@@ -331,7 +331,7 @@ export default function Nav() {
     },
     {
       name: "Pricing",
-      href: "/pricing",
+      href: "#pricing",
     },
     {
       name: "About",
@@ -358,12 +358,12 @@ export default function Nav() {
         <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
           <Link
             href="/"
-            className="text-2xl font-bold text-white inline-flex items-center"
+            className="text-2xl font-bold text-white inline-flex items-center logo-text"
           >
             <img
               src="/logo.png"
               alt="Chiliwap Logo"
-              className="inline-block h-8 mr-2"
+              className="inline-block h-8 mr-2 "
             />{" "}
             CHILIWAP
           </Link>
@@ -581,7 +581,7 @@ export default function Nav() {
             <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
               <Link
                 href="/"
-                className="text-2xl font-bold text-white inline-flex items-center"
+                className="text-2xl font-bold text-white inline-flex items-center logo-text"
               >
                 <img
                   src="/logo.png"

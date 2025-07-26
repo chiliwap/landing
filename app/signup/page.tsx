@@ -32,8 +32,16 @@ export default function Login() {
 
         {/* Login Form Section */}
         <div className="z-20 absolute inset-0 flex flex-col items-center justify-center h-[86vh] w-full px-4">
-          <h2 className="text-2xl font-bold mb-6 logo-text">Sign In</h2>
+          <h2 className="text-2xl font-bold mb-6 logo-text">
+            Create an account
+          </h2>
           <form className="w-full max-w-sm space-y-4">
+            <input
+              type="name"
+              placeholder="John Doe"
+              className="w-full h-10 p-3 shadow-lg border border-neutral-800 bg-zinc-900/25 rounded-md"
+              required
+            />
             <input
               type="email"
               placeholder="Email"
@@ -46,23 +54,25 @@ export default function Login() {
               className="w-full h-10 p-3 shadow-lg border border-neutral-800 bg-zinc-900/25 rounded-md"
               required
             />
+
             <button
               type="submit"
               disabled
-              className="cursor-not-allowed flex items-center justify-center h-10 font-semibold tracking-wide w-full shadow bg-orange-600/30 text-white p-3 rounded-md hover:bg-orange-500/35 transition-colors duration-300"
+              className="cursor-not-allowed flex items-center justify-center font-semibold tracking-wide h-10 w-full shadow bg-orange-600/30 text-white p-3 rounded-md hover:bg-orange-500/35 transition-colors duration-300"
             >
-              Sign In with Email
+              Sign Up with Email
             </button>
+
+            <p className="text-sm text-gray-400 mt-4 max-w-sm text-center">
+              Already have an account?{" "}
+              <a
+                href="/login"
+                className="text-orange-500 hover:underline transition-colors duration-750"
+              >
+                Sign In
+              </a>{" "}
+            </p>
           </form>
-          <p className="text-sm text-gray-400 mt-6">
-            Don't have an account?{" "}
-            <a
-              href="/signup"
-              className="cursor-pointer text-orange-500 hover:underline"
-            >
-              Sign up
-            </a>
-          </p>
           <div className="w-full max-w-md flex justify-center items-center">
             <hr className="my-6 w-1/2 border-neutral-900" />
             <p className="px-4 font-bold text-neutral-400 text-sm">OR</p>
@@ -106,21 +116,10 @@ export default function Login() {
                   d="M48 48L17 24l-4-3 35-10z"
                 />
               </svg>
-              Sign In with Google
+              Sign Up with Google
             </button>
           </div>
-
-          <p className="text-sm text-gray-500 mt-4 max-w-sm text-center">
-            Need help signing in?{" "}
-            <a
-              href="/terms"
-              className="hover:text-orange-500 underline transition-colors duration-750"
-            >
-              Reset your password
-            </a>{" "}
-          </p>
-
-          <p className="text-sm text-gray-500 mt-6 max-w-sm text-center">
+          <p className="text-sm text-neutral-500 mt-4 max-w-sm text-center">
             By using Chiliwap, you are agreeing to our{" "}
             <a
               href="/terms"

@@ -147,7 +147,7 @@ export default function Pricing() {
   const [hoveredTier, setHoveredTier] = useState<string | null>(null);
 
   return (
-    <section className="text-white py-24 px-6">
+    <section id="pricing" className="text-white py-24 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div

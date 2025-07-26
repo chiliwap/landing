@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Expanded+One&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -20,6 +21,26 @@
   }
 }
 
+.logo-text {
+  font-family: "Special Gothic Expanded One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  color: white;
+  background-color: rgb(134, 91, 9);
+}
+
+::-moz-selection {
+  color: white;
+  background-color: rgb(134, 91, 9);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -29,4 +50,10 @@ body {
 .fade-in {
   /* gradient fade in (top -> bottom) */
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.taper-edges {
+  -webkit-mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%);
+  mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%);
+
 }
