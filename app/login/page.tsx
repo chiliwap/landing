@@ -37,13 +37,13 @@ export default function Login() {
             <input
               type="email"
               placeholder="Email"
-              className="w-full h-10 p-3 shadow-lg border border-neutral-800 bg-zinc-900/25 rounded-md"
+              className="focus:outline-neutral-500 focus:outline-2 outline-0 w-full h-10 p-3 shadow-lg border border-neutral-800 bg-zinc-900/25 rounded-md"
               required
             />
             <input
               type="password"
               placeholder="Password"
-              className="w-full h-10 p-3 shadow-lg border border-neutral-800 bg-zinc-900/25 rounded-md"
+              className="focus:outline-neutral-500 focus:outline-2 outline-0 w-full h-10 p-3 shadow-lg border border-neutral-800 bg-zinc-900/25 rounded-md"
               required
             />
             <button
@@ -113,7 +113,7 @@ export default function Login() {
           <p className="text-sm text-gray-500 mt-4 max-w-sm text-center">
             Need help signing in?{" "}
             <a
-              href="/terms"
+              href="/reset-password"
               className="hover:text-orange-500 underline transition-colors duration-750"
             >
               Reset your password
@@ -146,6 +146,17 @@ export default function Login() {
           }}
         />
       </div>
+
+      {/* Footer Notes */}
+      <footer className="text-center text-sm text-neutral-500">
+        <p className="absolute bottom-12 left-12">
+          Imagine a home that protects itself.
+        </p>
+
+        <p className="absolute bottom-12 right-12">
+          &copy; {new Date().getFullYear()} Chiliwap. All rights reserved.
+        </p>
+      </footer>
     </main>
   );
 }
