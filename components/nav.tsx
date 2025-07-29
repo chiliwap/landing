@@ -358,7 +358,7 @@ export default function Nav() {
         <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
           <Link
             href="/"
-            className="text-2xl font-bold text-white inline-flex items-center logo-text"
+            className="text-2xl text-white inline-flex items-center logo-text"
           >
             <img
               src="/logo.png"
@@ -581,7 +581,7 @@ export default function Nav() {
             <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
               <Link
                 href="/"
-                className="text-2xl font-bold text-white inline-flex items-center logo-text"
+                className="text-2xl text-white inline-flex items-center logo-text"
               >
                 <img
                   src="/logo.png"

@@ -182,9 +182,7 @@ export default function About() {
         <div className="absolute inset-0 bg-neutral-900/25"></div>
         <div className="absolute inset-0 from-75% bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
         <header className="z-20 flex flex-col items-center justify-center">
-          <h2 className="text-4xl font-bold mb-6 text-center logo-text">
-            Our Mission
-          </h2>
+          <h2 className="text-4xl mb-6 text-center logo-text">Our Mission</h2>
           <p className="text-lg max-w-2xl text-center">
             At Chiliwap, we are dedicated to providing innovative fire
             protection solutions that ensure the safety and security of your
@@ -197,10 +195,10 @@ export default function About() {
         <div className="z-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
           {stats.map((stat) => (
             <div key={stat.title} className="p-6 flex flex-col items-center">
-              <div className="text-4xl font-bold mb-2 logo-text">
+              <div className="text-2xl mb-2 logo-text">
                 <Counter value={stat.number} /> {stat.unit}
               </div>
-              <h3 className="text-lg font-semibold logo-text">{stat.title}</h3>
+              <h3 className="text-lg logo-text">{stat.title}</h3>
             </div>
           ))}
         </div>
@@ -208,7 +206,7 @@ export default function About() {
 
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 flex flex-col items-center justify-self-center w-1/3 rounded-t-md pt-8">
-          <h3 className="text-3xl font-semibold mb-6 logo-text">Our Team</h3>
+          <h3 className="text-3xl mb-6 logo-text">Our Team</h3>
           <p className="text-lg text-center max-w-2xl">
             Meet the dedicated professionals behind Chiliwap, committed to
             delivering the best fire protection solutions for your home.

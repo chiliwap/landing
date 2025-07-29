@@ -32,7 +32,7 @@ export default function Login() {
 
         {/* Login Form Section */}
         <div className="z-20 absolute inset-0 flex flex-col items-center justify-center h-[86vh] w-full px-4">
-          <h2 className="text-2xl font-bold mb-6 logo-text">Sign In</h2>
+          <h2 className="text-2xl mb-6 logo-text">Sign In</h2>
           <form className="w-full max-w-sm space-y-4">
             <input
               type="email"
