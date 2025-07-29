@@ -55,7 +55,7 @@ export default function Login() {
             </button>
           </form>
           <p className="text-sm text-neutral-400 mt-6">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a
               href="/signup"
               className="cursor-pointer text-orange-500 hover:underline"
