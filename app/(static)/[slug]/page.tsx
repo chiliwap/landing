@@ -7,6 +7,7 @@ import Pricing from "@/components/pricing";
 import Solutions from "@/components/solutions";
 import * as motion from "motion/react-client";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { use, useEffect } from "react";
 
 export default function Landing(props: { params: Promise<{ slug: string }> }) {
@@ -15,6 +16,12 @@ export default function Landing(props: { params: Promise<{ slug: string }> }) {
   // find the corresponding id for the slug and scroll to element
   const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
+
+    if (element == null) {
+      // redirect to 404 page
+      notFound();
+    }
+
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     }

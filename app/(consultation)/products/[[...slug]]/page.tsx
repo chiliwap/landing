@@ -43,7 +43,7 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
       <Nav />
 
       <section className="py-16 w-full h-full min-h-screen grid grid-cols-5 gap-8 px-20">
-        <div className="flex items-center justify-center col-span-4">
+        <div className="relative flex items-center justify-center col-span-4">
           <img
             className="object-cover w-full h-full rounded-4xl aspect-video"
             src={
@@ -55,6 +55,17 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
             }
             alt="Product Image"
           />
+
+          {/* Footer Notes */}
+          <footer className="text-center text-sm text-neutral-500">
+            <p className="absolute -bottom-10 left-14">
+              Imagine a home that protects itself.
+            </p>
+
+            <p className="absolute -bottom-10 right-14">
+              &copy; {new Date().getFullYear()} Chiliwap. All rights reserved.
+            </p>
+          </footer>
         </div>
 
         {/* Right sidebar */}
