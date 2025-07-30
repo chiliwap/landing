@@ -30,9 +30,10 @@ export default function TermsAndConditions() {
         <section className="mb-12">
           <h2 className="text-2xl mb-4 logo-text">Acceptance of Terms</h2>
           <p className="mb-4">
-            By accessing and using Chiliwap's services, you accept and agree to
-            be bound by the terms and conditions outlined in this agreement. If
-            you do not agree to these terms, please do not use our services.
+            By accessing and using Chiliwap&apos;s services, you accept and
+            agree to be bound by the terms and conditions outlined in this
+            agreement. If you do not agree to these terms, please do not use our
+            services.
           </p>
         </section>
 

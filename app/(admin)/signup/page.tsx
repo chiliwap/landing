@@ -1,6 +1,7 @@
 "use client";
 
 import Nav from "@/components/nav";
+import Link from "next/link";
 import { useMotionValue } from "motion/react";
 import { useState, useEffect } from "react";
 
@@ -63,12 +64,12 @@ export default function Login() {
 
             <p className="text-sm text-neutral-400 mt-4 max-w-sm text-center">
               Already have an account?{" "}
-              <a
+              <Link
                 href="/login"
                 className="text-orange-500 hover:underline transition-colors duration-750"
               >
                 Sign In
-              </a>{" "}
+              </Link>{" "}
             </p>
           </form>
           <div className="w-full max-w-lg flex justify-center items-center">
@@ -119,19 +120,19 @@ export default function Login() {
           </div>
           <p className="text-sm text-neutral-500 mt-4 max-w-sm text-center">
             By using Chiliwap, you are agreeing to our{" "}
-            <a
+            <Link
               href="/terms"
               className="hover:text-orange-500 underline transition-colors duration-750"
             >
               Terms of Service
-            </a>{" "}
+            </Link>{" "}
             and{" "}
-            <a
+            <Link
               href="/privacy"
               className="hover:text-orange-500 underline transition-colors duration-750"
             >
               Privacy Policy
-            </a>
+            </Link>
           </p>
         </div>
 
