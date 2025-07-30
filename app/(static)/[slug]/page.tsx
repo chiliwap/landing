@@ -1,3 +1,5 @@
+"use client";
+
 import Footer from "@/components/footer";
 import Interactive from "@/components/interactive";
 import Nav from "@/components/nav";
@@ -5,8 +7,23 @@ import Pricing from "@/components/pricing";
 import Solutions from "@/components/solutions";
 import * as motion from "motion/react-client";
 import Link from "next/link";
+import { use, useEffect } from "react";
 
-export default function Landing() {
+export default function Landing(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(props.params);
+
+  // find the corresponding id for the slug and scroll to element
+  const scrollToElement = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  useEffect(() => {
+    scrollToElement(slug);
+  }, [slug]);
+
   return (
     <div className="min-h-screen">
       <Nav />

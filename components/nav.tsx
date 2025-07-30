@@ -3,14 +3,14 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Nav() {
+export default function Nav(props: { className?: string }) {
   const [stickyNav, setStickyNav] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const navigationItems = [
     {
       name: "Solutions",
-      href: "/#solutions",
+      href: "/solutions",
       dropdown: {
         sections: [
           {
@@ -19,7 +19,7 @@ export default function Nav() {
               {
                 name: "Fire Protection Systems",
                 description: "Advanced sprinkler and suppression systems",
-                href: "/#solutions-fire-protection",
+                href: "/solutions-fire-protection",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ export default function Nav() {
               {
                 name: "System Design",
                 description: "Custom fire protection system planning",
-                href: "/#solutions-system-design",
+                href: "/solutions-system-design",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ export default function Nav() {
               {
                 name: "Sprinkler Installation",
                 description: "Professional installation services",
-                href: "/#solutions-sprinkler-installation",
+                href: "/solutions-sprinkler-installation",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ export default function Nav() {
               {
                 name: "Maintenance Services",
                 description: "Regular maintenance and inspections",
-                href: "/#solutions-maintenance",
+                href: "/solutions-maintenance",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -129,9 +129,9 @@ export default function Nav() {
             title: "Sprinkler Systems",
             items: [
               {
-                name: "Brass Impact Sprinklers",
-                description: "High-performance brass sprinkler heads",
-                href: "/products/brass-sprinklers",
+                name: "Full Coverage System",
+                description: "Comprehensive fire protection system.",
+                href: "/products/full-coverage",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -150,9 +150,9 @@ export default function Nav() {
                 ),
               },
               {
-                name: "Accessories",
-                description: "Pipes, fittings, and installation accessories",
-                href: "/products/accessories",
+                name: "Brass Impact Sprinklers",
+                description: "High-performance brass sprinkler heads",
+                href: "/products/brass-sprinklers",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -176,9 +176,9 @@ export default function Nav() {
             title: "Control & Monitoring",
             items: [
               {
-                name: "Control Systems",
-                description: "Smart fire protection control panels",
-                href: "/products/control-systems",
+                name: "Control & Monitoring Systems",
+                description: "Advanced monitoring and detection systems",
+                href: "/products/monitoring",
                 icon: (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -196,27 +196,27 @@ export default function Nav() {
                   </svg>
                 ),
               },
-              {
-                name: "Monitoring Equipment",
-                description: "Advanced monitoring and detection systems",
-                href: "/products/monitoring",
-                icon: (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"
-                    />
-                  </svg>
-                ),
-              },
+              // {
+              //   name: "Monitoring Equipment",
+              //   description: "Advanced monitoring and detection systems",
+              //   href: "/products/monitoring",
+              //   icon: (
+              //     <svg
+              //       xmlns="http://www.w3.org/2000/svg"
+              //       fill="none"
+              //       viewBox="0 0 24 24"
+              //       strokeWidth={1.5}
+              //       stroke="currentColor"
+              //       className="size-6"
+              //     >
+              //       <path
+              //         strokeLinecap="round"
+              //         strokeLinejoin="round"
+              //         d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"
+              //       />
+              //     </svg>
+              //   ),
+              // },
             ],
           },
         ],
@@ -353,7 +353,7 @@ export default function Nav() {
           delay: 0.6,
           ease: [0.48, 0.15, 0.25, 0.96],
         }}
-        className="fade-in absolute top-0 left-0 w-full z-50"
+        className={`fade-in absolute top-0 left-0 w-full z-50 ${props.className}`}
       >
         <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
           <Link
@@ -592,7 +592,7 @@ export default function Nav() {
               </Link>
               <div className="space-x-4 text-xs font-bold ">
                 <Link
-                  href="/consultation"
+                  href="/products"
                   className="text-gray-300 hover:text-white transition-colors duration-350"
                 >
                   Schedule a Consultation
