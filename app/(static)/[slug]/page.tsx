@@ -49,7 +49,7 @@ export default function Landing(props: { params: Promise<{ slug: string }> }) {
         }}
         className="relative flex flex-col items-center justify-start h-[86vh] w-full md:px-16 px-0"
       >
-        <div className="relative flex flex-col justify-center items-center w-full max-h-full overflow-hidden md:rounded-b-3xl">
+        <div className="relative flex flex-col justify-center items-center w-full h-full overflow-hidden md:rounded-b-3xl">
           <div className="absolute bg-black/20 w-full h-full top-1/2 left-1/2 pt-5 transform -translate-x-1/2 -translate-y-1/2" />
           <video className="object-cover" loop autoPlay muted>
             <source src="/video_landing_page.webm" type="video/webm" />
