@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/footer";
 import Nav from "@/components/nav";
 import { useMotionValue } from "motion/react";
 import Link from "next/link";
@@ -31,7 +32,12 @@ export default function NotFound() {
       <Nav />
 
       <div className="z-20 text-center max-w-md">
-        <h1 className="text-6xl font-bold logo-text mb-4">404</h1>
+        <img
+          className="invert mb-12"
+          src="https://www.chiliwap.ca/wp-content/themes/chiliwap/chiliwap-assets//img/inner-pages/error-img.png"
+          alt="Error"
+        />
+        {/* <h1 className="text-6xl font-bold logo-text mb-4">404</h1> */}
         <h2 className="text-2xl font-semibold mb-6 text-stone-300">
           Page Not Found
         </h2>
@@ -66,6 +72,10 @@ export default function NotFound() {
           background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(251, 146, 60, 0.2) 0%, rgba(239, 68, 68, 0.1) 7%, rgba(0, 0, 0, 0.2) 14%)`,
         }}
       />
+
+      <div className="z-20 absolute bottom-0">
+        <Footer />
+      </div>
     </div>
   );
 }
