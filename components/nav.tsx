@@ -353,7 +353,9 @@ export default function Nav(props: { className?: string }) {
           delay: 0.6,
           ease: [0.48, 0.15, 0.25, 0.96],
         }}
-        className={`fade-in absolute top-0 left-0 w-full z-50 ${props.className}`}
+        className={`fade-in absolute top-0 left-0 w-full z-50 ${
+          props.className ?? ""
+        }`}
       >
         <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
           <Link

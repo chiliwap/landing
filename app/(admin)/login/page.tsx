@@ -1,31 +1,8 @@
-"use client";
-
+import Gradient from "@/components/mouse-gradient";
 import Nav from "@/components/nav";
 import Link from "next/link";
-import { useMotionValue } from "motion/react";
-import { useState, useEffect } from "react";
 
 export default function Login() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      const { innerWidth, innerHeight } = window;
-      const x = (clientX - innerWidth / 2) / (innerWidth / 2);
-      const y = (clientY - innerHeight / 2) / (innerHeight / 2);
-
-      setMousePosition({ x: clientX, y: clientY });
-      mouseX.set(x * 100);
-      mouseY.set(y * 100);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
-
   return (
     <main>
       <div className="relative min-h-screen">
@@ -139,13 +116,7 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Animated mesh gradient that follows mouse */}
-        <div
-          className="z-10 inset-0 absolute opacity-40 transition-all duration-300"
-          style={{
-            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(251, 146, 60, 0.2) 0%, rgba(239, 68, 68, 0.1) 7%, rgba(0, 0, 0, 0.2) 14%)`,
-          }}
-        />
+        <Gradient />
       </div>
 
       {/* Footer Notes */}

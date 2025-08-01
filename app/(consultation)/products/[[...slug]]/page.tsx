@@ -42,10 +42,10 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
     <main className="min-h-screen">
       <Nav />
 
-      <section className="py-16 w-full h-full min-h-screen grid grid-cols-5 gap-8 px-20">
+      <section className="my-16 w-full max-h-full grid grid-cols-5 gap-8 px-20">
         <div className="relative flex items-center justify-center col-span-4">
           <img
-            className="object-cover w-full h-full rounded-4xl aspect-video"
+            className="object-cover w-full max-h-full rounded-4xl aspect-video"
             src={
               selectedProduct !== null && selectedProduct !== -1
                 ? products[selectedProduct].hero
@@ -69,7 +69,7 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
         </div>
 
         {/* Right sidebar */}
-        <div className="max-h-full col-span-1 px-6">
+        <div className="col-span-1 px-6">
           <header className="pt-5 space-y-2">
             <h3 className="text-3xl text-left logo-text">
               Virtual Consultation
