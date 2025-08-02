@@ -148,7 +148,17 @@ const FAQ = [
 ];
 
 export default function Support() {
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [openCategories, setOpenCategories] = useState<Set<number>>(new Set());
+
+  const toggleCategory = (index: number) => {
+    const newOpenCategories = new Set(openCategories);
+    if (newOpenCategories.has(index)) {
+      newOpenCategories.delete(index);
+    } else {
+      newOpenCategories.add(index);
+    }
+    setOpenCategories(newOpenCategories);
+  };
 
   return (
     <main className="min-h-screen overflow-hidden">
@@ -171,82 +181,75 @@ export default function Support() {
           </Link>
         </header>
 
-        <div className="w-full max-w-6xl px-8 py-16 relative">
+        <div className="w-full max-w-4xl px-8 py-16 relative">
           <h4 className="text-xl text-center logo-text mb-10">
             Frequently Asked Questions
           </h4>
 
-          <motion.div className="grid grid-cols-3 gap-6 relative">
+          <div className="space-y-4">
             {FAQ.map((category, i) => (
-              <AnimatePresence key={category.category} mode="wait">
-                {selectedCategory === i ? (
-                  <>
+              <motion.div
+                key={category.category}
+                className="border-2 border-neutral-800/60 rounded-xl overflow-hidden"
+              >
+                <motion.div
+                  onClick={() => toggleCategory(i)}
+                  className="flex items-center justify-between p-6 cursor-pointer bg-(--background) hover:bg-(--background)/60 transition-colors duration-300"
+                >
+                  <div>
+                    <h3 className="text-xl logo-text mb-2">
+                      {category.category}
+                    </h3>
+                    <p className="text-neutral-600">{category.description}</p>
+                  </div>
+                  <motion.svg
+                    animate={{ rotate: openCategories.has(i) ? 180 : 0 }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="size-6 ml-4"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                      clipRule="evenodd"
+                    />
+                  </motion.svg>
+                </motion.div>
+
+                <AnimatePresence>
+                  {openCategories.has(i) && (
                     <motion.div
-                      key={`modal-${i}`}
-                      layoutId={`modal-${i}`}
-                      style={{
-                        position: "absolute",
-                      }}
-                      className="z-20 w-full h-full bg-(--background) overflow-y-scroll border-2 border-neutral-800/60 rounded-xl p-6"
+                      initial={{ height: 0 }}
+                      animate={{ height: "auto" }}
+                      exit={{ height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
                     >
-                      <div className="max-w-4xl mx-auto">
-                        <h3 className="text-xl logo-text mb-3">
-                          {category.category}
-                        </h3>
-                        <p className="mb-6">{category.description}</p>
-                        <div className="space-y-8">
-                          {category.questions.map((item) => (
-                            <div key={item.question} className="text-left">
-                              <h4 className="font-bold text-lg mb-2">
-                                {item.question}
-                              </h4>
-                              <p className="text-neutral-600 leading-relaxed">
-                                {item.answer}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
+                      <div className="p-6 pt-0 space-y-6 border-t border-neutral-900">
+                        {category.questions.map((item) => (
+                          <div key={item.question} className="text-left">
+                            <h4 className="font-bold text-lg mb-2">
+                              {item.question}
+                            </h4>
+                            <p className="text-neutral-600 leading-relaxed">
+                              {item.answer}
+                            </p>
+                          </div>
+                        ))}
                       </div>
                     </motion.div>
-                    <div className="z-0 h-42 w-full" />
-                  </>
-                ) : (
-                  <motion.div
-                    onClick={() => setSelectedCategory(i)}
-                    layoutId={`modal-${i}`}
-                    className="relative h-42 cursor-pointer rounded-lg border-2 border-neutral-800/60 bg-(--background) p-6"
-                  >
-                    <div className="max-w-4xl mx-auto">
-                      <h3 className="text-xl logo-text mb-3">
-                        {category.category}
-                      </h3>
-                      <p className="mb-6">{category.description}</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <Gradient />
 
-      <AnimatePresence>
-        {selectedCategory !== null && (
-          <motion.div
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: 0.3,
-            }}
-            onClick={() => setSelectedCategory(null)}
-            className="absolute inset-0 bg-black/30"
-          />
-        )}
-      </AnimatePresence>
-
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2">
         <Footer />
       </div>
     </main>
