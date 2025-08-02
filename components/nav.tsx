@@ -331,7 +331,7 @@ export default function Nav(props: { className?: string }) {
     },
     {
       name: "Pricing",
-      href: "/#pricing",
+      href: "/pricing",
     },
     {
       name: "About",

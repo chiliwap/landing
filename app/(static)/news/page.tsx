@@ -11,36 +11,6 @@ const articles = [
     image: "/content/firefighting-with-foresight.webp",
   },
   {
-    title: "Man saves home with garden hose",
-    href: "/article/man-saves-home-with-garden-hose",
-    date: new Date("April 14 2025"),
-    image: "/content/man-saves-home-with-garden-hose.jpg",
-  },
-  {
-    title: "Wildfire Season 2023",
-    href: "/article/wildfire-season-2023",
-    date: new Date("Jan 30 2024"),
-    image: "/content/wildfire-season-2023.jpg",
-  },
-  {
-    title: "Calgary severe water restrictions",
-    href: "/article/calgary-severe-water-restrictions",
-    date: new Date("Jan 30 2025"),
-    image: "/content/calgary-severe-water-restrictions.jpg",
-  },
-  {
-    title: "Atmospheric river vancouver",
-    href: "/article/atmospheric-river-vancouver",
-    date: new Date("Jan 30 2025"),
-    image: "/content/atmospheric-river-vancouver.jpg",
-  },
-  {
-    title: "BC Insurance",
-    href: "/article/bc-insurance",
-    date: new Date("Jan 30 2025"),
-    image: "/content/bc-insurance.webp",
-  },
-  {
     title: "A Builder's Perspective",
     href: "/article/a-builders-perspective",
     date: new Date("Jan 23 2025"),

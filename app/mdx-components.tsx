@@ -7,6 +7,10 @@ import Image, { ImageProps } from "next/image";
 // components from other libraries, and more.
 
 const components = {
+  li: (props) => (
+    <li className="my-2 list-decimal list-inside">{props.children}</li>
+  ),
+
   img: (props) => (
     <Image
       sizes="100vw"

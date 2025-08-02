@@ -147,7 +147,7 @@ export default function Pricing() {
   const [hoveredTier, setHoveredTier] = useState<string | null>(null);
 
   return (
-    <section id="pricing" className="text-white py-24 px-6">
+    <section className="text-white py-24 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -183,7 +183,10 @@ export default function Pricing() {
         </motion.div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <div
+          id="pricing"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16"
+        >
           {pricingTiers.map((tier, index) => (
             <Link href={`/pricing/${tier.id}`} key={tier.id}>
               <motion.div

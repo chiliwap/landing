@@ -13,12 +13,7 @@ export default async function Article({
 export function generateStaticParams() {
   return [
     { slug: "firefighting-with-foresight" },
-    // { slug: "man-saves-home-with-garden-hose" },
-    // { slug: "wildfire-season-2023" },
-    // { slug: "calgary-severe-water-restrictions" },
-    // { slug: "atmospheric-river-vancouver" },
-    // { slug: "bc-insurance" },
-    // { slug: "a-builders-perspective" },
+    { slug: "a-builders-perspective" },
   ];
 }
 
