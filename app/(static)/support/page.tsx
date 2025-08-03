@@ -168,7 +168,7 @@ export default function Support() {
         <header className="text-center mt-32 space-y-6">
           <h3 className="text-3xl logo-text">How can we be of service?</h3>
           <p className="max-w-2xl">
-            We're dedicated to ensuring you have the best experience possible.
+            We&apos;re dedicated to ensuring you have the best experience possible.
             Whether you need assistance with a product, have questions about
             your account, or require technical support, our team is here to help
           </p>
