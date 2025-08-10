@@ -168,9 +168,10 @@ export default function Support() {
         <header className="text-center mt-32 space-y-6">
           <h3 className="text-3xl logo-text">How can we be of service?</h3>
           <p className="max-w-2xl">
-            We&apos;re dedicated to ensuring you have the best experience possible.
-            Whether you need assistance with a product, have questions about
-            your account, or require technical support, our team is here to help
+            We&apos;re dedicated to ensuring you have the best experience
+            possible. Whether you need assistance with a product, have questions
+            about your account, or require technical support, our team is here
+            to help
           </p>
 
           <Link
@@ -226,7 +227,7 @@ export default function Support() {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="p-6 pt-0 space-y-6 border-t border-neutral-900">
+                      <div className="p-6 pt-0 space-y-6 border-t border-neutral-900 bg-(--background)/60">
                         {category.questions.map((item) => (
                           <div key={item.question} className="text-left">
                             <h4 className="font-bold text-lg mb-2">
@@ -249,9 +250,7 @@ export default function Support() {
 
       <Gradient />
 
-      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2">
-        <Footer />
-      </div>
+      <Footer />
     </main>
   );
 }

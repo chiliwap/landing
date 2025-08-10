@@ -32,11 +32,7 @@ export default function NotFound() {
       <Nav />
 
       <div className="z-20 text-center max-w-md">
-        <img
-          className="invert mb-12"
-          src="https://www.chiliwap.ca/wp-content/themes/chiliwap/chiliwap-assets//img/inner-pages/error-img.png"
-          alt="Error"
-        />
+        <img className="invert mb-12" src="/error-img.png" alt="Error" />
         {/* <h1 className="text-6xl font-bold logo-text mb-4">404</h1> */}
         <h2 className="text-2xl font-semibold mb-6 text-stone-300">
           Page Not Found
@@ -73,9 +69,7 @@ export default function NotFound() {
         }}
       />
 
-      <div className="z-20 absolute bottom-0">
-        <Footer />
-      </div>
+      <Footer variant="small" />
     </div>
   );
 }

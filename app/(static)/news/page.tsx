@@ -133,7 +133,7 @@ export default function News() {
       <Gradient />
 
       <div className="absolute bottom-0 w-full">
-        <Footer />
+        <Footer variant="small" />
       </div>
     </main>
   );

@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Gradient from "@/components/mouse-gradient";
 import Nav from "@/components/nav";
 import Link from "next/link";
@@ -117,15 +118,7 @@ export default function Login() {
       </div>
 
       {/* Footer Notes */}
-      <footer className="text-center text-sm text-neutral-500">
-        <p className="absolute bottom-12 left-12">
-          Imagine a home that protects itself.
-        </p>
-
-        <p className="absolute bottom-12 right-12">
-          &copy; {new Date().getFullYear()} Chiliwap. All rights reserved.
-        </p>
-      </footer>
+      <Footer variant="small" />
     </main>
   );
 }

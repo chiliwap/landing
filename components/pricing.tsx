@@ -202,7 +202,7 @@ export default function Pricing() {
                 onMouseLeave={() => setHoveredTier(null)}
                 className={`relative group bg-neutral-900/30 backdrop-blur-sm border rounded-2xl p-8 transition-all duration-500 ${
                   tier.popular
-                    ? "border-orange-500/50 bg-gradient-to-b from-orange-500/5 to-red-600/5 scale-105"
+                    ? "border-orange-500/50 bg-gradient-to-b from-orange-500/5 to-red-600/5 scale-105 shadow-orange-500 shadow-2xl"
                     : "border-neutral-800 hover:border-neutral-600"
                 }`}
               >
@@ -268,7 +268,7 @@ export default function Pricing() {
 
                 {/* Hover Effect */}
                 <motion.div
-                  className="absolute z-10 inset-0 rounded-2xl bg-gradient-to-br from-orange-500/5 to-red-600/5 opacity-0 transition-opacity duration-500"
+                  className="absolute z-10 inset-0 rounded-2xl bg-gradient-to-b from-orange-600/5 to-(--background)/5 opacity-0 transition-opacity duration-500"
                   animate={{
                     opacity: hoveredTier === tier.id ? 1 : 0,
                   }}
