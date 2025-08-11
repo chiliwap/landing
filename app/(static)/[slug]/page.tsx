@@ -1,5 +1,6 @@
 "use client";
 
+import Features from "@/components/features";
 import Footer from "@/components/footer";
 import Interactive from "@/components/interactive";
 import Nav from "@/components/nav";
@@ -85,6 +86,9 @@ export default function Landing(props: { params: Promise<{ slug: string }> }) {
 
       {/* Main Content Section */}
       <Interactive />
+
+      {/* Features Section */}
+      <Features />
 
       {/* Solutions Section */}
       <Solutions />

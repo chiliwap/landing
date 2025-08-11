@@ -50,6 +50,11 @@ body {
   mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 80%);
 }
 
+.taper-edges-sm {
+  -webkit-mask: linear-gradient(90deg, rgba(0,0,0,0) 1%, rgba(0,0,0,1) 50%,  rgba(0,0,0,0) 99%);
+  mask: linear-gradient(90deg, rgba(0,0,0,0) 1%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 99%);
+}
+
 .taper-left {
   -webkit-mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%);
   mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%);
@@ -67,4 +72,44 @@ body {
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+}
+
+.taper-top {
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.grid-line {
+  stroke: #d0d0d0;
+  stroke-width: 1;
+  stroke-dasharray: 4 2;
+}
+
+.pulse-dot {
+  fill: #007bff;
+}
+
+.pulse-ring {
+  fill: rgba(0, 123, 255, 0.4);
+  animation: pulse 2s infinite;
+  transform-origin: center;
+}
+
+@keyframes pulse {
+  0% {
+    r: 4;
+    opacity: 0.8;
+  }
+  70% {
+    r: 12;
+    opacity: 0;
+  }
+  100% {
+    r: 4;
+    opacity: 0;
+  }
 }
