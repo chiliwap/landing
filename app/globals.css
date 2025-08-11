@@ -113,3 +113,10 @@ body {
     opacity: 0;
   }
 }
+
+.noise {
+  background-image: url("/noise.png");
+  background-position-x: 0, 0;
+  background-position-y: 0, 0;
+  background-size: 80px 80px, auto;
+}

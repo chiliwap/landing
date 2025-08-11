@@ -108,8 +108,8 @@ export default function Features() {
               {/* <!-- Gradient Fill --> */}
               <defs>
                 <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="rgba(0, 123, 255, 0.3)" />
-                  <stop offset="90%" stop-color="rgba(10, 10, 10, 0)" />
+                  <stop offset="0%" stopColor="rgba(0, 123, 255, 0.3)" />
+                  <stop offset="90%" stopColor="rgba(10, 10, 10, 0)" />
                 </linearGradient>
               </defs>
 

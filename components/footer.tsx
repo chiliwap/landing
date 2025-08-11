@@ -18,20 +18,93 @@ export default function Footer(props: {
         </footer>
       ) : (
         <footer
-          className={`text-gray-200 text-xs font-bold mt-8 pb-6 bg-neutral-900 ${
+          className={`relative overflow-hidden text-gray-200 text-xs mt-8 pb-6 bg-stone-900/60 noise ${
             props.className ?? ""
           }`}
         >
-          <div className="rounded-b-[4rem] bg-(--background) h-24 w-full" />
+          <div className="rounded-b-[5rem] bg-(--background) h-24 w-full" />
 
-          <div className="z-20 max-w-6xl mx-auto h-64 flex flex-col sm:flex-row justify-center items-center gap-12 text-white">
+          {/* 4 columns layout */}
+          <div className="z-20 grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 max-w-6xl mx-auto mt-12 mb-24">
+            <img src="/logo.png" alt="Chiliwap Logo" className="size-20 mb-2" />
+
+            <div className="flex flex-col space-y-1 group">
+              <h5 className="font-bold text-xl mb-3">Company</h5>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/about"
+              >
+                About
+              </Link>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/news"
+              >
+                News
+              </Link>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/careers"
+              >
+                Careers
+              </Link>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/support"
+              >
+                Contact
+              </Link>
+            </div>
+            <div className="flex flex-col space-y-1 group">
+              <h5 className="font-bold text-xl mb-3">Quick Links</h5>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/dashboard"
+              >
+                Dashboard
+              </Link>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/products"
+              >
+                Virtual Consultation
+              </Link>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/support"
+              >
+                Support
+              </Link>
+            </div>
+            <div className="flex flex-col space-y-1 group">
+              <h5 className="font-bold text-xl mb-3">Legal</h5>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/privacy"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
+                href="/terms"
+              >
+                Terms of Service
+              </Link>
+            </div>
+          </div>
+
+          <p className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 tracking-widest text-center logo-text text-6xl">
+            CHILIWAP
+          </p>
+
+          {/* <div className="z-20 max-w-6xl mx-auto h-64 flex flex-col sm:flex-row justify-center items-center gap-12 text-white">
             <Link href="/about">Chiliwap © 2025</Link>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/support">Support</Link>
             <Link href="/news">News</Link>
             <Link href="/updates">Get Updates</Link>
             <Link href="/location">Location</Link>
-          </div>
+          </div> */}
         </footer>
       )}
     </>
