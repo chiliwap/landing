@@ -97,14 +97,9 @@ export default function Footer(props: {
             CHILIWAP
           </p>
 
-          {/* <div className="z-20 max-w-6xl mx-auto h-64 flex flex-col sm:flex-row justify-center items-center gap-12 text-white">
-            <Link href="/about">Chiliwap © 2025</Link>
-            <Link href="/privacy">Privacy Policy</Link>
-            <Link href="/support">Support</Link>
-            <Link href="/news">News</Link>
-            <Link href="/updates">Get Updates</Link>
-            <Link href="/location">Location</Link>
-          </div> */}
+          <p className="absolute bottom-6 right-10 text-stone-600 text-xs">
+            &copy; {new Date().getFullYear()} Chiliwap. All rights reserved.
+          </p>
         </footer>
       )}
     </>
