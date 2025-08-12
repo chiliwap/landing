@@ -149,7 +149,7 @@ const team = [
   },
   {
     name: "Matthew Baker",
-    role: "Full Stack Engineer",
+    role: "Software Engineer",
     image: "/team/Matthew-Baker.jpg",
     drawing: (
       <motion.svg
