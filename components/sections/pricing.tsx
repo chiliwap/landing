@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const pricingTiers = [
   {
@@ -145,6 +145,13 @@ function XIcon() {
 
 export default function Pricing() {
   const [hoveredTier, setHoveredTier] = useState<string | null>(null);
+  const [selectedPlanId, setSelectedPlanId] = useState<string>(
+    pricingTiers.find((t) => t.popular)?.id || pricingTiers[0].id
+  );
+  const selectedTier = useMemo(
+    () => pricingTiers.find((t) => t.id === selectedPlanId)!,
+    [selectedPlanId]
+  );
 
   return (
     <section className="text-white py-24 px-6">
@@ -278,8 +285,79 @@ export default function Pricing() {
           ))}
         </div>
 
-        {/* Feature Comparison Table */}
-        <div className="overflow-x-auto -mx-6 px-6">
+        {/* Mobile: Plan Tabs + 2-col feature list */}
+        <div className="md:hidden">
+          {/* Tabs under nav: sticky so it stays visible */}
+          <div className="sticky top-16 z-10 -mx-6 px-6 pb-3 bg-[color:var(--background)]/80 backdrop-blur supports-[backdrop-filter]:bg-[color:var(--background)]/60">
+            <div className="flex gap-2 overflow-x-auto no-scrollbar">
+              {pricingTiers.map((tier) => {
+                const active = tier.id === selectedPlanId;
+                return (
+                  <button
+                    key={tier.id}
+                    onClick={() => setSelectedPlanId(tier.id)}
+                    className={
+                      "whitespace-nowrap px-4 py-2 rounded-full border text-sm transition-colors " +
+                      (active
+                        ? "bg-white text-black border-white"
+                        : "border-neutral-800 text-neutral-300 hover:border-neutral-700")
+                    }
+                  >
+                    {tier.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Sleek minimal 2-col table */}
+          <div className="mt-4 bg-neutral-900/40 border border-neutral-800 rounded-xl overflow-hidden">
+            {featureCategories.map((category) => (
+              <div key={category.name}>
+                <div className="px-4 py-3 bg-neutral-900/40 border-b border-neutral-800">
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                    {category.name}
+                  </h4>
+                </div>
+                <div className="divide-y divide-neutral-800">
+                  {category.features.map((feature) => {
+                    const value =
+                      selectedTier.features[
+                        feature.key as keyof typeof selectedTier.features
+                      ];
+                    const isBool = typeof value === "boolean";
+                    return (
+                      <div
+                        key={feature.key}
+                        className="grid grid-cols-[1fr_auto] items-center gap-4 px-4 py-3"
+                      >
+                        <span className="text-sm text-neutral-300">
+                          {feature.label}
+                        </span>
+                        <span className="justify-self-end">
+                          {isBool ? (
+                            value ? (
+                              <CheckIcon />
+                            ) : (
+                              <XIcon />
+                            )
+                          ) : (
+                            <span className="text-sm text-white">
+                              {value as string}
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop/Tablet: Feature Comparison Table */}
+        <div className="hidden md:block overflow-x-auto -mx-6 px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
