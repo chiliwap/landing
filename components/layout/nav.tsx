@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function Nav(props: { className?: string }) {
   const [stickyNav, setStickyNav] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const navigationItems = [
     {
@@ -254,7 +255,7 @@ export default function Nav(props: { className?: string }) {
           props.className ?? ""
         }`}
       >
-        <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
+        <div className="w-full mx-auto flex justify-between items-center p-1.5 px-4 sm:px-6 md:px-12 lg:px-24">
           <Link
             href="/"
             className="text-2xl text-white inline-flex items-center logo-text"
@@ -267,6 +268,7 @@ export default function Nav(props: { className?: string }) {
             CHILIWAP
           </Link>
 
+          {/* Desktop Nav */}
           <div className="hidden lg:flex items-center space-x-8">
             {navigationItems.map((item) => (
               <div
@@ -310,7 +312,8 @@ export default function Nav(props: { className?: string }) {
             ))}
           </div>
 
-          <div className="space-x-4 text-xs font-bold">
+          {/* Right icons (desktop) */}
+          <div className="hidden sm:flex space-x-4 text-xs font-bold">
             <Link
               className="hover:text-gray-300 transition-colors duration-350"
               href="/news"
@@ -372,21 +375,110 @@ export default function Nav(props: { className?: string }) {
               </svg>
             </Link>
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            aria-label="Open menu"
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((o) => !o)}
+            className="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+          >
+            {mobileOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-6"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            )}
+          </button>
         </div>
+
+        {/* Mobile menu panel */}
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="lg:hidden px-4 sm:px-6 md:px-12 lg:px-24 pb-4"
+            >
+              <div className="mt-2 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md p-3 space-y-1">
+                {navigationItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block w-full px-3 py-2 rounded-md text-white/90 hover:bg-white/10"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+                <div className="my-2 h-px bg-white/10" />
+                <div className="grid grid-cols-3 gap-2 text-sm">
+                  <Link
+                    href="/news"
+                    onClick={() => setMobileOpen(false)}
+                    className="px-3 py-2 rounded-md text-white/80 hover:bg-white/10 text-center"
+                  >
+                    News
+                  </Link>
+                  <Link
+                    href="/support"
+                    onClick={() => setMobileOpen(false)}
+                    className="px-3 py-2 rounded-md text-white/80 hover:bg-white/10 text-center"
+                  >
+                    Support
+                  </Link>
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="px-3 py-2 rounded-md text-white/80 hover:bg-white/10 text-center"
+                  >
+                    Login
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Dropdown Menu */}
         <AnimatePresence>
+          {/* Hide complex dropdown entirely on small screens */}
           {activeDropdown && (
             <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: [0.48, 0.15, 0.25, 0.96] }}
-              className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 z-50"
+              className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 z-50 hidden lg:block"
               onMouseEnter={() => setActiveDropdown(activeDropdown)}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <div className="bg-black/90 backdrop-blur-xl border border-gray-600/50 rounded-2xl shadow-2xl overflow-hidden w-[700px]">
+              <div className="bg-black/90 backdrop-blur-xl border border-gray-600/50 rounded-2xl shadow-2xl overflow-hidden w-[90vw] max-w-[700px]">
                 {/* Fixed height container to prevent layout shift */}
                 <div className="relative h-[250px] overflow-hidden">
                   <AnimatePresence mode="wait">
@@ -477,7 +569,7 @@ export default function Nav(props: { className?: string }) {
             }}
             className="fixed bg-stone-900/20 backdrop-blur-lg top-0 left-0 w-full z-50"
           >
-            <div className="w-full px-24 mx-auto flex justify-between items-center p-1.5">
+            <div className="w-full mx-auto flex justify-between items-center p-1.5 px-4 sm:px-6 md:px-12 lg:px-24">
               <Link
                 href="/"
                 className="text-2xl text-white inline-flex items-center logo-text"
@@ -489,7 +581,8 @@ export default function Nav(props: { className?: string }) {
                 />{" "}
                 CHILIWAP
               </Link>
-              <div className="space-x-4 text-xs font-bold ">
+              {/* Sticky: desktop quick links */}
+              <div className="hidden md:flex space-x-4 text-xs font-bold ">
                 <Link
                   href="/products"
                   className="text-gray-300 hover:text-white transition-colors duration-350"
@@ -509,7 +602,94 @@ export default function Nav(props: { className?: string }) {
                   Login
                 </Link>
               </div>
+
+              {/* Sticky: mobile hamburger */}
+              <button
+                aria-label="Open menu"
+                aria-expanded={mobileOpen}
+                onClick={() => setMobileOpen((o) => !o)}
+                className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+              >
+                {mobileOpen ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                  </svg>
+                )}
+              </button>
             </div>
+            {/* Sticky: mobile panel (reuse top one) */}
+            <AnimatePresence>
+              {mobileOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="md:hidden px-4 sm:px-6 pb-4"
+                >
+                  <div className="mt-2 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md p-3 space-y-1">
+                    {navigationItems.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="block w-full px-3 py-2 rounded-md text-white/90 hover:bg-white/10"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                    <div className="my-2 h-px bg-white/10" />
+                    <div className="grid grid-cols-3 gap-2 text-sm">
+                      <Link
+                        href="/news"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-2 rounded-md text-white/80 hover:bg-white/10 text-center"
+                      >
+                        News
+                      </Link>
+                      <Link
+                        href="/support"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-2 rounded-md text-white/80 hover:bg-white/10 text-center"
+                      >
+                        Support
+                      </Link>
+                      <Link
+                        href="/login"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-2 rounded-md text-white/80 hover:bg-white/10 text-center"
+                      >
+                        Login
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.nav>
         )}
       </AnimatePresence>

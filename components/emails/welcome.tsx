@@ -60,9 +60,10 @@ export default function Welcome({ baseURL, firstName }: WelcomeProps) {
                 {name ? `Welcome, ${name}!` : "Welcome to Chiliwap News"}
               </Heading>
               <Text className="m-0 mb-4 text-[14px] text-muted">
-                Thanks for subscribing to Chiliwap News. You'll get the latest
-                on wildfire intelligence, tools, and product updates—designed to
-                help communities prepare, respond, and rebuild smarter.
+                Thanks for subscribing to Chiliwap News. You&apos;ll get the
+                latest on wildfire intelligence, tools, and product
+                updates—designed to help communities prepare, respond, and
+                rebuild smarter.
               </Text>
               <Section className="my-6">
                 <Button
@@ -93,7 +94,7 @@ export default function Welcome({ baseURL, firstName }: WelcomeProps) {
                   href={`${baseURL}/article/a-builders-perspective`}
                   className="text-accent no-underline"
                 >
-                  A Builder's Perspective: Designing for Resilience
+                  A Builder&apos;s Perspective: Designing for Resilience
                 </Link>
               </Text>
               <Text className="m-0 mb-4">

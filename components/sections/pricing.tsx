@@ -279,90 +279,94 @@ export default function Pricing() {
         </div>
 
         {/* Feature Comparison Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            delay: 0.4,
-            duration: 0.6,
-            ease: [0.48, 0.15, 0.25, 0.96],
-          }}
-          className="bg-neutral-900/30 backdrop-blur-sm border border-neutral-800 rounded-2xl overflow-hidden"
-        >
-          {/* Table Header */}
-          <div className="grid grid-cols-4 gap-4 p-6 border-b border-neutral-800 bg-neutral-900/50">
-            <div className="text-lg font-semibold text-gray-300">Features</div>
-            {pricingTiers.map((tier) => (
-              <div key={tier.id} className="text-center">
-                <div className="text-lg font-semibold text-white">
-                  {tier.name}
-                </div>
-                <div className="text-sm text-gray-400 mt-1">{tier.price}</div>
+        <div className="overflow-x-auto -mx-6 px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              delay: 0.4,
+              duration: 0.6,
+              ease: [0.48, 0.15, 0.25, 0.96],
+            }}
+            className="min-w-[900px] bg-neutral-900/30 backdrop-blur-sm border border-neutral-800 rounded-2xl overflow-hidden"
+          >
+            {/* Table Header */}
+            <div className="grid grid-cols-4 gap-4 p-6 border-b border-neutral-800 bg-neutral-900/50">
+              <div className="text-lg font-semibold text-gray-300">
+                Features
               </div>
-            ))}
-          </div>
+              {pricingTiers.map((tier) => (
+                <div key={tier.id} className="text-center">
+                  <div className="text-lg font-semibold text-white">
+                    {tier.name}
+                  </div>
+                  <div className="text-sm text-gray-400 mt-1">{tier.price}</div>
+                </div>
+              ))}
+            </div>
 
-          {/* Feature Categories */}
-          {featureCategories.map((category, categoryIndex) => (
-            <div key={category.name}>
-              {/* Category Header */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: categoryIndex * 0.1, duration: 0.5 }}
-                className="px-6 py-4 bg-neutral-800/30 border-b border-neutral-800"
-              >
-                <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
-                  {category.name}
-                </h4>
-              </motion.div>
-
-              {/* Features */}
-              {category.features.map((feature, featureIndex) => (
+            {/* Feature Categories */}
+            {featureCategories.map((category, categoryIndex) => (
+              <div key={category.name}>
+                {/* Category Header */}
                 <motion.div
-                  key={feature.key}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{
-                    delay: categoryIndex * 0.1 + featureIndex * 0.05,
-                    duration: 0.5,
-                  }}
-                  className="grid grid-cols-4 gap-4 p-6 border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors"
+                  transition={{ delay: categoryIndex * 0.1, duration: 0.5 }}
+                  className="px-6 py-4 bg-neutral-800/30 border-b border-neutral-800"
                 >
-                  <div className="text-gray-300 font-medium">
-                    {feature.label}
-                  </div>
-                  {pricingTiers.map((tier) => (
-                    <div key={tier.id} className="text-center">
-                      {typeof tier.features[
-                        feature.key as keyof typeof tier.features
-                      ] === "boolean" ? (
-                        tier.features[
-                          feature.key as keyof typeof tier.features
-                        ] ? (
-                          <CheckIcon />
-                        ) : (
-                          <XIcon />
-                        )
-                      ) : (
-                        <span className="text-white text-sm">
-                          {
-                            tier.features[
-                              feature.key as keyof typeof tier.features
-                            ] as string
-                          }
-                        </span>
-                      )}
-                    </div>
-                  ))}
+                  <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
+                    {category.name}
+                  </h4>
                 </motion.div>
-              ))}
-            </div>
-          ))}
-        </motion.div>
+
+                {/* Features */}
+                {category.features.map((feature, featureIndex) => (
+                  <motion.div
+                    key={feature.key}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      delay: categoryIndex * 0.1 + featureIndex * 0.05,
+                      duration: 0.5,
+                    }}
+                    className="grid grid-cols-4 gap-4 p-6 border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors"
+                  >
+                    <div className="text-gray-300 font-medium">
+                      {feature.label}
+                    </div>
+                    {pricingTiers.map((tier) => (
+                      <div key={tier.id} className="text-center">
+                        {typeof tier.features[
+                          feature.key as keyof typeof tier.features
+                        ] === "boolean" ? (
+                          tier.features[
+                            feature.key as keyof typeof tier.features
+                          ] ? (
+                            <CheckIcon />
+                          ) : (
+                            <XIcon />
+                          )
+                        ) : (
+                          <span className="text-white text-sm">
+                            {
+                              tier.features[
+                                feature.key as keyof typeof tier.features
+                              ] as string
+                            }
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </motion.div>
+                ))}
+              </div>
+            ))}
+          </motion.div>
+        </div>
 
         {/* Bottom CTA */}
         <motion.div

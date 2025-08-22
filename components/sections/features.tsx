@@ -1,9 +1,9 @@
 export default function Features() {
   return (
-    <section className="place-self-center w-8/10">
+    <section className="place-self-center w-11/12 md:w-8/10">
       <header className="w-full text-center mb-12">
-        <h2 className="text-5xl logo-text">Get In-The-Know</h2>
-        <p className="text-lg text-stone-400 max-w-2xl place-self-center">
+        <h2 className="text-3xl md:text-5xl logo-text">Get In-The-Know</h2>
+        <p className="text-base md:text-lg text-stone-400 max-w-2xl place-self-center px-2">
           Using Chiliwap&apos;s dashboard get all the analytics you&apos;d ever
           care about, with real-time monitoring of fire locations and controller
           status.
@@ -11,18 +11,18 @@ export default function Features() {
       </header>
 
       {/* bento-style insights section */}
-      <section className="grid grid-cols-3 gap-4 p-4">
-        <div className="col-span-3 grid grid-cols-3 gap-4">
-          <div className="col-span-1 flex flex-row w-full">
-            <div className="h-62 p-4 rounded w-full text-center taper-bottom">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2 md:p-4">
+        <div className="col-span-1 sm:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="col-span-1 flex flex-col md:flex-row w-full">
+            <div className="h-auto p-4 rounded w-full text-center taper-bottom">
               <h3 className="font-bold text-lg">Real-time Monitoring</h3>
               <p className="text-stone-400">
                 Get real-time insights into fire locations and controller
                 status.
               </p>
-              <div className="flex flex-row items-center justify-center -mt-6">
+              <div className="flex flex-col md:flex-row items-center justify-center -mt-2 md:-mt-6 gap-4">
                 <svg
-                  className="size-64"
+                  className="size-40 md:size-64"
                   viewBox="0 0 300 300"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -64,7 +64,7 @@ export default function Features() {
                   <circle cx="170" cy="120" r="2" fill="white" />
                   <circle cx="130" cy="90" r="2" fill="white" />
                 </svg>
-                <div className="flex flex-col space-y-3 w-42">
+                <div className="flex flex-col space-y-3 w-full md:w-42">
                   <div className="cursor-pointer px-3 py-1 rounded-md bg-stone-900/50 flex flex-row text-stone-400 justify-between">
                     <p>Zone 1</p>
                     <p className="text-green-600/90">Normal</p>
@@ -80,17 +80,17 @@ export default function Features() {
                 </div>
               </div>
             </div>
-            <span className="bg-stone-700 w-[1px] -mb-4 ml-2 -mr-2 taper-top" />
+            <span className="hidden md:block bg-stone-700 w-[1px] -mb-4 ml-2 -mr-2 taper-top" />
           </div>
 
-          <div className="col-span-2 h-62 p-4 rounded text-center taper-bottom">
+          <div className="col-span-1 md:col-span-2 h-auto p-4 rounded text-center taper-bottom">
             <h3 className="font-bold text-lg">Advanced Analytics</h3>
             <p className="text-stone-400">
               Leverage advanced analytics to identify trends and optimize
               performance.
             </p>
             <svg
-              className="place-self-center w-8/10 max-h-full"
+              className="place-self-center w-full md:w-8/10 max-h-full"
               viewBox="0 0 800 300"
               //   preserveAspectRatio="none"
             >
@@ -147,16 +147,16 @@ export default function Features() {
           </div>
         </div>
         <hr className="col-span-3 taper-edges-sm border-stone-700" />
-        <div className="col-span-3 grid grid-cols-3 gap-4">
-          <div className="col-span-2 flex flex-row w-full">
+        <div className="col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row w-full">
             <div className="h-62 p-4 rounded w-full text-center taper-bottom">
               <h3 className="font-bold text-lg">Complete System Control</h3>
               <p className="text-stone-400">
                 Monitor and control your entire fire protection system from one
                 dashboard.
               </p>
-              <div className="flex flex-row items-center justify-center w-full space-x-5 mt-10">
-                <div className="flex flex-col items-center ring-2 ring-orange-600 rounded-md p-4">
+              <div className="flex flex-col md:flex-row items-center justify-center w-full gap-5 mt-10">
+                <div className="flex flex-col items-center ring-2 ring-orange-600 rounded-md p-4 w-full md:w-auto">
                   <header>
                     <h6 className="flex flex-row items-center justify-around">
                       NE Controller
@@ -188,7 +188,7 @@ export default function Features() {
                     />
                   </svg>
                 </div>
-                <div className="flex flex-col items-center ring-1 ring-stone-700 rounded-md p-4">
+                <div className="flex flex-col items-center ring-1 ring-stone-700 rounded-md p-4 w-full md:w-auto">
                   <header>
                     <h6 className="flex flex-row items-center justify-around">
                       SW Controller
@@ -220,22 +220,22 @@ export default function Features() {
                     />
                   </svg>
                 </div>
-                <span className="bg-stone-700 w-[1px] h-32 taper-bottom taper-top" />
+                <span className="hidden md:block bg-stone-700 w-[1px] h-32 taper-bottom taper-top" />
                 {/* Controls */}
-                <div className="flex flex-col items-center ml-4 space-y-2">
-                  <button className="bg-stone-800 w-50 text-white px-4 py-2 rounded-md">
+                <div className="flex flex-col items-center md:ml-4 gap-2 w-full md:w-auto">
+                  <button className="bg-stone-800 w-full md:w-50 text-white px-4 py-2 rounded-md">
                     Run Test
                   </button>
-                  <button className="bg-stone-900/90 w-50 text-white px-4 py-2 rounded-md">
+                  <button className="bg-stone-900/90 w-full md:w-50 text-white px-4 py-2 rounded-md">
                     Request Maintenance
                   </button>
-                  <button className="bg-stone-900/90 w-50 text-white px-4 py-2 rounded-md">
+                  <button className="bg-stone-900/90 w-full md:w-50 text-white px-4 py-2 rounded-md">
                     Managed Zones
                   </button>
                 </div>
               </div>
             </div>
-            <span className="bg-stone-700 w-[1px] -mt-4 ml-2 -mr-2 taper-bottom" />
+            <span className="hidden md:block bg-stone-700 w-[1px] -mt-4 ml-2 -mr-2 taper-bottom" />
           </div>
 
           <div className="col-span-1 h-62 p-4 rounded text-center">
@@ -244,22 +244,22 @@ export default function Features() {
               Tailor your dashboard to display the metrics that matter most to
               you.
             </p>
-            <div className="flex flex-row items-center justify-center w-full space-x-5 mt-12">
-              <div className="flex flex-col space-y-3 taper-bottom">
-                <button className="bg-(--background) w-60 border-dashed border-2 border-stone-600 text-white px-4 py-2 rounded-md">
+            <div className="flex flex-col md:flex-row items-center justify-center w-full gap-5 mt-12">
+              <div className="flex flex-col space-y-3 taper-bottom w-full md:w-auto">
+                <button className="bg-(--background) w-full md:w-60 border-dashed border-2 border-stone-600 text-white px-4 py-2 rounded-md">
                   +
                 </button>
-                <button className="w-60 bg-stone-900/90 text-white px-4 py-2 rounded-md">
+                <button className="w-full md:w-60 bg-stone-900/90 text-white px-4 py-2 rounded-md">
                   View Controller Health
                 </button>
-                <button className="w-60 bg-stone-900/90 text-white px-4 py-2 rounded-md">
+                <button className="w-full md:w-60 bg-stone-900/90 text-white px-4 py-2 rounded-md">
                   View Controller Logs
                 </button>
               </div>
 
-              <div>
+              <div className="w-full md:w-auto">
                 {/* rotated button */}
-                <button className="bg-stone-900/90 w-60 text-stone-200 px-4 py-2 rounded-md transform rotate-6">
+                <button className="bg-stone-900/90 w-full md:w-60 text-stone-200 px-4 py-2 rounded-md md:transform md:rotate-6">
                   View Coverage
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
