@@ -1,8 +1,8 @@
 "use client";
 
-import Footer from "@/components/footer";
-import Gradient from "@/components/mouse-gradient";
-import Nav from "@/components/nav";
+import Footer from "@/components/layout/footer";
+import Gradient from "@/components/ui/mouse-gradient";
+import Nav from "@/components/layout/nav";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";

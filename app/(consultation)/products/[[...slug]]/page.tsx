@@ -1,6 +1,6 @@
 "use client";
 
-import Nav from "@/components/nav";
+import Nav from "@/components/layout/nav";
 import { use, useState, useEffect } from "react";
 
 const products = [
@@ -50,8 +50,8 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
               selectedProduct !== null && selectedProduct !== -1
                 ? products[selectedProduct].hero
                 : slug
-                ? products.find((p) => p.id == slug)?.hero
-                : products[0].hero
+                  ? products.find((p) => p.id == slug)?.hero
+                  : products[0].hero
             }
             alt="Product Image"
           />

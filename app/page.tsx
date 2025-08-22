@@ -1,9 +1,9 @@
-import Features from "@/components/features";
-import Footer from "@/components/footer";
-import Interactive from "@/components/interactive";
-import Nav from "@/components/nav";
-import Pricing from "@/components/pricing";
-import Solutions from "@/components/solutions";
+import Features from "@/components/sections/features";
+import Footer from "@/components/layout/footer";
+import Interactive from "@/components/sections/interactive";
+import Nav from "@/components/layout/nav";
+import Pricing from "@/components/sections/pricing";
+import Solutions from "@/components/sections/solutions";
 import * as motion from "motion/react-client";
 import Link from "next/link";
 

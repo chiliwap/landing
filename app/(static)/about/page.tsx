@@ -1,8 +1,8 @@
 "use client";
 
-import Counter from "@/components/counter";
-import Footer from "@/components/footer";
-import Nav from "@/components/nav";
+import Counter from "@/components/ui/counter";
+import Footer from "@/components/layout/footer";
+import Nav from "@/components/layout/nav";
 import { motion } from "motion/react";
 import { useRef, useState } from "react";
 

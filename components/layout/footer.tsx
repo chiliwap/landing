@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Newsletter from "../forms/newsletter";
 
 export default function Footer(props: {
   className?: string;
@@ -26,7 +27,14 @@ export default function Footer(props: {
 
           {/* 4 columns layout */}
           <div className="z-20 grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 max-w-6xl mx-auto mt-12 mb-24">
-            <img src="/logo.png" alt="Chiliwap Logo" className="size-20 mb-2" />
+            <div className="flex flex-col items-center">
+              <img
+                src="/logo.png"
+                alt="Chiliwap Logo"
+                className="size-20 mb-2"
+              />
+              {/* <Newsletter /> */}
+            </div>
 
             <div className="flex flex-col space-y-1 group">
               <h5 className="font-bold text-xl mb-3">Company</h5>
@@ -93,9 +101,12 @@ export default function Footer(props: {
             </div>
           </div>
 
-          <p className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 tracking-widest text-center logo-text text-6xl">
-            CHILIWAP
-          </p>
+          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
+            <Newsletter className="mb-4" />
+            <h4 className="tracking-widest text-center logo-text text-6xl">
+              CHILIWAP
+            </h4>
+          </div>
 
           <p className="absolute bottom-6 right-10 text-stone-600 text-xs">
             &copy; {new Date().getFullYear()} Chiliwap. All rights reserved.

@@ -1,6 +1,6 @@
-import Footer from "@/components/footer";
-import Gradient from "@/components/mouse-gradient";
-import Nav from "@/components/nav";
+import Footer from "@/components/layout/footer";
+import Gradient from "@/components/ui/mouse-gradient";
+import Nav from "@/components/layout/nav";
 import Link from "next/link";
 
 export default function Login() {

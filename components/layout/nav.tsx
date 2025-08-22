@@ -223,8 +223,8 @@ export default function Nav(props: { className?: string }) {
       },
     },
     {
-      name: "Resources",
-      href: "/resources",
+      name: "Firemap",
+      href: "http://firemap.live",
     },
     {
       name: "Pricing",

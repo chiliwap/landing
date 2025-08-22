@@ -12,7 +12,7 @@ import { useRef, useState } from "react";
 
 // Dynamically import the 3D component to avoid SSR issues
 const ThreeCanvasWrapper = dynamic(
-  () => import("@/components/three-canvas-wrapper"),
+  () => import("@/components/3d/three-canvas-wrapper"),
   {
     loading: () => (
       <div className="w-full h-[400px] rounded-2xl flex items-center justify-center">

@@ -1,7 +1,7 @@
 "use client";
 
-import Footer from "@/components/footer";
-import Nav from "@/components/nav";
+import Footer from "@/components/layout/footer";
+import Nav from "@/components/layout/nav";
 import { useMotionValue } from "motion/react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
