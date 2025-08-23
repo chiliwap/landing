@@ -11,6 +11,22 @@ export default function Nav(props: { className?: string }) {
   const navigationItems = [
     {
       name: "Solutions",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6 text-neutral-400"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z"
+          />
+        </svg>
+      ),
       href: "/solutions",
       dropdown: {
         sections: [
@@ -123,6 +139,22 @@ export default function Nav(props: { className?: string }) {
     },
     {
       name: "Products",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6 text-neutral-400"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819"
+          />
+        </svg>
+      ),
       href: "/products",
       dropdown: {
         sections: [
@@ -225,14 +257,67 @@ export default function Nav(props: { className?: string }) {
     },
     {
       name: "Firemap",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6 text-neutral-400"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
+          />
+        </svg>
+      ),
       href: "http://firemap.live",
     },
     {
       name: "Pricing",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6 text-neutral-400"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      ),
       href: "/pricing",
     },
     {
       name: "About",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6 text-neutral-400"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"
+          />
+        </svg>
+      ),
       href: "/about",
     },
   ];
@@ -255,6 +340,8 @@ export default function Nav(props: { className?: string }) {
           props.className ?? ""
         }`}
       >
+        {/* Faint gradient top border for depth */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         <div className="w-full mx-auto flex justify-between items-center p-1.5 px-4 sm:px-6 md:px-12 lg:px-24">
           <Link
             href="/"
@@ -427,16 +514,21 @@ export default function Nav(props: { className?: string }) {
             >
               <div className="mt-2 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md p-3 space-y-1">
                 {navigationItems.map((item) => (
-                  <Link
+                  <div
+                    className="w-full flex justify-between px-4 text-neutral-300"
                     key={item.name}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block w-full px-3 py-2 rounded-md text-white/90 hover:bg-white/10"
                   >
-                    {item.name}
-                  </Link>
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="block px-3 py-2 rounded-md hover:bg-white/10"
+                    >
+                      {item.name}
+                    </Link>
+                    {item.icon}
+                  </div>
                 ))}
-                <div className="my-2 h-px bg-white/10" />
+                <div className="my-2 h-px bg-white/10 taper-edges-sm" />
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <Link
                     href="/news"
@@ -567,80 +659,86 @@ export default function Nav(props: { className?: string }) {
               delay: 0,
               ease: [0.48, 0.15, 0.25, 0.96],
             }}
-            className="fixed bg-stone-900/20 backdrop-blur-lg top-0 left-0 w-full z-50"
+            className="fixed top-0 left-0 w-full z-50 bg-black/30 backdrop-blur-md"
           >
-            <div className="w-full mx-auto flex justify-between items-center p-1.5 px-4 sm:px-6 md:px-12 lg:px-24">
-              <Link
-                href="/"
-                className="text-2xl text-white inline-flex items-center logo-text"
-              >
-                <img
-                  src="/logo.png"
-                  alt="Chiliwap Logo"
-                  className="inline-block h-8 mr-2"
-                />{" "}
-                CHILIWAP
-              </Link>
-              {/* Sticky: desktop quick links */}
-              <div className="hidden md:flex space-x-4 text-xs font-bold ">
+            {/* Faint gradient top border for depth (sticky) */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <div className="w-full px-3 sm:px-4 md:px-8 lg:px-12">
+              <div className="mx-auto max-w-7xl mt-2 mb-2 flex justify-between items-center px-3 py-2">
                 <Link
-                  href="/products"
-                  className="text-gray-300 hover:text-white transition-colors duration-350"
+                  href="/"
+                  className="text-2xl text-white inline-flex items-center logo-text"
                 >
-                  Schedule a Consultation
+                  <img
+                    src="/logo.png"
+                    alt="Chiliwap Logo"
+                    className="inline-block h-8 mr-2"
+                  />{" "}
+                  CHILIWAP
                 </Link>
-                <Link
-                  href="/support"
-                  className="text-gray-300 hover:text-white transition-colors duration-350"
-                >
-                  Support
-                </Link>
-                <Link
-                  href="/login"
-                  className="bg-zinc-900 hover:bg-neutral-800 hover:text-white transition-all duration-350 p-1.5 px-4 cursor-pointer rounded-md text-gray-300 "
-                >
-                  Login
-                </Link>
-              </div>
+                {/* Sticky: desktop quick links */}
+                <div className="hidden md:flex items-center gap-3">
+                  <Link
+                    href="/products"
+                    className="inline-flex items-center justify-center rounded-lg bg-white text-black px-3 py-1.5 text-sm font-medium hover:bg-white/90 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/30"
+                  >
+                    Schedule a consultation
+                  </Link>
+                  <Link
+                    href="/support"
+                    className="text-sm font-medium text-white/80 hover:text-white px-2 py-1 transition-colors duration-300"
+                  >
+                    Support
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="inline-flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/15 text-white px-3 py-1.5 text-sm font-medium transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/25"
+                  >
+                    Login
+                  </Link>
+                </div>
 
-              {/* Sticky: mobile hamburger */}
-              <button
-                aria-label="Open menu"
-                aria-expanded={mobileOpen}
-                onClick={() => setMobileOpen((o) => !o)}
-                className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-              >
-                {mobileOpen ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                  </svg>
-                )}
-              </button>
+                {/* Sticky: mobile hamburger */}
+                <button
+                  aria-label="Open menu"
+                  aria-expanded={mobileOpen}
+                  onClick={() => setMobileOpen((o) => !o)}
+                  className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+                >
+                  {mobileOpen ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
+            {/* Subtle bottom hairline for separation */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
             {/* Sticky: mobile panel (reuse top one) */}
             <AnimatePresence>
               {mobileOpen && (
@@ -653,16 +751,21 @@ export default function Nav(props: { className?: string }) {
                 >
                   <div className="mt-2 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md p-3 space-y-1">
                     {navigationItems.map((item) => (
-                      <Link
+                      <div
+                        className="w-full flex justify-between px-4 text-neutral-300"
                         key={item.name}
-                        href={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="block w-full px-3 py-2 rounded-md text-white/90 hover:bg-white/10"
                       >
-                        {item.name}
-                      </Link>
+                        <Link
+                          href={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="block px-3 py-2 rounded-md hover:bg-white/10"
+                        >
+                          {item.name}
+                        </Link>
+                        {item.icon}
+                      </div>
                     ))}
-                    <div className="my-2 h-px bg-white/10" />
+                    <div className="my-2 h-px bg-white/10 taper-edges-sm" />
                     <div className="grid grid-cols-3 gap-2 text-sm">
                       <Link
                         href="/news"

@@ -31,95 +31,114 @@ const products = [
 
 export default function Products(props: { params: Promise<{ slug: string }> }) {
   const { slug } = use(props.params);
+  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
 
   useEffect(() => {
     setSelectedProduct(products.findIndex((p) => p.id == slug));
   }, [slug]);
 
-  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
+  const currentProduct =
+    selectedProduct !== null && selectedProduct !== -1
+      ? products[selectedProduct]
+      : slug
+        ? products.find((p) => p.id == slug) || products[0]
+        : products[0];
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen text-white">
       <Nav />
 
-      <section className="my-16 w-full max-h-full grid grid-cols-5 gap-8 px-20">
-        <div className="relative flex items-center justify-center col-span-4">
-          <img
-            className="object-cover w-full max-h-full rounded-4xl aspect-video"
-            src={
-              selectedProduct !== null && selectedProduct !== -1
-                ? products[selectedProduct].hero
-                : slug
-                  ? products.find((p) => p.id == slug)?.hero
-                  : products[0].hero
-            }
-            alt="Product Image"
-          />
+      {/* Full-width layout with 5:1 ratio (left:right) */}
+      <section className="pt-16 md:pt-20">
+        <div className="px-4 md:px-6 pb-24 md:pb-0">
+          <div className="my-6 md:my-8 w-full flex flex-col md:flex-row gap-6 md:gap-8">
+            {/* Left: big image area */}
+            <div className="w-full md:flex-[5_1_0%]">
+              <div className="relative rounded-2xl overflow-hidden bg-black">
+                <img
+                  className="w-full h-[65vh] md:h-[80vh] object-cover object-center"
+                  src={currentProduct.hero}
+                  alt="Product preview"
+                />
+              </div>
+              <div className="mt-3 flex items-center justify-between gap-3 text-xs md:text-sm text-white/70">
+                <span className="whitespace-normal break-words">
+                  {currentProduct.description}
+                </span>
+                <span>&copy; {new Date().getFullYear()} Chiliwap</span>
+              </div>
+            </div>
 
-          {/* Footer Notes */}
-          <footer className="text-center text-sm text-neutral-500">
-            <p className="absolute -bottom-10 left-14">
-              Imagine a home that protects itself.
-            </p>
+            {/* Right: options with min width */}
+            <aside className="w-full md:flex-[1_1_0%] md:min-w-[260px]">
+              <header className="space-y-1">
+                <h2 className="text-lg font-semibold tracking-tight">
+                  Virtual Consultation
+                </h2>
+                <p className="text-sm text-white/60">
+                  Explore our range of high-quality products.
+                </p>
+              </header>
 
-            <p className="absolute -bottom-10 right-14">
-              &copy; {new Date().getFullYear()} Chiliwap. All rights reserved.
-            </p>
-          </footer>
-        </div>
+              <h3 className="mt-5 text-base font-semibold tracking-tight">
+                Select a product
+              </h3>
+              <ul className="mt-3 space-y-3">
+                {products.map((product, i) => {
+                  const selected = selectedProduct === i;
+                  return (
+                    <li key={product.id}>
+                      <button
+                        type="button"
+                        aria-selected={selected}
+                        onClick={() => setSelectedProduct(i)}
+                        className={`group w-full text-left rounded-xl overflow-hidden border transition-colors duration-300 ${
+                          selected
+                            ? "border-orange-500/60"
+                            : "border-white/10 hover:border-white/20"
+                        }`}
+                      >
+                        <div className="relative h-24 md:h-28">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="absolute inset-0 w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        </div>
+                        <div className="px-3 py-2 bg-white/[0.02]">
+                          <div className="flex items-center justify-between gap-2">
+                            <h4 className="text-sm md:text-base font-medium tracking-tight">
+                              {product.name}
+                            </h4>
+                            {selected && (
+                              <span className="text-[10px] md:text-xs text-orange-300">
+                                Selected
+                              </span>
+                            )}
+                          </div>
+                          <p className="mt-0.5 text-[12px] md:text-sm text-white/60 overflow-hidden text-ellipsis whitespace-nowrap md:whitespace-normal md:text-ellipsis md:overflow-visible">
+                            {product.description}
+                          </p>
+                        </div>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
 
-        {/* Right sidebar */}
-        <div className="col-span-1 px-6">
-          <header className="pt-5 space-y-2">
-            <h3 className="text-3xl text-left logo-text">
-              Virtual Consultation
-            </h3>
-            <p className="text-left text-neutral-400">
-              Explore our range of high-quality products designed to meet your
-              needs.
-            </p>
-          </header>
-
-          <ul className="grid grid-row-4 h-3/4 pt-8">
-            <h4 className="text-xl font-semibold row-span-1">Select Product</h4>
-            <div className="row-span-3 grid grid-row-4 gap-y-6">
-              {products.map((product, i) => (
-                <li
-                  key={product.id}
-                  className="w-full min-h-72 flex flex-col justify-center"
-                  onClick={() => setSelectedProduct(i)}
-                >
-                  <div
-                    className={`cursor-pointer relative h-64 w-full overflow-hidden rounded-lg ring-3 ring-stone-800 ${
-                      selectedProduct === i ? "ring-orange-500!" : ""
-                    } transition-all duration-300`}
-                  >
-                    <img
-                      className="object-cover h-full aspect-16/9 pb-18"
-                      src={product.image}
-                      alt={product.name}
-                    />
-                    <div className="absolute h-3/7 w-full bottom-0 bg-(--background) p-5">
-                      <h5 className="font-semibold text-xl">{product.name}</h5>
-                      <p className=" bg-text-sm text-neutral-500">
-                        {product.description}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              ))}
               <button
                 disabled={selectedProduct == null || selectedProduct == -1}
-                className={`flex items-center justify-center h-10 font-semibold tracking-wide w-full shadow ${
+                className={`inline-flex mt-4 items-center justify-center h-10 font-semibold tracking-wide w-full shadow ${
                   selectedProduct !== null && selectedProduct !== -1
                     ? "cursor-pointer bg-orange-600 text-white hover:bg-orange-500"
                     : "cursor-not-allowed bg-orange-600/30 text-white"
-                } p-3 rounded-md transition-colors duration-300`}
+                } rounded-md transition-colors duration-300`}
               >
                 Next &rarr;
               </button>
-            </div>
-          </ul>
+            </aside>
+          </div>
         </div>
       </section>
     </main>

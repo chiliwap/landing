@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import useSpline from "@splinetool/r3f-spline";
 import { useFrame } from "@react-three/fiber";
 import { OrbitControls, OrthographicCamera } from "@react-three/drei";
@@ -14,29 +14,56 @@ export default function Scene({
   currentState: number;
 }) {
   const houseRef = useRef<Group>(null);
+  // Discrete rotation presets (degrees)
+  const presets = useMemo(
+    () => [
+      { x: -5, y: 0, z: 5 }, // front
+      { x: -5, y: -30, z: 5 }, // front-right
+      { x: -5, y: 30, z: 5 }, // front-left
+      { x: -5, y: 90, z: 5 }, // left side
+      { x: -5, y: -90, z: 5 }, // right side
+      { x: -5, y: 180, z: 5 }, // back
+    ],
+    []
+  );
+  const targetRotation = useRef<{ x: number; y: number; z: number } | null>(
+    null
+  );
 
+  // Update target rotation when state changes (discrete preset switch)
   useEffect(() => {
+    const idx =
+      (((currentState ?? 0) % presets.length) + presets.length) %
+      presets.length;
+    const p = presets[idx] ?? presets[0];
+    const toRad = (deg: number) => (deg * Math.PI) / 180;
+    targetRotation.current = { x: toRad(p.x), y: toRad(p.y), z: toRad(p.z) };
+    // On first apply, if model exists and target is not set yet, snap to target to avoid drift
     if (houseRef.current) {
-      // Animate to new rotation state
-      const targetRotationY = (rotationState.rotateY * Math.PI) / 180;
-      const targetRotationX = (rotationState.rotateX * Math.PI) / 180;
-      const targetRotationZ = (rotationState.rotateZ * Math.PI) / 180;
-
-      // Smooth transition to new rotation
-      const animate = () => {
-        if (houseRef.current) {
-          houseRef.current.rotation.y +=
-            (targetRotationY - houseRef.current.rotation.y) * 0.1;
-          houseRef.current.rotation.x +=
-            (targetRotationX - houseRef.current.rotation.x) * 0.1;
-          houseRef.current.rotation.z +=
-            (targetRotationZ - houseRef.current.rotation.z) * 0.1;
-        }
-        requestAnimationFrame(animate);
-      };
-      animate();
+      if (
+        Math.abs(houseRef.current.rotation.x) < 1e-3 &&
+        Math.abs(houseRef.current.rotation.y) < 1e-3 &&
+        Math.abs(houseRef.current.rotation.z) < 1e-3
+      ) {
+        houseRef.current.rotation.set(
+          targetRotation.current.x,
+          targetRotation.current.y,
+          targetRotation.current.z
+        );
+      }
     }
-  }, [rotationState]);
+  }, [currentState, presets]);
+
+  // Smoothly ease the model towards the target rotation every frame
+  useFrame(() => {
+    if (!houseRef.current || !targetRotation.current) return;
+    const cur = houseRef.current.rotation;
+    const t = targetRotation.current;
+    const ease = 0.12; // smoothing factor
+    cur.x += (t.x - cur.x) * ease;
+    cur.y += (t.y - cur.y) * ease;
+    cur.z += (t.z - cur.z) * ease;
+  });
 
   const { nodes, materials } = useSpline(
     "https://prod.spline.design/VclDxkUtIXJcxYUs/scene.splinecode"

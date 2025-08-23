@@ -8,8 +8,8 @@ export default function Footer(props: {
   return (
     <>
       {props.variant === "small" ? (
-        <footer className="z-20 text-center text-sm text-neutral-500 px-4 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-2 max-w-6xl mx-auto">
+        <footer className="z-20 absolute bottom-0 left-0 w-full text-center text-sm text-neutral-500 px-4 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-2 mx-12">
             <p className="order-1 md:order-none">
               Imagine a home that protects itself.
             </p>
@@ -24,17 +24,16 @@ export default function Footer(props: {
             props.className ?? ""
           }`}
         >
-          <div className="rounded-b-[5rem] bg-(--background) h-24 w-full" />
+          <div className="md:rounded-b-[5rem] rounded-b-[3rem] bg-(--background) h-24 w-full" />
 
           {/* 4 columns layout */}
-          <div className="z-20 grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 max-w-6xl mx-auto mt-12 mb-24">
-            <div className="flex flex-col items-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 max-w-6xl mx-auto mt-12 mb-24">
+            <div className="md:flex md:flex-col place-content-center">
               <img
                 src="/logo.png"
                 alt="Chiliwap Logo"
                 className="size-20 mb-2"
               />
-              {/* <Newsletter /> */}
             </div>
 
             <div className="flex flex-col space-y-1 group">
@@ -103,7 +102,7 @@ export default function Footer(props: {
           </div>
 
           <div className="flex flex-col items-center justify-center mt-12">
-            <div className="hidden md:block">
+            <div className="-mb-10 hidden md:block">
               <Newsletter className="mb-4" />
               <h4 className="tracking-widest text-center logo-text text-6xl">
                 CHILIWAP

@@ -19,122 +19,216 @@ const articles = [
 ];
 
 export default function News() {
+  const sorted = [...articles].sort(
+    (a, b) => b.date.getTime() - a.date.getTime()
+  );
+  const isSmall = sorted.length <= 3;
+  const featured = sorted[0];
+  const rest = sorted.slice(1);
   return (
-    <main className="min-h-screen flex flex-col items-center justify-start px-32 pt-20">
+    <main className="min-h-screen text-white">
       <Nav />
 
-      <header className="z-20 text-center mb-8">
-        <h1 className="text-4xl logo-text">Latest News</h1>
-        <p className="text-lg">Stay tuned for updates!</p>
-      </header>
-
-      {/* Featured/Newest Article */}
-      <Link
-        href={articles[0].href}
-        className="group z-20 flex justify-between items-center mb-8 w-3/4 rounded-2xl border-2 border-stone-800 bg-stone-900/30 overflow-hidden"
-      >
-        <header className="px-12 py-8">
-          <h2 className="text-2xl flex items-center logo-text">
-            <span className="text-orange-600 text-base mr-4 font-normal">
-              NEW{" "}
-            </span>{" "}
-            {articles[0].title}
-          </h2>
-
-          <p className="text-neutral-200 font-semibold inline-flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-4 mr-2"
-            >
-              <path d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10ZM10 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10ZM14 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z" />
-              <path
-                fillRule="evenodd"
-                d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
-                clipRule="evenodd"
-              />
-            </svg>
-
-            {articles[0].date.toLocaleDateString("en-CA", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+      {/* Compact header */}
+      <section className="pt-20 md:pt-24">
+        <div className="max-w-7xl mx-auto px-4">
+          <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[11px] font-medium text-white/80">
+            News
+          </span>
+          <h1 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight">
+            News
+          </h1>
+          <p className="mt-2 text-white/60 max-w-2xl">
+            Product updates, company announcements, and perspectives.
           </p>
-        </header>
-
-        <img
-          src={articles[0].image}
-          alt={articles[0].title}
-          className="h-72 w-4/6 object-cover taper-left opacity-60 group-hover:opacity-100 transition-opacity duration-300"
-        />
-      </Link>
-
-      <section className="z-20 px-12 grid grid-cols-4 gap-8 w-full">
-        {articles.map((article, i) => {
-          if (i !== 0) {
-            return (
-              <Link
-                href={article.href}
-                key={i}
-                className="group relative h-64 mb-4 border-2 border-stone-900/65 hover:border-stone-900/40 bg-(--background)/60 hover:bg-(--background)/40 px-5 py-3 overflow-hidden rounded-xl transition-colors duration-400"
-              >
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="opacity-75 absolute top-0 left-0 -z-10 w-full h-full aspect-[4/3] object-cover"
-                />
-
-                <header className="relative z-30 w-full h-full">
-                  <h2 className="text-2xl logo-text">{article.title}</h2>
-                  <p className="text-neutral-200 font-semibold inline-flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="size-4 mr-2"
-                    >
-                      <path d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10ZM10 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10ZM14 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z" />
-                      <path
-                        fillRule="evenodd"
-                        d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-
-                    {article.date.toLocaleDateString("en-CA", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </p>
-
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="size-5 bottom-5 right-5 absolute group-hover:right-4 transition-all duration-300"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </header>
-              </Link>
-            );
-          }
-          return null;
-        })}
+        </div>
       </section>
+
+      {isSmall ? (
+        // Simple cards grid for small sets
+        <section className="mt-6 py-4">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {sorted.map((article, i) => (
+                <Link
+                  key={i}
+                  href={article.href}
+                  className="group rounded-xl border border-white/10 hover:border-white/20 transition-colors duration-300 overflow-hidden"
+                >
+                  <div className="relative h-44 md:h-48">
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <div className="text-xs text-white/60">
+                      {article.date.toLocaleDateString("en-CA", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </div>
+                    <h3 className="mt-1 text-lg md:text-xl font-medium tracking-tight group-hover:underline underline-offset-4 decoration-white/40">
+                      {article.title}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : (
+        <>
+          {/* Featured hero */}
+          <section className="mt-6">
+            <div className="max-w-7xl mx-auto px-4">
+              {featured && (
+                <Link
+                  href={featured.href}
+                  className="group relative block rounded-2xl overflow-hidden"
+                >
+                  <img
+                    src={featured.image}
+                    alt={featured.title}
+                    className="w-full h-[34vh] md:h-[40vh] object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                    <div className="flex items-center gap-2 text-xs text-white/80">
+                      <span className="inline-flex items-center rounded-full border border-white/20 bg-black/30 px-2 py-0.5">
+                        Featured
+                      </span>
+                      <span>
+                        {featured.date.toLocaleDateString("en-CA", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    <h2 className="mt-2 text-2xl md:text-4xl font-semibold tracking-tight">
+                      {featured.title}
+                    </h2>
+                  </div>
+                </Link>
+              )}
+            </div>
+          </section>
+
+          {/* Headlines list */}
+          <section className="py-10">
+            <div className="max-w-7xl mx-auto px-4">
+              {rest.length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                  {(() => {
+                    const mid = Math.ceil(rest.length / 2);
+                    const left = rest.slice(0, mid);
+                    const right = rest.slice(mid);
+                    return (
+                      <>
+                        <ol className="divide-y divide-white/10">
+                          {left.map((article, i) => (
+                            <li key={i} className="py-4">
+                              <Link href={article.href} className="group block">
+                                <div className="flex items-start gap-4">
+                                  <img
+                                    src={article.image}
+                                    alt={article.title}
+                                    className="hidden sm:block w-20 h-14 rounded object-cover border border-white/10"
+                                  />
+                                  <div className="min-w-0 flex-1">
+                                    <div className="text-xs text-white/60">
+                                      {article.date.toLocaleDateString(
+                                        "en-CA",
+                                        {
+                                          year: "numeric",
+                                          month: "long",
+                                          day: "numeric",
+                                        }
+                                      )}
+                                    </div>
+                                    <div className="mt-1 flex items-center gap-2">
+                                      <h3 className="text-base md:text-lg font-medium tracking-tight">
+                                        {article.title}
+                                      </h3>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        className="size-4 opacity-60 group-hover:opacity-100 transition-opacity"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z"
+                                          clipRule="evenodd"
+                                        />
+                                      </svg>
+                                    </div>
+                                  </div>
+                                </div>
+                              </Link>
+                            </li>
+                          ))}
+                        </ol>
+                        <ol className="divide-y divide-white/10">
+                          {right.map((article, i) => (
+                            <li key={i} className="py-4">
+                              <Link href={article.href} className="group block">
+                                <div className="flex items-start gap-4">
+                                  <img
+                                    src={article.image}
+                                    alt={article.title}
+                                    className="hidden sm:block w-20 h-14 rounded object-cover border border-white/10"
+                                  />
+                                  <div className="min-w-0 flex-1">
+                                    <div className="text-xs text-white/60">
+                                      {article.date.toLocaleDateString(
+                                        "en-CA",
+                                        {
+                                          year: "numeric",
+                                          month: "long",
+                                          day: "numeric",
+                                        }
+                                      )}
+                                    </div>
+                                    <div className="mt-1 flex items-center gap-2">
+                                      <h3 className="text-base md:text-lg font-medium tracking-tight">
+                                        {article.title}
+                                      </h3>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        className="size-4 opacity-60 group-hover:opacity-100 transition-opacity"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z"
+                                          clipRule="evenodd"
+                                        />
+                                      </svg>
+                                    </div>
+                                  </div>
+                                </div>
+                              </Link>
+                            </li>
+                          ))}
+                        </ol>
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
+          </section>
+        </>
+      )}
 
       <Gradient />
 
-      <div className="absolute bottom-0 w-full">
-        <Footer variant="small" />
-      </div>
+      <Footer variant="small" />
     </main>
   );
 }

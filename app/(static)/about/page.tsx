@@ -20,7 +20,7 @@ const stats = [
   {
     title: "Close Calls",
     number: 0,
-    unit: "0",
+    unit: "",
   },
 ];
 
@@ -233,7 +233,7 @@ export default function About() {
   );
 
   const svgRef = useRef<SVGSVGElement>(null);
-  const recieptRef = useRef<HTMLDivElement>(null);
+  // Limit drawing interaction to the Jackson card overlay only
 
   const startDrawing = (
     e: React.MouseEvent<SVGSVGElement | HTMLDivElement>
@@ -273,116 +273,146 @@ export default function About() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen text-white">
       <Nav />
 
-      {/* About Section */}
-      <div className="relative grid grid-cols-2 place-content-center w-full h-screen px-4">
+      {/* Hero */}
+      <section className="relative h-[72vh] md:h-[78vh] w-full overflow-hidden">
         <img
-          src="about-hero.jpg"
+          src="/about-hero.jpg"
           alt="About Chiliwap"
-          className="absolute w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-neutral-900/25"></div>
-        <div className="absolute inset-0 from-75% bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
-        <header className="z-20 flex flex-col items-center justify-center">
-          <h2 className="text-4xl mb-6 text-center logo-text">Our Mission</h2>
-          <p className="text-lg max-w-2xl text-center">
-            At Chiliwap, we are dedicated to providing innovative fire
-            protection solutions that ensure the safety and security of your
-            home. Our team is passionate about creating a safer environment for
-            families and communities.
-          </p>
-        </header>
+        {/* Veil and gradients */}
+        <div className="absolute inset-0 bg-neutral-950/40" />
+        <div className="absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_30%,rgba(255,255,255,0.08),rgba(255,255,255,0)_60%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[#0a0a0a]" />
+        {/* Hairline top/bottom */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        {/* Stats grid */}
-        <div className="z-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-          {stats.map((stat) => (
-            <div key={stat.title} className="p-6 flex flex-col items-center">
-              <div className="text-2xl mb-2 logo-text">
-                <Counter value={stat.number} /> {stat.unit}
-              </div>
-              <h3 className="text-lg logo-text">{stat.title}</h3>
-            </div>
-          ))}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto w-full px-4 text-center">
+            <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80 backdrop-blur">
+              About Chiliwap
+            </span>
+            <h1 className="mt-4 text-4xl md:text-6xl font-semibold tracking-tight">
+              Our mission
+            </h1>
+            <p className="mt-4 text-white/70 max-w-2xl mx-auto">
+              We build innovative wildfire protection solutions that keep homes
+              and families safer. Our team combines engineering and field
+              expertise to deliver reliable, real-world safety.
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
 
+      {/* Stats */}
+      <section className="relative -mt-16 md:-mt-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {stats.map((stat) => (
+              <div
+                key={stat.title}
+                className="relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6"
+              >
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                <div className="text-3xl font-semibold tracking-tight">
+                  {stat.number === 0 ? "0" : <Counter value={stat.number} />}
+                  <span className="ml-2 text-base text-white/70 align-super">
+                    {stat.unit}
+                  </span>
+                </div>
+                <div className="mt-2 text-white/70">{stat.title}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
       <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col items-center justify-self-center w-1/3 rounded-t-md pt-8">
-          <h3 className="text-3xl mb-6 logo-text">Our Team</h3>
-          <p className="text-lg text-center max-w-2xl">
-            Meet the dedicated professionals behind Chiliwap, committed to
-            delivering the best fire protection solutions for your home.
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
+            Our Team
+          </h2>
+          <p className="mt-3 text-white/70 max-w-2xl mx-auto">
+            Meet the people behind Chiliwap—builders, engineers, and operators
+            dedicated to home wildfire protection.
           </p>
-        </div>
 
-        {/* Team members grid */}
-        <div className="relative justify-self-center w-3/6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 place-content-center pt-4 pb-8 rounded-b-lg gap-y-8 gap-x-0">
-          {team.map((member, i) => (
-            <div
-              key={member.name}
-              ref={recieptRef}
-              onMouseDown={startDrawing}
-              onMouseMove={draw}
-              onMouseUp={endDrawing}
-              onMouseLeave={endDrawing}
-              className="flex flex-col items-center justify-center"
-            >
-              <div className="z-30 relative select-none pointer-events-none">
-                {member.name === "Jackson Doolittle" && (
-                  <svg
-                    ref={svgRef}
-                    width="100%"
-                    height="100%"
-                    onMouseDown={startDrawing}
-                    onMouseMove={draw}
-                    onMouseUp={endDrawing}
-                    style={{
-                      zIndex: 20,
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      pointerEvents: "none",
-                    }}
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {team.map((member) => {
+              return (
+                <div key={member.name} className="group relative text-center">
+                  <div
+                    className="relative mx-auto size-44"
+                    // onMouseDown={member.name === "Jackson Doolittle" ? startDrawing : undefined}
+                    // onMouseMove={member.name === "Jackson Doolittle" ? draw : undefined}
+                    // onMouseUp={member.name === "Jackson Doolittle" ? endDrawing : undefined}
+                    // onMouseLeave={member.name === "Jackson Doolittle" ? endDrawing : undefined}
                   >
-                    <g className="z-50">
-                      {lines.map((line, index) => (
-                        <polyline
-                          key={index}
-                          points={line
-                            .map((point) => `${point.x},${point.y}`)
-                            .join(" ")}
-                          fill="none"
-                          stroke="#ff0000"
-                          strokeWidth="2"
-                        />
-                      ))}
-                      <polyline
-                        points={currentLine
-                          .map((point) => `${point.x},${point.y}`)
-                          .join(" ")}
-                        fill="none"
-                        stroke="#ff0000"
-                        strokeWidth="2"
-                      />
-                    </g>
-                  </svg>
-                )}
+                    {/* User image */}
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="absolute inset-0 w-full h-full object-cover rounded-xl pointer-events-none"
+                    />
 
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="z-10 size-44 object-cover rounded-md mb-4"
-                />
+                    {/* Drawing overlay (used for temporary only) */}
+                    {/* {member.name === "Jackson Doolittle" && (
+                      <svg
+                        ref={svgRef}
+                        width="100%"
+                        height="100%"
+                        style={{
+                          zIndex: 20,
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          pointerEvents: "none",
+                        }}
+                      >
+                        <g>
+                          {lines.map((line, index) => (
+                            <polyline
+                              key={index}
+                              points={line
+                                .map((p) => `${p.x},${p.y}`)
+                                .join(" ")}
+                              fill="none"
+                              stroke="#ff0000"
+                              strokeWidth="2"
+                            />
+                          ))}
+                          <polyline
+                            points={currentLine
+                              .map((p) => `${p.x},${p.y}`)
+                              .join(" ")}
+                            fill="none"
+                            stroke="#ff0000"
+                            strokeWidth="2"
+                          />
+                        </g>
+                      </svg>
+                    )} */}
 
-                {member.drawing}
-              </div>
-              <h4 className="text-lg font-semibold">{member.name}</h4>
-              <p className="text-sm text-center">{member.role}</p>
-            </div>
-          ))}
+                    {/* Optional authored drawings */}
+                    {member.drawing}
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-lg font-semibold tracking-tight">
+                      {member.name}
+                    </h3>
+                    <p className="text-sm text-white/70">{member.role}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 

@@ -4,109 +4,169 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-const pricingTiers = [
+type TierFeatures = {
+  sprinklersSystem?: string; // description of sprinklers/system
+  radius?: string; // coverage radius / area
+  activation?: string; // activation type
+  zones?: string; // zone control details
+  soakerSpacing?: string | boolean; // spacing for under-soffit sprinklers
+  watermainTieIn: boolean;
+  trainingBinder: boolean;
+  firesmartInspection: boolean;
+  permitting: boolean;
+  storage?: string | boolean; // storage capacity description
+  pumpBackup?: string | boolean; // pump / backup
+  dischargePurify?: string | boolean; // purification/discharge
+  irrigation?: boolean; // lawn and landscape irrigation
+  generatorBackup?: boolean; // generator backup power
+  downpipeReroute?: boolean; // rerouting downpipes to tank
+  secondarySupply?: boolean; // secondary supply connection
+  warranty: string; // warranty text
+};
+
+type Tier = {
+  id: string;
+  name: string;
+  description: string;
+  popular?: boolean;
+  price: string; // e.g. "$5,100" or "Call for price"
+  bullets: string[]; // short highlights for card view
+  features: TierFeatures;
+  cta?: string;
+};
+
+const pricingTiers: Tier[] = [
   {
-    id: "basic",
-    name: "Basic Protection",
-    price: "$2,499",
-    period: "from",
-    description:
-      "Essential fire protection for small properties and residential homes",
-    popular: false,
+    id: "impact",
+    name: "Basic",
+    description: "High-range impact sprinklers",
+    price: "$5,100",
+    bullets: [
+      "2 brass impact sprinklers",
+      "Up to 15.25 m radius",
+      "Timer activation",
+      "2-zone control",
+    ],
     features: {
-      coverage: "Up to 1,000 sq ft",
-      sprinklers: "4-6 sprinkler heads",
-      installation: true,
-      maintenance: "Annual inspection",
-      emergency: false,
-      monitoring: false,
-      compliance: "Basic reporting",
-      warranty: "2 years",
-      support: "Business hours",
-      customization: false,
-      priority: false,
+      sprinklersSystem: "2 high-range brass impact sprinklers",
+      radius: "Up to 15.25 m radius (depends on pressure)",
+      activation: "Easy set timer activation",
+      zones: "2-zone control",
+      soakerSpacing: false,
+      watermainTieIn: false,
+      trainingBinder: false,
+      firesmartInspection: false,
+      permitting: false,
+      storage: false,
+      pumpBackup: false,
+      dischargePurify: false,
+      irrigation: false,
+      generatorBackup: false,
+      downpipeReroute: false,
+      secondarySupply: false,
+      warranty: "—",
     },
-    buttonText: "Get Started",
-    buttonStyle:
-      "border border-gray-600 text-white hover:border-gray-500 hover:bg-gray-800/50",
+    cta: "Request estimate",
   },
   {
-    id: "professional",
-    name: "Professional",
-    price: "$4,999",
-    period: "from",
-    description:
-      "Comprehensive protection for commercial properties and larger homes",
+    id: "soaking",
+    name: "Home",
+    description: "Whole-home soaking system",
+    price: "$15,000",
     popular: true,
+    bullets: [
+      "Remote activation (internet + satellite)",
+      "Heads every 3 m with overlap",
+      "Watermain tie-in",
+      "3-year warranty",
+    ],
     features: {
-      coverage: "Up to 5,000 sq ft",
-      sprinklers: "12-20 sprinkler heads",
-      installation: true,
-      maintenance: "Bi-annual inspection",
-      emergency: true,
-      monitoring: "24/7 monitoring",
-      compliance: "Full compliance reporting",
-      warranty: "5 years",
-      support: "24/7 support",
-      customization: true,
-      priority: true,
+      sprinklersSystem: "Under-soffit soaking system",
+      radius: "10 m+ surrounding area",
+      activation: "Remote via internet & satellite",
+      zones: "Multi-zone under-soffit",
+      soakerSpacing: "Sprinkler heads every 3 m with overlap",
+      watermainTieIn: true,
+      trainingBinder: true,
+      firesmartInspection: true,
+      permitting: true,
+      storage: false,
+      pumpBackup: false,
+      dischargePurify: false,
+      irrigation: false,
+      generatorBackup: false,
+      downpipeReroute: false,
+      secondarySupply: false,
+      warranty: "3 Year",
     },
-    buttonText: "Most Popular",
-    buttonStyle:
-      "bg-gradient-to-r from-orange-500 to-red-600 text-white hover:from-orange-600 hover:to-red-700",
+    cta: "Book installation",
   },
   {
-    id: "enterprise",
-    name: "Enterprise",
-    price: "Custom",
-    period: "contact us",
-    description:
-      "Advanced solutions for large commercial facilities and industrial complexes",
-    popular: false,
+    id: "prepared",
+    name: "Commercial",
+    description: "Advanced storage and power",
+    price: "$25,800",
+    bullets: [
+      "3,785 L storage tank (optional 9,500 L in-ground)",
+      "SmartPump + battery backup",
+      "SmartWater discharge",
+      "Irrigation & generator backup",
+      "4-year warranty",
+    ],
     features: {
-      coverage: "Unlimited coverage",
-      sprinklers: "Unlimited sprinklers",
-      installation: true,
-      maintenance: "Quarterly inspection",
-      emergency: true,
-      monitoring: "Advanced monitoring",
-      compliance: "Premium compliance suite",
-      warranty: "10 years",
-      support: "Dedicated support team",
-      customization: true,
-      priority: true,
+      sprinklersSystem: "Home Soaking System + storage",
+      radius: "10 m+ surrounding area",
+      activation: "Remote via internet & satellite",
+      zones: "Multi-zone under-soffit",
+      soakerSpacing: "Sprinkler heads every 3 m with overlap",
+      watermainTieIn: true,
+      trainingBinder: true,
+      firesmartInspection: true,
+      permitting: true,
+      storage: "3,785 L above-ground tank (std) or 9,500 L in-ground optional",
+      pumpBackup: "SmartPump with battery backup",
+      dischargePurify: "SmartWater discharge to purify and slow release",
+      irrigation: true,
+      generatorBackup: true,
+      downpipeReroute: true,
+      secondarySupply: true,
+      warranty: "4 Year",
     },
-    buttonText: "Contact Sales",
-    buttonStyle:
-      "border border-gray-600 text-white hover:border-gray-500 hover:bg-gray-800/50",
+    cta: "Talk to team",
   },
 ];
 
 const featureCategories = [
   {
-    name: "Coverage & Installation",
+    name: "System & Coverage",
     features: [
-      { key: "coverage", label: "Coverage Area" },
-      { key: "sprinklers", label: "Sprinkler Heads Included" },
-      { key: "installation", label: "Professional Installation" },
-      { key: "customization", label: "Custom System Design" },
+      { key: "sprinklersSystem", label: "Sprinklers / System" },
+      { key: "radius", label: "Coverage / Radius" },
+      { key: "activation", label: "Activation" },
+      { key: "zones", label: "Zones" },
     ],
   },
   {
-    name: "Maintenance & Support",
+    name: "Soaking & Setup",
     features: [
-      { key: "maintenance", label: "Maintenance Schedule" },
-      { key: "emergency", label: "Emergency Response" },
-      { key: "support", label: "Customer Support" },
-      { key: "priority", label: "Priority Service" },
+      { key: "soakerSpacing", label: "Sprinkler spacing" },
+      { key: "watermainTieIn", label: "Watermain tie-in" },
+      { key: "trainingBinder", label: "Operation binder & demos" },
+      { key: "firesmartInspection", label: "FireSmart inspection" },
+      { key: "permitting", label: "Permitting included" },
     ],
   },
   {
-    name: "Monitoring & Compliance",
+    name: "Storage & Power",
     features: [
-      { key: "monitoring", label: "System Monitoring" },
-      { key: "compliance", label: "Compliance Reporting" },
-      { key: "warranty", label: "Warranty Coverage" },
+      { key: "storage", label: "Rainwater storage" },
+      { key: "pumpBackup", label: "Pump & backup" },
+      { key: "dischargePurify", label: "Water purification/discharge" },
+      { key: "irrigation", label: "Lawn & landscape irrigation" },
+      { key: "generatorBackup", label: "Generator backup" },
+      { key: "downpipeReroute", label: "Re-route downpipes" },
+      { key: "secondarySupply", label: "Secondary supply to home" },
+      { key: "warranty", label: "Warranty" },
     ],
   },
 ];
@@ -114,7 +174,7 @@ const featureCategories = [
 function CheckIcon() {
   return (
     <svg
-      className="w-5 h-5 text-green-500 justify-self-center"
+      className="w-4 h-4 text-emerald-400 justify-self-center"
       fill="currentColor"
       viewBox="0 0 20 20"
     >
@@ -130,7 +190,7 @@ function CheckIcon() {
 function XIcon() {
   return (
     <svg
-      className="w-5 h-5 text-gray-500 justify-self-center"
+      className="w-4 h-4 text-neutral-600 justify-self-center"
       fill="currentColor"
       viewBox="0 0 20 20"
     >
@@ -164,131 +224,92 @@ export default function Pricing() {
           transition={{ duration: 0.6, ease: [0.48, 0.15, 0.25, 0.96] }}
           className="text-center mb-16"
         >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-block px-4 py-2 bg-gradient-to-r from-green-500/20 to-blue-600/20 text-green-300 text-sm font-medium rounded-full mb-4 border border-green-500/30"
-          >
-            Pricing Plans
-          </motion.span>
-
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
-            Choose Your
-            <br />
-            <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-              Protection Plan
-            </span>
+          <h2 className="text-4xl md:text-6xl font-semibold mb-3 tracking-tight">
+            Pricing
           </h2>
-
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Select the fire protection plan that best fits your property size
-            and safety requirements. All plans include professional installation
-            and ongoing support.
+          <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
+            Wildfire protection systems tailored to your property and risk.
           </p>
         </motion.div>
 
-        {/* Pricing Cards */}
-        <div
-          id="pricing"
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16"
-        >
-          {pricingTiers.map((tier, index) => (
-            <Link href={`/pricing/${tier.id}`} key={tier.id}>
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  delay: index * 0.1,
-                  duration: 0.6,
-                  ease: [0.48, 0.15, 0.25, 0.96],
-                }}
-                onMouseEnter={() => setHoveredTier(tier.id)}
-                onMouseLeave={() => setHoveredTier(null)}
-                className={`relative group bg-neutral-900/30 backdrop-blur-sm border rounded-2xl p-8 transition-all duration-500 ${
-                  tier.popular
-                    ? "border-orange-500/50 bg-gradient-to-b from-orange-500/5 to-red-600/5 scale-105 shadow-orange-500 shadow-2xl"
-                    : "border-neutral-800 hover:border-neutral-600"
-                }`}
+        {/* Pricing Cards - Sleek glass panels */}
+        <div id="pricing" className="relative mb-16">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {pricingTiers.map((tier, index) => (
+              <Link
+                href={`/pricing/${tier.id}`}
+                key={tier.id}
+                className="block"
               >
-                {/* Popular Badge */}
-                {tier.popular && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
-                    className="absolute -top-4 left-1/2 transform -translate-x-1/2"
-                  >
-                    <span className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                      Most Popular
-                    </span>
-                  </motion.div>
-                )}
-
-                {/* Header */}
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold mb-2">{tier.name}</h3>
-                  <div className="mb-4">
-                    {tier.price !== "Custom" && (
-                      <span className="text-gray-400 -ml-4">{tier.period}</span>
-                    )}
-                    <span className="text-4xl font-bold"> {tier.price}</span>
-                  </div>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    {tier.description}
-                  </p>
-                </div>
-
-                {/* CTA Button */}
-                <motion.button
-                  className={`w-full py-4 px-6 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-600 transition-all duration-300 mb-8 ${tier.buttonStyle}`}
-                  whileHover={{ scale: 1.02, y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {tier.buttonText}
-                </motion.button>
-
-                {/* Key Features Preview */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Coverage:</span>
-                    <span className="text-white font-medium">
-                      {tier.features.coverage}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Sprinklers:</span>
-                    <span className="text-white font-medium">
-                      {tier.features.sprinklers}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Warranty:</span>
-                    <span className="text-white font-medium">
-                      {tier.features.warranty}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Hover Effect */}
                 <motion.div
-                  className="absolute z-10 inset-0 rounded-2xl bg-gradient-to-b from-orange-600/5 to-(--background)/5 opacity-0 transition-opacity duration-500"
-                  animate={{
-                    opacity: hoveredTier === tier.id ? 1 : 0,
-                  }}
-                />
-              </motion.div>
-            </Link>
-          ))}
-        </div>
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.08, duration: 0.55 }}
+                  onMouseEnter={() => setHoveredTier(tier.id)}
+                  onMouseLeave={() => setHoveredTier(null)}
+                  className={`relative h-full overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/20 p-6 backdrop-blur-md transition-all duration-300 [box-shadow:inset_0_1px_0_rgba(255,255,255,0.06)] ${
+                    tier.popular ? "lg:scale-[1.02]" : ""
+                  }`}
+                >
+                  {/* Glow */}
+                  <div
+                    className={`pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 ${
+                      tier.popular
+                        ? "bg-[radial-gradient(600px_200px_at_50%_-20%,rgba(255,115,0,0.25),transparent)]"
+                        : "bg-[radial-gradient(500px_160px_at_50%_-20%,rgba(255,255,255,0.15),transparent)]"
+                    } ${hoveredTier === tier.id ? "opacity-100" : "opacity-60"}`}
+                  />
 
+                  {/* Header */}
+                  <div className="relative z-10 mb-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold">{tier.name}</h3>
+                      <p className="mt-1 text-sm text-neutral-400">
+                        {tier.description}
+                      </p>
+                    </div>
+                    {tier.popular && (
+                      <span className="rounded-full bg-white/10 px-2 py-1 text-[10px] font-medium text-white/90 ring-1 ring-white/15">
+                        POPULAR
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Price */}
+                  <div className="relative z-10 mb-5">
+                    <span className="text-neutral-500 text-lg mr-2">from</span>
+                    <span className="text-4xl font-semibold leading-none">
+                      {tier.price}
+                    </span>
+                  </div>
+
+                  {/* CTA */}
+                  <button
+                    className="relative z-10 mb-5 w-full rounded-xl bg-white px-4 py-3 text-sm font-semibold text-black transition-transform hover:scale-[1.01] active:scale-95"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    {tier.cta ?? "Request estimate"}
+                  </button>
+
+                  {/* Features */}
+                  <ul className="relative z-10 space-y-2 text-sm">
+                    {tier.bullets.map((line, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <CheckIcon />
+                        <span className="text-neutral-300">{line}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+        </div>
         {/* Mobile: Plan Tabs + 2-col feature list */}
         <div className="md:hidden">
           {/* Tabs under nav: sticky so it stays visible */}
-          <div className="sticky top-16 z-10 -mx-6 px-6 pb-3 bg-[color:var(--background)]/80 backdrop-blur supports-[backdrop-filter]:bg-[color:var(--background)]/60">
+          <div className="sticky top-18 z-10 -mx-6 px-6 py-3 bg-[color:var(--background)]/80 backdrop-blur supports-[backdrop-filter]:bg-[color:var(--background)]/60">
             <div className="flex gap-2 overflow-x-auto no-scrollbar">
               {pricingTiers.map((tier) => {
                 const active = tier.id === selectedPlanId;
@@ -310,7 +331,7 @@ export default function Pricing() {
             </div>
           </div>
 
-          {/* Sleek minimal 2-col table */}
+          {/* 2-col table for selected plan */}
           <div className="mt-4 bg-neutral-900/40 border border-neutral-800 rounded-xl overflow-hidden">
             {featureCategories.map((category) => (
               <div key={category.name}>
@@ -343,7 +364,7 @@ export default function Pricing() {
                             )
                           ) : (
                             <span className="text-sm text-white">
-                              {value as string}
+                              {(value as string) || "—"}
                             </span>
                           )}
                         </span>
@@ -357,29 +378,31 @@ export default function Pricing() {
         </div>
 
         {/* Desktop/Tablet: Feature Comparison Table */}
-        <div className="hidden md:block overflow-x-auto -mx-6 px-6">
+        <div className="hidden md:block overflow-x-auto -mx-6 px-6 overflow-hidden">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{
-              delay: 0.4,
+              delay: 0.2,
               duration: 0.6,
               ease: [0.48, 0.15, 0.25, 0.96],
             }}
-            className="min-w-[900px] bg-neutral-900/30 backdrop-blur-sm border border-neutral-800 rounded-2xl overflow-hidden"
+            className="min-w-[900px] bg-neutral-950/40 border border-neutral-800 rounded-2xl overflow-hidden"
           >
             {/* Table Header */}
-            <div className="grid grid-cols-4 gap-4 p-6 border-b border-neutral-800 bg-neutral-900/50">
-              <div className="text-lg font-semibold text-gray-300">
+            <div className="grid grid-cols-[1.5fr_1fr_1fr_1fr] px-6 py-4 border-b border-neutral-800 bg-neutral-950/60">
+              <div className="text-sm md:text-base font-medium text-neutral-300">
                 Features
               </div>
               {pricingTiers.map((tier) => (
                 <div key={tier.id} className="text-center">
-                  <div className="text-lg font-semibold text-white">
+                  <div className="text-sm md:text-base font-semibold text-white">
                     {tier.name}
                   </div>
-                  <div className="text-sm text-gray-400 mt-1">{tier.price}</div>
+                  <div className="text-xs md:text-sm text-neutral-400 mt-1">
+                    {tier.price}
+                  </div>
                 </div>
               ))}
             </div>
@@ -393,7 +416,7 @@ export default function Pricing() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: categoryIndex * 0.1, duration: 0.5 }}
-                  className="px-6 py-4 bg-neutral-800/30 border-b border-neutral-800"
+                  className="px-6 py-4 bg-neutral-900/40 border-b border-neutral-800"
                 >
                   <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
                     {category.name}
@@ -411,40 +434,51 @@ export default function Pricing() {
                       delay: categoryIndex * 0.1 + featureIndex * 0.05,
                       duration: 0.5,
                     }}
-                    className="grid grid-cols-4 gap-4 p-6 border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors"
+                    className="grid grid-cols-[1.5fr_1fr_1fr_1fr] items-center px-6 py-3 border-b border-neutral-800/60 hover:bg-neutral-900/30 transition-colors"
                   >
-                    <div className="text-gray-300 font-medium">
+                    <div className="text-neutral-300 text-sm">
                       {feature.label}
                     </div>
-                    {pricingTiers.map((tier) => (
-                      <div key={tier.id} className="text-center">
-                        {typeof tier.features[
+                    {pricingTiers.map((tier) => {
+                      const value =
+                        tier.features[
                           feature.key as keyof typeof tier.features
-                        ] === "boolean" ? (
-                          tier.features[
-                            feature.key as keyof typeof tier.features
-                          ] ? (
-                            <CheckIcon />
+                        ];
+                      const isBool = typeof value === "boolean";
+                      return (
+                        <div key={tier.id} className="text-center">
+                          {isBool ? (
+                            value ? (
+                              <CheckIcon />
+                            ) : (
+                              <XIcon />
+                            )
                           ) : (
-                            <XIcon />
-                          )
-                        ) : (
-                          <span className="text-white text-sm">
-                            {
-                              tier.features[
-                                feature.key as keyof typeof tier.features
-                              ] as string
-                            }
-                          </span>
-                        )}
-                      </div>
-                    ))}
+                            <span className="text-white text-sm">
+                              {(value as string) || "—"}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </motion.div>
                 ))}
               </div>
             ))}
           </motion.div>
         </div>
+        {/* Short note about estimates */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="mx-auto max-w-3xl text-center text-neutral-400"
+        >
+          <p className="text-xs md:text-sm mt-2">
+            Estimates for ~2000 sq ft homes; final pricing varies by site.
+          </p>
+        </motion.div>
 
         {/* Bottom CTA */}
         <motion.div
@@ -458,29 +492,27 @@ export default function Pricing() {
           }}
           className="text-center mt-16"
         >
-          <p className="text-gray-400 mb-8 text-lg">
+          <p className="text-neutral-400 mb-8">
             Need a custom solution? Our team can design a fire protection system
             tailored to your specific requirements.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.a
+            <Link
               href="/consultation"
-              className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3 rounded-lg bg-white text-black text-sm font-semibold hover:bg-white/90 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/30"
+              aria-label="Schedule a free consultation"
             >
               Schedule Free Consultation
-            </motion.a>
+            </Link>
 
-            <motion.a
+            <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 border border-gray-600 text-white font-semibold rounded-xl hover:border-gray-500 hover:bg-gray-800/50 transition-all duration-300"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3 rounded-lg bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/25"
+              aria-label="Contact our sales team"
             >
               Contact Sales Team
-            </motion.a>
+            </Link>
           </div>
         </motion.div>
       </div>

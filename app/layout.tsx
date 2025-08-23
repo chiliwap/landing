@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${specialGothicExpandedOne.variable} antialiased`}
+        className={`${inter.className} ${specialGothicExpandedOne.variable} antialiased min-h-screen relative`}
       >
         {children}
       </body>
