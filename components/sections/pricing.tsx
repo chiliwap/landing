@@ -507,7 +507,7 @@ export default function Pricing() {
             </Link>
 
             <Link
-              href="/contact"
+              href="mailto:info@chiliwap.ca"
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3 rounded-lg bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/25"
               aria-label="Contact our sales team"
             >
