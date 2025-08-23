@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useMotionValueEvent, useSpring } from "motion/react";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type Point = { x: number; y: number; v: number };
@@ -99,10 +100,10 @@ export default function Features() {
     const el = svgRef.current;
     if (!el) return;
     // Map client coordinates to SVG viewBox space using inverse screen CTM
-    const pt = (el as any).createSVGPoint();
+    const pt = el.createSVGPoint();
     pt.x = e.clientX;
     pt.y = e.clientY;
-    const screenCTM = (el as any).getScreenCTM?.();
+    const screenCTM = el.getScreenCTM?.();
     if (!screenCTM) return;
     const inv = screenCTM.inverse();
     const svgP = pt.matrixTransform(inv);
@@ -168,7 +169,7 @@ export default function Features() {
     const approxW = 72; // px in viewBox units (viewBox is px-like here)
     const approxH = 24;
     // Keep tooltip centered on the guide horizontally so it "sticks" to it.
-    let x = hoverPoint.x - approxW / 2;
+    const x = hoverPoint.x - approxW / 2;
     // Prefer above the point; if too close to top margin, place below.
     let y = hoverPoint.y - approxH - 8;
     if (y < M) y = hoverPoint.y + 12;
@@ -450,12 +451,12 @@ export default function Features() {
               — Homeowner, West Kelowna
             </div>
           </div>
-          <a
+          <Link
             href="/consultation"
             className="inline-flex items-center justify-center rounded-lg border border-white/15 text-white px-4 py-2 text-sm hover:border-white/25 hover:bg-white/5 transition-colors"
           >
             Talk to an expert
-          </a>
+          </Link>
         </div>
       </div>
     </section>
