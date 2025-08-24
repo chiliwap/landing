@@ -7,7 +7,6 @@ import {
   useScroll,
   useTransform,
   useMotionValueEvent,
-  useMotionValue,
 } from "motion/react";
 import { useRef, useState } from "react";
 
@@ -15,6 +14,8 @@ import { useRef, useState } from "react";
 const ThreeCanvasWrapper = dynamic(
   () => import("@/components/3d/three-canvas-wrapper"),
   {
+    // Ensure this only renders on the client. Safari can choke on SSR + WebGL hydration.
+    ssr: false,
     loading: () => (
       <div className="w-full h-[400px] rounded-2xl flex items-center justify-center">
         <div className="text-white">Loading 3D Scene...</div>
@@ -55,7 +56,6 @@ const rotationStates = [
 export default function Interactive() {
   const ref = useRef(null);
   const [currentState, setCurrentState] = useState(0);
-  const mobileScroll = useMotionValue(0);
 
   // Track scroll progress within this section
   const { scrollYProgress } = useScroll({
@@ -109,7 +109,6 @@ export default function Interactive() {
         </h2>
         <div className="w-full max-w-md mx-auto">
           <ThreeCanvasWrapper
-            scrollProgress={mobileScroll}
             rotationState={{ rotateX: 0, rotateY: 0, rotateZ: 0 }}
             currentState={0}
           />
@@ -130,11 +129,11 @@ export default function Interactive() {
         className="hidden lg:block text-white min-h-[500vh] relative"
       >
         {/* Sticky container */}
-        <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+        <div className="sticky top-0 h-screen flex items-center justify-center">
           <div className="max-w-7xl mx-auto w-full relative h-full">
             {/* Main Title - Persists and moves from center to left */}
             <motion.div
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-[transform]"
               style={{
                 x: titleX,
                 y: titleY,
@@ -148,14 +147,13 @@ export default function Interactive() {
 
             {/* 3D Model - Persists and moves from center to right */}
             <motion.div
-              className="absolute w-full max-w-md h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="absolute w-full max-w-md h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-[transform] [backface-visibility:hidden]"
               style={{
                 x: modelX,
                 y: modelY,
               }}
             >
               <ThreeCanvasWrapper
-                scrollProgress={scrollYProgress}
                 rotationState={currentRotation}
                 currentState={currentState}
               />
@@ -163,7 +161,7 @@ export default function Interactive() {
 
             {/* Additional Content - Fades in after layout transition */}
             <motion.div
-              className="absolute left-0 top-1/2 max-w-full pl-6"
+              className="absolute left-0 top-1/2 max-w-full pl-6 transform-gpu will-change-[transform]"
               style={{
                 opacity: contentOpacity,
                 y: contentY,
