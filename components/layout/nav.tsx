@@ -1,12 +1,22 @@
 "use client";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Nav(props: { className?: string }) {
+  // Start as non-sticky on server and during hydration to avoid mismatches; sync after mount.
   const [stickyNav, setStickyNav] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+
+  // Keep sticky state in sync with scroll position (also fixes refresh-in-middle-of-page)
+  useEffect(() => {
+    const onScroll = () => setStickyNav(window.scrollY > 0);
+    // Set once on mount in case initial state was incorrect (defensive)
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const navigationItems = [
     {
