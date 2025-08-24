@@ -38,7 +38,7 @@ type Tier = {
 const pricingTiers: Tier[] = [
   {
     id: "impact",
-    name: "Basic",
+    name: "Barebones",
     description: "High-range impact sprinklers",
     price: "$5,100",
     bullets: [
@@ -236,12 +236,7 @@ export default function Pricing() {
         <div id="pricing" className="relative mb-16">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
             {pricingTiers.map((tier, index) => (
-              <Link
-                // href={`/pricing/${tier.id}`}
-                href="mailto:info@chiliwap.ca" // TODO: replace with contact form OR stripe checkout OR Virtual Consultation to checkout page
-                key={tier.id}
-                className="block"
-              >
+              <div key={tier.id} className="block cursor-default">
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -286,12 +281,14 @@ export default function Pricing() {
                   </div>
 
                   {/* CTA */}
-                  <button
-                    className="relative z-10 mb-5 w-full rounded-xl bg-white px-4 py-3 text-sm font-semibold text-black transition-transform hover:scale-[1.01] active:scale-95"
-                    onClick={(e) => e.preventDefault()}
+                  <Link
+                    // href={`/pricing/${tier.id}`}
+                    href="mailto:info@chiliwap.ca" // TODO: replace with contact form OR stripe checkout OR Virtual Consultation to checkout page
+                    className="block text-center z-10 mb-5 w-full rounded-xl bg-white px-4 py-3 text-sm font-semibold text-black transition-transform hover:scale-[1.01] active:scale-95"
+                    // onClick={(e) => e.preventDefault()}
                   >
                     {tier.cta ?? "Request estimate"}
-                  </button>
+                  </Link>
 
                   {/* Features */}
                   <ul className="relative z-10 space-y-2 text-sm">
@@ -303,7 +300,7 @@ export default function Pricing() {
                     ))}
                   </ul>
                 </motion.div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
