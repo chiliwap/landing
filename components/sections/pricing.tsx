@@ -237,7 +237,8 @@ export default function Pricing() {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
             {pricingTiers.map((tier, index) => (
               <Link
-                href={`/pricing/${tier.id}`}
+                // href={`/pricing/${tier.id}`}
+                href="mailto:info@chiliwap.ca" // TODO: replace with contact form OR stripe checkout OR Virtual Consultation to checkout page
                 key={tier.id}
                 className="block"
               >
