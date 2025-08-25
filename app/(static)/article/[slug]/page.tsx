@@ -1,4 +1,4 @@
-import Renderer from "@/content/mdx-render";
+import Renderer from "@/markdown/mdx-render";
 
 export default async function Article({
   params,

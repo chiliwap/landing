@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Newsletter from "../forms/newsletter";
+import Newsletter from "@/components/forms/newsletter";
 
 import { useState, useEffect } from "react";
 

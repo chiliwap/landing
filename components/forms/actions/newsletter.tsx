@@ -2,7 +2,7 @@
 
 import Plunk from "@plunk/node";
 import { render } from "@react-email/render";
-import Welcome from "../../emails/welcome";
+import Welcome from "../../mail/welcome";
 
 export async function subscribe(formData: FormData) {
   const email = formData.get("email");

@@ -19,6 +19,8 @@
     "@splinetool/loader": "^1.0.54",
     "@splinetool/r3f-spline": "^1.0.2",
     "@types/mdx": "^2.0.13",
+    "@upstash/ratelimit": "^2.0.6",
+    "@upstash/redis": "^1.35.3",
     "motion": "^12.23.6",
     "next": "15.4.1",
     "react": "19.1.0",

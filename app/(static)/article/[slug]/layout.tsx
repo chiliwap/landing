@@ -1,6 +1,6 @@
 import Footer from "@/components/layout/footer";
-import Gradient from "@/components/ui/mouse-gradient";
 import Nav from "@/components/layout/nav";
+import Gradient from "@/components/ui/mouse-gradient";
 
 export default function ArticleLayout(props: { children: React.ReactNode }) {
   return (

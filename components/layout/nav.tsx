@@ -413,6 +413,26 @@ export default function Nav(props: { className?: string }) {
           <div className="hidden sm:flex space-x-4 text-xs font-bold">
             <Link
               className="hover:text-gray-300 transition-colors duration-350"
+              href="/contact"
+              title="Contact"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+            </Link>
+            <Link
+              className="hover:text-gray-300 transition-colors duration-350"
               href="/news"
               title="News"
             >
@@ -695,6 +715,12 @@ export default function Nav(props: { className?: string }) {
                     Schedule a consultation
                   </Link>
                   <Link
+                    href="/contact"
+                    className="text-sm font-medium text-white/80 hover:text-white px-2 py-1 transition-colors duration-300"
+                  >
+                    Contact
+                  </Link>
+                  <Link
                     href="/support"
                     className="text-sm font-medium text-white/80 hover:text-white px-2 py-1 transition-colors duration-300"
                   >
@@ -777,6 +803,20 @@ export default function Nav(props: { className?: string }) {
                     ))}
                     <div className="my-2 h-px bg-white/10 taper-edges-sm" />
                     <div className="grid grid-cols-3 gap-2 text-sm">
+                      <Link
+                        href="/contact"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-2 rounded-md text-white/80 hover:bg-white/10 text-center"
+                      >
+                        Contact
+                      </Link>
+                      <Link
+                        href="/contact"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-2 rounded-md text-white/80 hover:bg-white/10 text-center"
+                      >
+                        Contact
+                      </Link>
                       <Link
                         href="/news"
                         onClick={() => setMobileOpen(false)}
