@@ -77,7 +77,7 @@ export default function Footer(props: {
 							</Link>
 							<Link
 								className="text-stone-400 group-hover:text-stone-300 hover:text-stone-500 transition-colors duration-200"
-								href="/careers"
+								href="mailto:info@chiliwap.ca"
 							>
 								Careers
 							</Link>
