@@ -25,8 +25,9 @@ if (
     process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
 ) {
     // Lazy import to avoid adding dependency weight if not configured
-    const { Ratelimit } = require("@upstash/ratelimit");
-    const { Redis } = require("@upstash/redis");
+    // Use dynamic import for ESM compatibility and to avoid require()
+    const { Ratelimit } = await import("@upstash/ratelimit");
+    const { Redis } = await import("@upstash/redis");
 
     const redis = new Redis({
         url: process.env.UPSTASH_REDIS_REST_URL,
@@ -50,10 +51,15 @@ if (
     };
 } else {
     // In-memory sliding-window limiter (dev only). Persist across hot reloads via globalThis
-    const globalStore: Map<string, number[]> = (globalThis as any).__rl_store ||
+    // Use a custom type for globalThis to avoid 'any'
+    interface RLGlobalThis {
+        __rl_store?: Map<string, number[]>;
+    }
+    const gt = globalThis as RLGlobalThis;
+    const globalStore: Map<string, number[]> = gt.__rl_store ||
         new Map<string, number[]>();
-    if (!(globalThis as any).__rl_store) {
-        (globalThis as any).__rl_store = globalStore;
+    if (!gt.__rl_store) {
+        gt.__rl_store = globalStore;
     }
 
     checkRateLimit = async (
