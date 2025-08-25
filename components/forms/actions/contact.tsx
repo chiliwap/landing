@@ -21,16 +21,20 @@ export async function submitContact(
 			return { ok: true };
 		}
 
-		const name = (formData.get("name") || "").toString().trim();
+		const firstName = (formData.get("firstName") || "").toString().trim();
+		const lastName = (formData.get("lastName") || "").toString().trim();
+		const name = `${firstName} ${lastName}`.trim();
 		const email = (formData.get("email") || "").toString().trim();
 		const phone = (formData.get("phone") || "").toString().trim();
 		const subject = (formData.get("subject") || "").toString().trim();
 		const message = (formData.get("message") || "").toString().trim();
 
-		if (!name || !email || !message) {
+		const selectedTier = (formData.get("selectedTier") || "").toString().trim();
+
+		if (!firstName || !lastName || !email || !message) {
 			return {
 				ok: false,
-				error: "Please provide your name, email, and a message.",
+				error: "Please provide your first and last name, email, and a message.",
 			};
 		}
 
@@ -40,14 +44,14 @@ export async function submitContact(
 			return { ok: false, error: "Please provide a valid email address." };
 		}
 
-		// Rate limit (e.g., 5 requests per 10 minutes per IP)
+		// Rate limit: 1 submission every 5 minutes per IP
 		const hdrs = await headers();
 		const ip =
 			hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ||
 			hdrs.get("x-real-ip")?.trim() ||
 			"unknown";
 		const key = `contact:${ip || email}`;
-		const rl = await rateLimit(key, { windowMs: 10 * 60 * 1000, limit: 5 });
+		const rl = await rateLimit(key, { windowMs: 5 * 60 * 1000, limit: 1 });
 		if (!rl.ok) {
 			return {
 				ok: false,
@@ -63,6 +67,7 @@ export async function submitContact(
 				phone={phone || undefined}
 				subject={subject || undefined}
 				message={message}
+				selectedTier={selectedTier}
 			/>
 		);
 
