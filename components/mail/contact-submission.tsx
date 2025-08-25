@@ -41,19 +41,18 @@ export default function ContactSubmission({
 					theme: {
 						extend: {
 							colors: {
-								background: "#0b0b0b",
-								surface: "#111111",
-								foreground: "#ffffff",
-								border: "#242424",
-								muted: "#a3a3a3",
+								background: "#f9fafb",
+								foreground: "#111827",
+								border: "#e5e7eb",
+								muted: "#6b7280",
 								accent: "#f54a00",
 							},
 						},
 					},
 				}}
 			>
-				<Body className="text-white mx-auto my-0 bg-surface p-0 font-sans text-[14px] leading-[1.6]">
-					<Container className="mx-auto w-full max-w-[640px] bg-surface px-6 py-6">
+				<Body className="text-foreground mx-auto my-0 bg-background p-0 font-sans text-[14px] leading-[1.6]">
+					<Container className="mx-auto w-full max-w-[640px] bg-background px-6 py-6">
 						<Section className="text-center">
 							<Heading as="h1" className="m-0 mb-2 text-[22px] font-bold">
 								New Contact Form Submission
