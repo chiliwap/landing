@@ -55,6 +55,7 @@ const rotationStates = [
 
 export default function Interactive() {
   const ref = useRef(null);
+  const mobileRef = useRef(null);
   const [currentState, setCurrentState] = useState(0);
 
   // Track scroll progress within this section
@@ -83,6 +84,24 @@ export default function Interactive() {
     }
   });
 
+  // Mobile: track scroll within the mobile section and update states
+  const { scrollYProgress: mobileYProgress } = useScroll({
+    target: mobileRef,
+    offset: ["start end", "end start"],
+  });
+
+  useMotionValueEvent(mobileYProgress, "change", (latest) => {
+    const progress = latest;
+    // Use the whole section (0-1) to split into three equal states
+    if (progress < 1 / 3) {
+      setCurrentState(0);
+    } else if (progress < 2 / 3) {
+      setCurrentState(1);
+    } else {
+      setCurrentState(2);
+    }
+  });
+
   // Transform values for layout transition - starts later and moves slower
   // Title: starts centered, moves to left column
   const titleX = useTransform(scrollYProgress, [0.3, 0.5], [0, -410]);
@@ -102,24 +121,61 @@ export default function Interactive() {
 
   return (
     <>
-      {/* Mobile simplified layout */}
-      <div className="lg:hidden text-white relative w-full px-4 py-12">
-        <h2 className="text-3xl font-bold text-center mb-6">
-          Protect your home
-        </h2>
-        <div className="w-full max-w-md mx-auto">
-          <ThreeCanvasWrapper
-            rotationState={{ rotateX: 0, rotateY: 0, rotateZ: 0 }}
-            currentState={0}
-          />
-        </div>
-        <div className="mt-6 text-center">
-          <span className="inline-block px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full mb-3">
-            {contentStates[0].highlight}
-          </span>
-          <p className="text-gray-300 max-w-xl mx-auto">
-            {contentStates[0].description}
-          </p>
+      {/* Mobile scroll-driven layout (house above, text below, both animate) */}
+      <div
+        ref={mobileRef}
+        className="lg:hidden text-white relative w-full px-4 py-12 min-h-[300vh]"
+      >
+        <div className="sticky top-0 pt-44 pb-12">
+          <div className="w-full max-w-md mx-auto">
+            <ThreeCanvasWrapper
+              rotationState={currentRotation}
+              currentState={currentState}
+            />
+          </div>
+
+          <div className="mt-6 text-center min-h-[140px]">
+            <h2 className="text-3xl font-bold text-center mb-6">
+              Protect your home
+            </h2>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={`m-highlight-${currentState}`}
+                className="inline-block px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full mb-3"
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {contentStates[currentState].highlight}
+              </motion.span>
+            </AnimatePresence>
+
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={`m-desc-${currentState}`}
+                className="text-gray-300 max-w-xl mx-auto"
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.3, delay: 0.05 }}
+              >
+                {contentStates[currentState].description}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+
+          {/* Mobile progress indicators */}
+          <div className="flex items-center justify-center space-x-3 mt-6">
+            {contentStates.map((_, index) => (
+              <div
+                key={`m-dot-${index}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentState ? "bg-white w-8" : "bg-gray-600 w-2"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
