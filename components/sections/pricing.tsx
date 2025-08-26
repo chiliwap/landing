@@ -512,7 +512,7 @@ export default function Pricing() {
 
 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
 						<Link
-							href="/consultation"
+							href="/products"
 							className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3 rounded-lg bg-white text-black text-sm font-semibold hover:bg-white/90 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/30"
 							aria-label="Schedule a free consultation"
 						>
