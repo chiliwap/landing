@@ -66,7 +66,7 @@ export default function ContactSubmission({
 						<Section className="text-center mb-2">
 							<Link href={baseURL} className="inline-block">
 								<img
-									src={`${baseURL}/logo.png`}
+									src={`${baseURL}/logo-reverse.png`}
 									alt="Chiliwap Logo"
 									className="mx-auto mb-4 h-[40px] w-[40px]"
 									style={{
