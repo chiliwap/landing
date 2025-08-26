@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -244,12 +244,15 @@ export default function Pricing() {
 				<div id="pricing" className="relative mb-16">
 					<div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
 						{pricingTiers.map((tier, index) => (
-							<div key={tier.id} className="block cursor-default">
+							<motion.div
+								initial={{ opacity: 0, y: 40 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
+								transition={{ delay: index * 0.08, duration: 0.55 }}
+								key={tier.id}
+								className="block cursor-default"
+							>
 								<motion.div
-									initial={{ opacity: 0, y: 40 }}
-									whileInView={{ opacity: 1, y: 0 }}
-									viewport={{ once: true }}
-									transition={{ delay: index * 0.08, duration: 0.55 }}
 									onMouseEnter={() => setHoveredTier(tier.id)}
 									onMouseLeave={() => setHoveredTier(null)}
 									className={`relative h-full overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/20 p-6 backdrop-blur-md transition-all duration-300 [box-shadow:inset_0_1px_0_rgba(255,255,255,0.06)] ${
@@ -312,7 +315,7 @@ export default function Pricing() {
 										))}
 									</ul>
 								</motion.div>
-							</div>
+							</motion.div>
 						))}
 					</div>
 				</div>
