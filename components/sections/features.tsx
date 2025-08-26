@@ -392,31 +392,51 @@ export default function Features() {
 				</div>
 
 				{/* KPI stats row (wildfire outcomes) */}
-				<div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+				<motion.div
+					className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4"
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}
+					variants={{ hidden: {}, visible: {} }}
+				>
 					{[
 						{ label: "Faster Activation", value: "3.2x" },
 						{ label: "Water Saved", value: "-35%" },
 						{ label: "During Outages Uptime", value: "99.9%" },
 						{ label: "Home Risk Reduced", value: "-42%" },
 					].map((kpi, i) => (
-						<div
+						<motion.div
 							key={kpi.label}
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ delay: 0.1 * i, duration: 0.5 }}
 							className="rounded-xl border border-white/10 bg-neutral-950/40 p-4"
 						>
 							<div className="text-2xl font-semibold">{kpi.value}</div>
 							<div className="text-xs text-white/60 mt-1">{kpi.label}</div>
-						</div>
+						</motion.div>
 					))}
-				</div>
+				</motion.div>
 
 				{/* progress bars to hint outcomes (wildfire protection) */}
-				<div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+				<motion.div
+					className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4"
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}
+					variants={{ hidden: {}, visible: {} }}
+				>
 					{[
 						{ label: "Perimeter Soak Readiness", pct: 94 },
 						{ label: "Wildfire Risk Detection", pct: 98 },
 					].map((p, i) => (
-						<div
+						<motion.div
 							key={p.label}
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ delay: 0.1 * i, duration: 0.5 }}
 							className="rounded-xl border border-white/10 bg-neutral-950/40 p-4"
 						>
 							<div className="flex items-center justify-between text-sm">
@@ -424,17 +444,25 @@ export default function Features() {
 								<span className="text-white/60">{p.pct}%</span>
 							</div>
 							<div className="mt-2 h-2 rounded bg-white/5 overflow-hidden">
-								<div
+								<motion.div
 									className="h-full bg-white/40"
-									style={{ width: `${p.pct}%` }}
+									initial={{ width: 0 }}
+									whileInView={{ width: `${p.pct}%` }}
+									transition={{ duration: 0.7, delay: 0.1 * i }}
 								/>
 							</div>
-						</div>
+						</motion.div>
 					))}
-				</div>
+				</motion.div>
 
 				{/* testimonial + CTA (home protection) */}
-				<div className="mt-6 rounded-2xl border border-white/10 bg-neutral-950/50 p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
+				<motion.div
+					className="mt-6 rounded-2xl border border-white/10 bg-neutral-950/50 p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-4"
+					initial={{ opacity: 0, y: 30 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.7, delay: 0.2 }}
+				>
 					<div className="flex-1">
 						<p className="text-white/80 text-sm md:text-base">
 							“During ember storms we can pre-soak our eaves and perimeter in
@@ -451,7 +479,7 @@ export default function Features() {
 					>
 						Talk to an expert
 					</Link>
-				</div>
+				</motion.div>
 			</div>
 		</section>
 	);
