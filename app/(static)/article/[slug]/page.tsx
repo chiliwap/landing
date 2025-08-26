@@ -1,3 +1,5 @@
+import type { Metadata, ResolvingMetadata } from "next";
+
 import Renderer from "@/markdown/mdx-render";
 
 const articleMeta: Record<string, { title: string; description: string }> = {
@@ -13,12 +15,18 @@ const articleMeta: Record<string, { title: string; description: string }> = {
 	},
 };
 
-export async function generateMetadata({
-	params,
-}: {
-	params: { slug: string };
-}) {
-	const meta = articleMeta[params.slug] || {
+type Props = {
+	params: Promise<{ slug: string }>;
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export async function generateMetadata(
+	{ params, searchParams }: Props,
+	parent: ResolvingMetadata
+): Promise<Metadata> {
+	const { slug } = await params;
+
+	const meta = articleMeta[slug] || {
 		title: "Article | Chiliwap",
 		description: "Read the latest insights and stories from Chiliwap.",
 	};
@@ -28,11 +36,7 @@ export async function generateMetadata({
 	};
 }
 
-export default async function Article({
-	params,
-}: {
-	params: Promise<{ slug: string }>;
-}) {
+export default async function Article({ params, searchParams }: Props) {
 	const { slug } = await params;
 
 	return <Renderer slug={slug} />;
