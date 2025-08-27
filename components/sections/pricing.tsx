@@ -521,7 +521,7 @@ export default function Pricing() {
 
 						<button
 							type="button"
-							className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3 rounded-lg bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/25"
+							className="cursor-pointer w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 text-white text-sm font-semibold transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/25"
 							aria-label="Contact our sales team"
 							onClick={() => setModalOpen(true)}
 						>
