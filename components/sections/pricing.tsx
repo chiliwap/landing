@@ -109,7 +109,7 @@ const pricingTiers: Tier[] = [
 	},
 	{
 		id: "prepared",
-		name: "Commercial",
+		name: "Deluxe",
 		description: "Advanced storage and power",
 		price: "$25,800",
 		bullets: [
