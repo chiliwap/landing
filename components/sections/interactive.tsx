@@ -8,7 +8,7 @@ import {
   useTransform,
   useMotionValueEvent,
 } from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Dynamically import the 3D component to avoid SSR issues
 const ThreeCanvasWrapper = dynamic(
@@ -57,6 +57,38 @@ export default function Interactive() {
   const ref = useRef(null);
   const mobileRef = useRef(null);
   const [currentState, setCurrentState] = useState(0);
+  // Render index clamps to 0..2 so a dummy state (3) doesn't change content or rotation
+  const renderIndex = Math.min(currentState, 2);
+  // Gate state changes until after initial mount to avoid early incorrect progress updates
+  const readyRef = useRef(false);
+  // Only let the visible layout (mobile or desktop) drive state
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    // Setup media query for lg breakpoint (Tailwind lg: min-width 1024px)
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mql.matches);
+    update();
+    if (mql.addEventListener) {
+      mql.addEventListener("change", update);
+    } else {
+      // Safari fallback
+      // @ts-ignore
+      mql.addListener(update);
+    }
+    // Defer enabling updates to next tick for layout to settle
+    const id = requestAnimationFrame(() => {
+      readyRef.current = true;
+    });
+    return () => {
+      cancelAnimationFrame(id);
+      if (mql.removeEventListener) {
+        mql.removeEventListener("change", update);
+      } else {
+        // @ts-ignore
+        mql.removeListener(update);
+      }
+    };
+  }, []);
 
   // Track scroll progress within this section
   const { scrollYProgress } = useScroll({
@@ -64,22 +96,25 @@ export default function Interactive() {
     offset: ["start end", "end start"],
   });
 
-  const currentRotation = rotationStates[currentState];
+  const currentRotation = rotationStates[renderIndex];
 
   // Track which content state we're in based on scroll progress
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (!readyRef.current || !isDesktop) return; // only desktop drives on lg+
     const progress = latest;
 
     // Content states start after the layout transition (50-100% scroll)
     if (progress >= 0.5) {
       const adjustedProgress = (progress - 0.5) / 0.5; // Normalize to 0-1 range
-
-      if (adjustedProgress < 0.33) {
+      // Split the 0..1 range into four segments: 0,1,2, and a dummy 3 for padding
+      if (adjustedProgress < 0.25) {
         setCurrentState(0);
-      } else if (adjustedProgress < 0.66) {
+      } else if (adjustedProgress < 0.5) {
         setCurrentState(1);
-      } else {
+      } else if (adjustedProgress < 0.75) {
         setCurrentState(2);
+      } else {
+        setCurrentState(3); // dummy padding state; renderIndex will clamp to 2
       }
     }
   });
@@ -91,14 +126,17 @@ export default function Interactive() {
   });
 
   useMotionValueEvent(mobileYProgress, "change", (latest) => {
+    if (!readyRef.current || isDesktop) return; // only mobile drives below lg
     const progress = latest;
-    // Use the whole section (0-1) to split into three equal states
-    if (progress < 1 / 3) {
+    // Use the whole section (0-1) split into four equal states; last is dummy padding
+    if (progress < 0.25) {
       setCurrentState(0);
-    } else if (progress < 2 / 3) {
+    } else if (progress < 0.5) {
       setCurrentState(1);
-    } else {
+    } else if (progress < 0.75) {
       setCurrentState(2);
+    } else {
+      setCurrentState(3); // dummy padding state
     }
   });
 
@@ -130,7 +168,7 @@ export default function Interactive() {
           <div className="w-full max-w-md mx-auto">
             <ThreeCanvasWrapper
               rotationState={currentRotation}
-              currentState={currentState}
+              currentState={renderIndex}
             />
           </div>
 
@@ -140,27 +178,27 @@ export default function Interactive() {
             </h2>
             <AnimatePresence mode="wait">
               <motion.span
-                key={`m-highlight-${currentState}`}
+                key={`m-highlight-${renderIndex}`}
                 className="inline-block px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full mb-3"
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                {contentStates[currentState].highlight}
+                {contentStates[renderIndex].highlight}
               </motion.span>
             </AnimatePresence>
 
             <AnimatePresence mode="wait">
               <motion.p
-                key={`m-desc-${currentState}`}
+                key={`m-desc-${renderIndex}`}
                 className="text-gray-300 max-w-xl mx-auto"
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
                 transition={{ duration: 0.3, delay: 0.05 }}
               >
-                {contentStates[currentState].description}
+                {contentStates[renderIndex].description}
               </motion.p>
             </AnimatePresence>
           </div>
@@ -171,7 +209,7 @@ export default function Interactive() {
               <div
                 key={`m-dot-${index}`}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  index === currentState ? "bg-white w-8" : "bg-gray-600 w-2"
+                  index === renderIndex ? "bg-white w-8" : "bg-gray-600 w-2"
                 }`}
               />
             ))}
@@ -213,7 +251,7 @@ export default function Interactive() {
               >
                 <ThreeCanvasWrapper
                   rotationState={currentRotation}
-                  currentState={currentState}
+                  currentState={renderIndex}
                 />
               </motion.div>
 
@@ -238,13 +276,13 @@ export default function Interactive() {
                   <AnimatePresence mode="wait">
                     <motion.span
                       className="text-gray-400"
-                      key={currentState}
+                      key={renderIndex}
                       initial={{ opacity: 1, y: 0 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                      {contentStates[currentState].subtitle}
+                      {contentStates[renderIndex].subtitle}
                     </motion.span>
                   </AnimatePresence>
                 </p>
@@ -252,7 +290,7 @@ export default function Interactive() {
                 {/* State-specific content */}
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={`${currentState + "-content"}`}
+                    key={`content-${renderIndex}`}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
@@ -268,7 +306,7 @@ export default function Interactive() {
                         ease: [0.48, 0.15, 0.25, 0.96],
                       }}
                     >
-                      {contentStates[currentState].highlight}
+                      {contentStates[renderIndex].highlight}
                     </motion.span>
 
                     <motion.div
@@ -277,7 +315,7 @@ export default function Interactive() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 }}
                     >
-                      {contentStates[currentState].description}
+                      {contentStates[renderIndex].description}
                     </motion.div>
                   </motion.div>
                 </AnimatePresence>
@@ -288,12 +326,12 @@ export default function Interactive() {
                     <motion.div
                       key={index}
                       className={`h-2 rounded-full transition-all duration-500 ${
-                        index === currentState
+                        index === renderIndex
                           ? "bg-white w-8"
                           : "bg-gray-600 w-2"
                       }`}
                       initial={{ scale: 0.8 }}
-                      animate={{ scale: index === currentState ? 1.1 : 1 }}
+                      animate={{ scale: index === renderIndex ? 1.1 : 1 }}
                     />
                   ))}
                 </div>
