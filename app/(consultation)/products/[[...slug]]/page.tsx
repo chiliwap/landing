@@ -3,6 +3,7 @@
 import Nav from "@/components/layout/nav";
 import { use, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import Link from "next/link";
 
 const products = [
   {
@@ -779,7 +780,15 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                   id="water"
                                   ariaLabel="Water source"
                                   value={waterSource}
-                                  onChange={(v) => setWaterSource(v as any)}
+                                  onChange={(v) =>
+                                    setWaterSource(
+                                      v as
+                                        | "municipal"
+                                        | "well"
+                                        | "cistern"
+                                        | "other"
+                                    )
+                                  }
                                   options={[
                                     { value: "municipal", label: "Municipal" },
                                     { value: "well", label: "Well" },
@@ -801,7 +810,15 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                   id="hometype"
                                   ariaLabel="Home type"
                                   value={homeType}
-                                  onChange={(v) => setHomeType(v as any)}
+                                  onChange={(v) =>
+                                    setHomeType(
+                                      v as
+                                        | "detached"
+                                        | "semi"
+                                        | "townhouse"
+                                        | "condo"
+                                    )
+                                  }
                                   options={[
                                     { value: "detached", label: "Detached" },
                                     { value: "semi", label: "Semi-detached" },
@@ -824,7 +841,9 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                   id="buildtype"
                                   ariaLabel="Build type"
                                   value={buildType}
-                                  onChange={(v) => setBuildType(v as any)}
+                                  onChange={(v) =>
+                                    setBuildType(v as "retrofit" | "new")
+                                  }
                                   options={[
                                     { value: "retrofit", label: "Retrofit" },
                                     { value: "new", label: "New build" },
@@ -949,7 +968,11 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                   id="timeline"
                                   ariaLabel="Project timeline"
                                   value={timeline}
-                                  onChange={(v) => setTimeline(v as any)}
+                                  onChange={(v) =>
+                                    setTimeline(
+                                      v as "asap" | "1-3" | "3-6" | "6+"
+                                    )
+                                  }
                                   options={[
                                     { value: "asap", label: "ASAP" },
                                     { value: "1-3", label: "1–3 months" },
@@ -1099,12 +1122,12 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                             >
                               Back
                             </button>
-                            <a
+                            <Link
                               href="/contact"
                               className="inline-flex w-full items-center justify-center h-10 px-5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-sm font-semibold text-white transition-colors duration-300"
                             >
                               Continue
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
