@@ -2,6 +2,12 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
+import dynamic from "next/dynamic";
+import Modal from "@/components/ui/modal";
+const ContactForm = dynamic(() => import("@/components/forms/contact-form"), {
+  ssr: false,
+});
+import { submitContact } from "@/components/forms/actions/contact";
 
 function CheckIcon() {
   return (
@@ -26,8 +32,8 @@ const solutions = [
     description:
       "Advanced sprinkler and suppression systems designed to protect your property with cutting-edge technology and reliable performance.",
     features: [
-      "2-high range brass impact sprinklers",
-      "Up to 15.25 meter radius coverage",
+      "Complete property soaking coverage",
+      "Long range rooftop sprinklers",
       "Weather-resistant construction",
       "Automated activation systems",
     ],
@@ -86,15 +92,15 @@ const solutions = [
     href: "/solutions/system-design",
   },
   {
-    id: "sprinkler-installation",
-    title: "Sprinkler Installation",
+    id: "rainwater",
+    title: "Rainwater Harvesting",
     description:
-      "Professional installation services with expert technicians ensuring your fire protection system is installed correctly and efficiently.",
+      "Innovative solutions for capturing and reusing rainwater, reducing your environmental impact and conserving water resources.",
     features: [
-      "Professional installation team",
-      "Quality assurance testing",
-      "Minimal disruption guarantee",
-      "Post-installation support",
+      "Custom rainwater collection systems",
+      "Eco-friendly, low-maintenance designs",
+      "On-site water reuse for irrigation",
+      "Integration with fire protection systems",
     ],
     icon: (
       <svg
@@ -154,6 +160,7 @@ const solutions = [
 
 export default function Solutions() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <section className="text-white py-24 px-6">
@@ -257,12 +264,12 @@ export default function Solutions() {
                   </ul>
 
                   {/* CTA Button: subtle ghost style */}
-                  <a
-                    href={solution.href}
+                  <button
+                    onClick={() => setModalOpen(true)} // opens contact modal
                     className="relative z-10 inline-flex items-center justify-center mt-6 rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-white hover:border-white/20 hover:bg-white/5 transition-colors"
                   >
                     Learn more
-                  </a>
+                  </button>
                 </div>
                 {/* Subtle border-glow on hover using gradient */}
                 <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-white/10 group-hover:ring-white/20 transition" />
@@ -271,6 +278,11 @@ export default function Solutions() {
           ))}
         </div>
       </div>
+      {/* Contact Modal */}
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <h2 className="text-xl font-semibold mb-4 text-center">Contact</h2>
+        <ContactForm action={submitContact} selectedTier={""} />
+      </Modal>
     </section>
   );
 }
