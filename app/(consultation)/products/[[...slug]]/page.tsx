@@ -25,8 +25,7 @@ const products = [
     id: "monitoring",
     name: "Control & Monitoring System",
     description: "Advanced monitoring solutions for fire protection.",
-    image:
-      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.thespruce.com%2Fthmb%2FQG4SUpXK8rwsAcqdx39OB_QhF_w%3D%2F2000x1333%2Ffilters%3Ano_upscale()%2Felectrical-service-size-of-my-home-1152752-hero-0a04c3eec7c94154a5e8f116e7fe329f.jpg&f=1&nofb=1&ipt=20e73ea2598437f120b6d97a54f73aebf7c4cee16a294d27bf8cd120a5531ac4",
+    image: "/products/controller.png",
     hero: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.staticmb.com%2Fmbcontent%2Fimages%2Fuploads%2F2022%2F12%2FMost-Beautiful-House-in-the-World.jpg&f=1&nofb=1&ipt=abe02fa60dc9445c7f733fc2ef0dcb990de79a23f5e8432b883ebd7ea86e3ec5",
   },
 ];
