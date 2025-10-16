@@ -2,9 +2,9 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -12,7 +12,7 @@
 }
 
 .logo-text {
-  font-family: var(--font-special_gothic_expanded_one)
+  font-family: var(--font-special_gothic_expanded_one);
 }
 
 html {
@@ -37,37 +37,81 @@ body {
 
 .fade-in {
   /* gradient fade in (top -> bottom) */
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
 }
 
 .fade-out {
   /* gradient fade out (top -> bottom) */
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
 }
 
 .taper-edges {
-  -webkit-mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%,  rgba(0,0,0,0) 80%);
-  mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 80%);
+  -webkit-mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0) 80%
+  );
+  mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0) 80%
+  );
 }
 
 .taper-edges-sm {
-  -webkit-mask: linear-gradient(90deg, rgba(0,0,0,0) 1%, rgba(0,0,0,1) 50%,  rgba(0,0,0,0) 99%);
-  mask: linear-gradient(90deg, rgba(0,0,0,0) 1%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 99%);
+  -webkit-mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 1%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0) 99%
+  );
+  mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 1%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0) 99%
+  );
 }
 
 .taper-left {
-  -webkit-mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%);
-  mask: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%);
+  -webkit-mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 1) 50%
+  );
+  mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 1) 50%);
 }
 
 .taper-right {
-  -webkit-mask: linear-gradient(270deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%);
-  mask: linear-gradient(270deg, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 50%);
+  -webkit-mask: linear-gradient(
+    270deg,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 1) 50%
+  );
+  mask: linear-gradient(270deg, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 1) 50%);
 }
 
 .taper-bottom {
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
@@ -75,8 +119,16 @@ body {
 }
 
 .taper-top {
-  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
-  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
@@ -119,4 +171,167 @@ body {
   background-position-x: 0, 0;
   background-position-y: 0, 0;
   background-size: 80px 80px, auto;
+}
+
+/* Animatable custom properties for mesh centers */
+@property --r1x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 22%;
+}
+@property --r1y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 28%;
+}
+@property --r2x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 76%;
+}
+@property --r2y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 24%;
+}
+@property --r3x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 32%;
+}
+@property --r3y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 78%;
+}
+@property --r4x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 82%;
+}
+@property --r4y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 72%;
+}
+
+/* Simple moving mesh gradient background (CSS-variable driven) */
+.mesh-gradient {
+  /* Base color and sensible defaults so it animates even without inline seeding */
+  background-color: #0b0b0b; /* dark base for contrast with white text */
+
+  /* Positions (animated) */
+  --r1x: 22%;
+  --r1y: 28%;
+  --r2x: 76%;
+  --r2y: 24%;
+  --r3x: 32%;
+  --r3y: 78%;
+  --r4x: 82%;
+  --r4y: 72%;
+
+  /* Colors (overridable from inline styles) */
+  --r1c: rgba(255, 120, 80, 0.50);
+  --r2c: rgba(255, 60, 40, 0.42);
+  --r3c: rgba(255, 90, 70, 0.38);
+  --r4c: rgba(255, 160, 120, 0.34);
+
+  /* Background layers: 1x dark overlay + 4x radial glows */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.30)),
+    
+    radial-gradient(
+      48% 48% at var(--r1x) var(--r1y),
+      var(--r1c),
+      rgba(0, 0, 0, 0) 60%
+    ),
+    
+    radial-gradient(
+      52% 52% at var(--r2x) var(--r2y),
+      var(--r2c),
+      rgba(0, 0, 0, 0) 60%
+    ),
+    
+    radial-gradient(
+      55% 55% at var(--r3x) var(--r3y),
+      var(--r3c),
+      rgba(0, 0, 0, 0) 60%
+    ),
+    
+    radial-gradient(
+      45% 45% at var(--r4x) var(--r4y),
+      var(--r4c),
+      rgba(0, 0, 0, 0) 60%
+    );
+
+  background-blend-mode: normal, screen, screen, screen, screen;
+  background-size: 160% 160%;
+  background-position: center center;
+
+  animation: meshMoveVars 12s ease-in-out infinite alternate;
+}
+
+@keyframes meshMoveVars {
+  /* Animate gradient centers via CSS variables (stays in-bounds, avoids center) */
+  0% {
+    --r1x: 20%;
+    --r1y: 30%;
+    --r2x: 76%;
+    --r2y: 22%;
+    --r3x: 30%;
+    --r3y: 78%;
+    --r4x: 82%;
+    --r4y: 70%;
+  }
+  25% {
+    --r1x: 28%;
+    --r1y: 22%;
+    --r2x: 66%;
+    --r2y: 28%;
+    --r3x: 36%;
+    --r3y: 76%;
+    --r4x: 78%;
+    --r4y: 60%;
+  }
+  50% {
+    --r1x: 18%;
+    --r1y: 36%;
+    --r2x: 74%;
+    --r2y: 20%;
+    --r3x: 40%;
+    --r3y: 82%;
+    --r4x: 72%;
+    --r4y: 68%;
+  }
+  75% {
+    --r1x: 28%;
+    --r1y: 36%;
+    --r2x: 68%;
+    --r2y: 30%;
+    --r3x: 34%;
+    --r3y: 76%;
+    --r4x: 84%;
+    --r4y: 72%;
+  }
+  100% {
+    --r1x: 22%;
+    --r1y: 32%;
+    --r2x: 70%;
+    --r2y: 26%;
+    --r3x: 36%;
+    --r3y: 74%;
+    --r4x: 80%;
+    --r4y: 68%;
+  }
+}
+
+/* @media (prefers-reduced-motion: reduce) {
+  .mesh-gradient {
+    animation: none;
+  }
+} */
+
+/* Optional: force animation even if OS prefers reduced motion (for debugging) */
+.mesh-gradient.force-motion {
+  animation: meshMoveVars 12s ease-in-out infinite alternate;
 }
