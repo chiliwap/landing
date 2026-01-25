@@ -62,7 +62,7 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
   >("detached");
   const [buildType, setBuildType] = useState<"new" | "retrofit">("retrofit");
   const [timeline, setTimeline] = useState<"asap" | "1-3" | "3-6" | "6+">(
-    "1-3"
+    "1-3",
   );
 
   // Note: initial selection is set via useState initializer above; no effect needed
@@ -249,8 +249,8 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
     const [activeIndex, setActiveIndex] = useState<number>(() =>
       Math.max(
         0,
-        options.findIndex((o) => o.value === value)
-      )
+        options.findIndex((o) => o.value === value),
+      ),
     );
     const wrapRef = useRef<HTMLDivElement | null>(null);
 
@@ -267,8 +267,8 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
       setActiveIndex(
         Math.max(
           0,
-          options.findIndex((o) => o.value === value)
-        )
+          options.findIndex((o) => o.value === value),
+        ),
       );
     }, [value, options]);
 
@@ -635,7 +635,7 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                 >
                   <div className="my-6 md:my-8 w-full flex flex-col md:flex-row items-stretch gap-6 md:gap-8">
                     {/* Left: banner + compact form (no scrolling) */}
-                    <div className="md:w-8/10 w-full">
+                    <div className="md:w-[77%] w-full">
                       <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-[0_0_1px_0_rgba(255,255,255,0.3),0_20px_80px_-20px_rgba(0,0,0,0.6)] md:h-[80vh] flex flex-col">
                         {/* Compact banner */}
                         <div className="relative h-32 sm:h-36 md:h-40">
@@ -756,8 +756,8 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                       setSqft(
                                         Math.max(
                                           300,
-                                          Number(e.target.value) || 0
-                                        )
+                                          Number(e.target.value) || 0,
+                                        ),
                                       )
                                     }
                                     className="w-full h-10 rounded-lg border border-white/10 bg-black/20 backdrop-blur px-3 pr-12 text-sm outline-none focus:border-white/20"
@@ -785,7 +785,7 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                         | "municipal"
                                         | "well"
                                         | "cistern"
-                                        | "other"
+                                        | "other",
                                     )
                                   }
                                   options={[
@@ -815,7 +815,7 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                         | "detached"
                                         | "semi"
                                         | "townhouse"
-                                        | "condo"
+                                        | "condo",
                                     )
                                   }
                                   options={[
@@ -969,7 +969,7 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                   value={timeline}
                                   onChange={(v) =>
                                     setTimeline(
-                                      v as "asap" | "1-3" | "3-6" | "6+"
+                                      v as "asap" | "1-3" | "3-6" | "6+",
                                     )
                                   }
                                   options={[
@@ -1081,7 +1081,7 @@ export default function Products(props: { params: Promise<{ slug: string }> }) {
                                       {Math.round(amount).toLocaleString()}
                                     </span>
                                   </div>
-                                )
+                                ),
                               )}
                             </div>
                             <div className="flex items-center justify-between py-2 mt-2 border-t border-black/10">
