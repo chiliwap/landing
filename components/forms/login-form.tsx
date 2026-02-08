@@ -35,6 +35,7 @@ export default function LoginForm({
 				}
 				// on success redirect
 				router.push(redirectPath);
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			} catch (err: any) {
 				setError(err?.message || "Login failed");
 			}

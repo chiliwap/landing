@@ -12,7 +12,7 @@ export default function VerifyEmailPage() {
 	const router = useRouter();
 	const token = params?.get("token");
 	const [status, setStatus] = useState<"loading" | "success" | "error">(
-		"loading"
+		"loading",
 	);
 	const [message, setMessage] = useState("");
 
@@ -42,6 +42,7 @@ export default function VerifyEmailPage() {
 					setStatus("error");
 					setMessage(data.error || "Verification failed");
 				}
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			} catch (e: any) {
 				setStatus("error");
 				setMessage(e.message || "Verification failed");

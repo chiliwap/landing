@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export default function PasswordResetRequest({}: {}) {
 	const [email, setEmail] = useState("");
 	const [sent, setSent] = useState(false);
@@ -25,6 +26,7 @@ export default function PasswordResetRequest({}: {}) {
 				if (data.devLink) setDevLink(data.devLink);
 				setSent(true);
 			});
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (e: any) {
 			setError(e.message || "Something went wrong");
 		}

@@ -55,7 +55,7 @@ function sanitizeAddress(input: string) {
 }
 
 export async function updateProfile(
-	formData: FormData
+	formData: FormData,
 ): Promise<ProfileUpdateState> {
 	try {
 		const user = await getUser();
@@ -89,6 +89,7 @@ export async function updateProfile(
 			"#name": "name",
 			"#updatedAt": "updatedAt",
 		};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const values: Record<string, any> = { ":name": name, ":now": now };
 
 		if (phone) {
@@ -120,12 +121,12 @@ export async function updateProfile(
 				UpdateExpression,
 				ExpressionAttributeNames: names,
 				ExpressionAttributeValues: values,
-			})
+			}),
 		);
 
 		// fetch updated user subset for client (avoid re-fetch full auth logic here)
 		const updated = await dynamodb.send(
-			new GetCommand({ TableName: USERS_TABLE, Key: { id: user.id } })
+			new GetCommand({ TableName: USERS_TABLE, Key: { id: user.id } }),
 		);
 		const updatedUser = (updated.Item || {}) as User;
 		return {

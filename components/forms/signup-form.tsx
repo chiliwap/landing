@@ -39,7 +39,7 @@ export default function SignupForm({
 
 		if (!passwordValidation.isValid) {
 			setError(
-				"Password must have at least 10 characters and contain an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*)"
+				"Password must have at least 10 characters and contain an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*)",
 			);
 			return;
 		}
@@ -56,6 +56,7 @@ export default function SignupForm({
 				if (data.devLink) setDevLink(data.devLink);
 				setSuccess(true);
 				setTimeout(() => router.push(redirectPath), 3000);
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			} catch (err: any) {
 				setError(err?.message || "Signup failed");
 			}

@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type {
-	DashboardOverview,
-	DashboardActivityItem,
-} from "@/lib/dashboard";
+import type { DashboardOverview, DashboardActivityItem } from "@/lib/dashboard";
 import { fetchWeather } from "./weather-card";
 
 async function loadLogoBase64(): Promise<string | null> {
@@ -34,16 +31,21 @@ export default function ExportReport({ overview, activityFeed }: Props) {
 	async function handleExport() {
 		setGenerating(true);
 		try {
-			const [jsPDFModule, autoTableModule, weather, logoData] = await Promise.all([
-				import("jspdf"),
-				import("jspdf-autotable"),
-				fetchWeather(),
-				loadLogoBase64(),
-			]);
+			const [jsPDFModule, autoTableModule, weather, logoData] =
+				await Promise.all([
+					import("jspdf"),
+					import("jspdf-autotable"),
+					fetchWeather(),
+					loadLogoBase64(),
+				]);
 			const jsPDF = jsPDFModule.default;
 			const autoTable = autoTableModule.default;
 
-			const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+			const doc = new jsPDF({
+				orientation: "portrait",
+				unit: "mm",
+				format: "a4",
+			});
 			const pageWidth = doc.internal.pageSize.getWidth();
 			let y = 20;
 
@@ -84,6 +86,7 @@ export default function ExportReport({ overview, activityFeed }: Props) {
 				styles: { fontSize: 9 },
 				margin: { left: 14, right: 14 },
 			});
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			y = (doc as any).lastAutoTable.finalY + 10;
 
 			// Risk Trend
@@ -96,10 +99,17 @@ export default function ExportReport({ overview, activityFeed }: Props) {
 			const riskStats = overview.riskTrend.stats;
 			doc.text(`Timeframe: ${overview.riskTrend.timeframe}`, 14, y);
 			y += 5;
-			doc.text(`Peak: ${riskStats.peak}  |  Low: ${riskStats.low}  |  Delta: ${riskStats.delta > 0 ? "+" : ""}${riskStats.delta}`, 14, y);
+			doc.text(
+				`Peak: ${riskStats.peak}  |  Low: ${riskStats.low}  |  Delta: ${riskStats.delta > 0 ? "+" : ""}${riskStats.delta}`,
+				14,
+				y,
+			);
 			y += 5;
 			if (overview.riskTrend.narrative) {
-				const lines = doc.splitTextToSize(overview.riskTrend.narrative, pageWidth - 28);
+				const lines = doc.splitTextToSize(
+					overview.riskTrend.narrative,
+					pageWidth - 28,
+				);
 				doc.text(lines, 14, y);
 				y += lines.length * 4 + 4;
 			}
@@ -133,7 +143,11 @@ export default function ExportReport({ overview, activityFeed }: Props) {
 				y += 5;
 				doc.text(`Wind Speed: ${weather.windSpeedKmh.toFixed(1)} km/h`, 14, y);
 				y += 5;
-				doc.text(`Fire Danger: ${weather.fireDangerRating.toUpperCase()}`, 14, y);
+				doc.text(
+					`Fire Danger: ${weather.fireDangerRating.toUpperCase()}`,
+					14,
+					y,
+				);
 				y += 5;
 			} else {
 				doc.text("Weather data unavailable (location access required).", 14, y);
@@ -172,6 +186,7 @@ export default function ExportReport({ overview, activityFeed }: Props) {
 					},
 					margin: { left: 14, right: 14 },
 				});
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				y = (doc as any).lastAutoTable.finalY + 10;
 			} else {
 				y += 6;
@@ -190,7 +205,10 @@ export default function ExportReport({ overview, activityFeed }: Props) {
 			doc.setFont("helvetica", "normal");
 			doc.text(`Active: ${overview.alertsSummary.activeCount}`, 14, y);
 			y += 5;
-			const alertLines = doc.splitTextToSize(overview.alertsSummary.description, pageWidth - 28);
+			const alertLines = doc.splitTextToSize(
+				overview.alertsSummary.description,
+				pageWidth - 28,
+			);
 			doc.text(alertLines, 14, y);
 
 			// Page numbers
@@ -207,7 +225,10 @@ export default function ExportReport({ overview, activityFeed }: Props) {
 				);
 			}
 
-			const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+			const timestamp = new Date()
+				.toISOString()
+				.replace(/[:.]/g, "-")
+				.slice(0, 19);
 			doc.save(`chiliwap-dashboard-${timestamp}.pdf`);
 		} catch (err) {
 			console.error("PDF export failed:", err);
@@ -224,11 +245,25 @@ export default function ExportReport({ overview, activityFeed }: Props) {
 			className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 transition text-[11px] font-medium disabled:opacity-50"
 		>
 			{generating ? (
-				<svg className="h-3.5 w-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+				<svg
+					className="h-3.5 w-3.5 animate-spin"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+				>
 					<path d="M12 2v4m0 12v4m-7.07-3.93 2.83-2.83m8.48-8.48 2.83-2.83M2 12h4m12 0h4m-3.93 7.07-2.83-2.83M7.76 7.76 4.93 4.93" />
 				</svg>
 			) : (
-				<svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+				<svg
+					className="h-3.5 w-3.5"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				>
 					<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
 					<polyline points="7 10 12 15 17 10" />
 					<line x1="12" y1="15" x2="12" y2="3" />

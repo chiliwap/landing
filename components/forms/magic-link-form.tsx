@@ -26,6 +26,7 @@ export default function MagicLinkForm({
 				if (!res.ok) throw new Error(data.error || "Failed to send link");
 				setSent(true);
 			});
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (e: any) {
 			setError(e.message || "Something went wrong");
 		}

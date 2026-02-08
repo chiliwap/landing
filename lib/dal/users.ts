@@ -222,6 +222,7 @@ export async function createOAuthUser(
             }),
         );
         return user;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         // Race condition: another request created the user first
         if (e.name === "ConditionalCheckFailedException") {
@@ -323,6 +324,7 @@ export async function updateUserProfile(
     try {
         const updateExpressions: string[] = [];
         const attributeNames: Record<string, string> = {};
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const attributeValues: Record<string, any> = {};
 
         if (updates.name !== undefined) {

@@ -26,7 +26,7 @@ function sanitizeDigits(input: string): string {
  *    and send only a token (plus last4/brand/exp) to the server. This demo intentionally avoids storing sensitive data.
  */
 export async function submitMethodChange(
-	formData: FormData
+	formData: FormData,
 ): Promise<PaymentMethodFormState> {
 	try {
 		const honeypot = (formData.get("company") || "").toString().trim();
@@ -87,7 +87,7 @@ export async function submitMethodChange(
 
 			// Early duplicate check BEFORE creating Stripe resources
 			const existingForDup = await dynamodb.send(
-				new GetCommand({ TableName: BILLING_TABLE, Key: { id: user.id } })
+				new GetCommand({ TableName: BILLING_TABLE, Key: { id: user.id } }),
 			);
 			if (existingForDup.Item) {
 				const billingItem = existingForDup.Item as Billing;
@@ -100,8 +100,8 @@ export async function submitMethodChange(
 							m.details.brand,
 							m.details.last4,
 							m.details.exp_month,
-							m.details.exp_year
-						) === newSig
+							m.details.exp_year,
+						) === newSig,
 				);
 				if (dup) {
 					return { ok: false, error: "This card is already added." };
@@ -163,6 +163,7 @@ export async function submitMethodChange(
 				const existing = await stripe.customers.retrieve(customerId);
 				if (
 					!existing ||
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					(existing as any).invoice_settings?.default_payment_method == null
 				) {
 					await stripe.customers.update(customerId, {
@@ -186,7 +187,6 @@ export async function submitMethodChange(
 			// Explicitly overwrite local variables holding sensitive data (best-effort). Not strictly necessary in JS runtime.
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const _discard = () => {
-				// @ts-ignore
 				for (const v of [cardNumber, cvv]) {
 					/* noop - aid GC */
 				}
@@ -212,7 +212,7 @@ export async function submitMethodChange(
 		// update database modelled on the Billing interface in lib/auth.ts
 
 		const existing = await dynamodb.send(
-			new GetCommand({ TableName: BILLING_TABLE, Key: { id: user.id } })
+			new GetCommand({ TableName: BILLING_TABLE, Key: { id: user.id } }),
 		);
 
 		// (Duplicate already checked earlier for card methods before Stripe API calls.)
@@ -230,7 +230,7 @@ export async function submitMethodChange(
 							id: user.id,
 							email: user.email,
 							name: user.name,
-					  })
+						})
 					: "",
 				paymentId: pmId || "",
 				methods: [card],
@@ -238,7 +238,7 @@ export async function submitMethodChange(
 				updatedAt: now,
 			};
 			await dynamodb.send(
-				new PutCommand({ TableName: BILLING_TABLE, Item: billing })
+				new PutCommand({ TableName: BILLING_TABLE, Item: billing }),
 			);
 		} else {
 			// append card & update customerId/paymentId if newly added with Stripe
@@ -260,7 +260,7 @@ export async function submitMethodChange(
 						":now": now,
 						...(pmId ? { ":paymentId": pmId } : {}),
 					},
-				})
+				}),
 			);
 			const item = existing.Item as Billing;
 			if (!item.defaultMethodId) {
@@ -274,7 +274,7 @@ export async function submitMethodChange(
 							"#updatedAt": "updatedAt",
 						},
 						ExpressionAttributeValues: { ":id": cardId, ":now": now },
-					})
+					}),
 				);
 			}
 		}
@@ -297,7 +297,7 @@ export async function deleteBillingMethod(methodId: string): Promise<{
 		if (!methodId) return { ok: false, error: "Missing method id." };
 
 		const existing = await dynamodb.send(
-			new GetCommand({ TableName: BILLING_TABLE, Key: { id: user.id } })
+			new GetCommand({ TableName: BILLING_TABLE, Key: { id: user.id } }),
 		);
 		if (!existing.Item) return { ok: false, error: "No billing record." };
 		const billing = existing.Item as Billing;
@@ -337,7 +337,7 @@ export async function deleteBillingMethod(methodId: string): Promise<{
 					":default": newDefault,
 					":now": now,
 				},
-			})
+			}),
 		);
 
 		// If we removed the default Stripe payment method, attempt to set a new one

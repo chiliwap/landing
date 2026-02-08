@@ -41,8 +41,8 @@ export const VerificationEmail = ({ verifyUrl }: VerificationEmailProps) => (
 					</Link>
 					<Hr style={hr} />
 					<Text style={footer}>
-						This link expires in 24 hours. If you didn't create this account,
-						you can safely ignore this email.
+						This link expires in 24 hours. If you didn&apos;t create this
+						account, you can safely ignore this email.
 					</Text>
 				</Section>
 			</Container>

@@ -3,6 +3,7 @@ import BillingPanel from "../../../../components/billing/billing-panel";
 import AccountPanel from "../../../../components/account/account-panel";
 import NotificationPreferences from "../../../../components/account/notification-preferences";
 import { Suspense } from "react";
+import Link from "next/link";
 
 // Helpers: humanize time distance and format local date-time for title hovers
 function formatLocalDateTime(date: Date): string {
@@ -90,15 +91,15 @@ export default async function Profile() {
 	const memberSinceDate = user.createdAt ? new Date(user.createdAt) : null;
 	const updatedAtDate = user.updatedAt ? new Date(user.updatedAt) : null;
 	const defaultCard = billing?.methods.find(
-		(m) => m.id === billing.defaultMethodId
+		(m) => m.id === billing.defaultMethodId,
 	);
 	const cardSummary = defaultCard
 		? `${defaultCard.details.brand.toUpperCase()} •••• ${
 				defaultCard.details.last4
-		  }`
+			}`
 		: billing && billing.methods.length > 0
-		? `${billing.methods.length} on file`
-		: "None";
+			? `${billing.methods.length} on file`
+			: "None";
 
 	return (
 		<main className="pb-16">
@@ -116,18 +117,18 @@ export default async function Profile() {
 							</p>
 						</div>
 						<nav className="flex gap-2 flex-wrap text-[11px] font-medium">
-							<a
+							<Link
 								href="/dashboard/manage"
 								className="px-3 py-1.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 transition"
 							>
 								Manage Devices
-							</a>
-							<a
+							</Link>
+							<Link
 								href="/dashboard/billing"
 								className="px-3 py-1.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 transition"
 							>
 								Billing
-							</a>
+							</Link>
 						</nav>
 					</div>
 
@@ -153,8 +154,8 @@ export default async function Profile() {
 								title={
 									updatedAtDate
 										? `${formatShortUTC(
-												updatedAtDate
-										  )} • ${updatedAtDate.toISOString()}`
+												updatedAtDate,
+											)} • ${updatedAtDate.toISOString()}`
 										: ""
 								}
 								suppressHydrationWarning
@@ -204,7 +205,11 @@ export default async function Profile() {
 					</div>
 				</section>
 
-				<section id="notifications" aria-labelledby="notifications-heading" className="scroll-mt-24">
+				<section
+					id="notifications"
+					aria-labelledby="notifications-heading"
+					className="scroll-mt-24"
+				>
 					<h2 id="notifications-heading" className="sr-only">
 						Notification Preferences
 					</h2>
