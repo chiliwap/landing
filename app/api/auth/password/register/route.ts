@@ -6,6 +6,7 @@ import {
     getUserByEmail,
 } from "@/lib/dal";
 import { rateLimit } from "@/lib/helpers/ratelimit";
+import { auditLog } from "@/lib/helpers/audit-log";
 import { validatePassword } from "@/lib/validators/password";
 import Plunk from "@plunk/node";
 import { render } from "@react-email/render";
@@ -97,9 +98,10 @@ export async function POST(request: NextRequest) {
                 body: html,
             });
         } else if (process.env.NODE_ENV !== "production") {
-            console.log("Dev verification link:", verifyUrl);
+            // console.log("Dev verification link:", verifyUrl);
         }
 
+        auditLog({ event: "account_created", email, userId: user.id, ip });
         return NextResponse.json({
             ok: true,
             message: "Account created. Please check your email to verify.",

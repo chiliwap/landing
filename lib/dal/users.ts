@@ -151,7 +151,13 @@ export async function getUserByEmail(email: string): Promise<User | null> {
  */
 
 /**
- * Create a new user with email/password
+ * Create a new user with email/password.
+ *
+ * IMPORTANT: The `expireAt` field relies on DynamoDB TTL being enabled
+ * on the users table with attribute name `expireAt`. Without this,
+ * unverified accounts will persist indefinitely. Enable TTL via:
+ *   AWS Console > DynamoDB > Tables > [users table] > Additional settings > TTL > Manage TTL
+ *   Set TTL attribute to: expireAt
  */
 export async function createUser(
     email: string,
@@ -233,15 +239,20 @@ export async function createOAuthUser(
     }
 }
 
+export type AuthResult =
+    | { user: User; error?: never }
+    | { user?: never; error: "locked_out"; retryAfter: number }
+    | { user?: never; error: "invalid_credentials" };
+
 /**
  * Authenticate user with email/password
- * Returns user on success, null on failure
+ * Returns structured result distinguishing lockout from bad credentials
  * Implements account lockout after failed attempts
  */
 export async function authenticateUser(
     email: string,
     password: string,
-): Promise<User | null> {
+): Promise<AuthResult> {
     try {
         const result = await dynamodb.send(
             new ScanCommand({
@@ -252,34 +263,36 @@ export async function authenticateUser(
             }),
         );
 
-        if (!result.Items || result.Items.length === 0) return null;
+        if (!result.Items || result.Items.length === 0) {
+            return { error: "invalid_credentials" };
+        }
         const dbUser = result.Items[0] as DBUser;
 
         // Check if account is locked out
         const now = Math.floor(Date.now() / 1000);
         const lockout = dbUser.lockoutUntil;
         if (lockout && lockout > now) {
-            return null;
+            return { error: "locked_out", retryAfter: lockout - now };
         }
 
         // Verify password
         const hash = dbUser.passwordHash;
-        if (!hash) return null; // No password set
+        if (!hash) return { error: "invalid_credentials" };
 
         const isValid = await verifyPassword(hash, password);
 
         if (!isValid) {
             // Record failed login attempt
             await recordFailedLogin(dbUser.id);
-            return null;
+            return { error: "invalid_credentials" };
         }
 
         // Success - reset failed login counter
         await resetFailedLogin(dbUser.id);
-        return sanitizeUser(dbUser);
+        return { user: sanitizeUser(dbUser) };
     } catch (e) {
         console.error("authenticateUser error", e);
-        return null;
+        return { error: "invalid_credentials" };
     }
 }
 

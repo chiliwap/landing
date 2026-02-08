@@ -33,6 +33,7 @@ export {
     updateUserPassword,
     updateUserProfile,
 } from "./users";
+export type { AuthResult } from "./users";
 
 // Password reset tokens (internal use for email-based password reset)
 export { consumeMagicLink, createMagicLink } from "./magic-links";

@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { type NextRequest, NextResponse } from "next/server";
 import { createOAuthUser, createSession, getSession, getUserByEmail } from "@/lib/dal";
+import { auditLog } from "@/lib/helpers/audit-log";
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -119,10 +120,12 @@ export async function GET(request: NextRequest) {
                 googleUser.name,
                 googleUser.picture,
             );
+            auditLog({ event: "oauth_user_created", email: user.email, userId: user.id });
         }
 
         // Create iron-session
         await createSession(user.id, user.email, user.name);
+        auditLog({ event: "oauth_login", email: user.email, userId: user.id });
 
         // Redirect to dashboard
         const redirectUrl = new URL("/dashboard", request.url);

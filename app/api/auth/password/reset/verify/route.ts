@@ -6,6 +6,7 @@ import {
     updateUserPassword,
 } from "@/lib/dal";
 import { validatePassword } from "@/lib/validators/password";
+import { auditLog } from "@/lib/helpers/audit-log";
 
 export async function POST(request: NextRequest) {
     try {
@@ -48,6 +49,8 @@ export async function POST(request: NextRequest) {
                 status: 500,
             });
         }
+
+        auditLog({ event: "password_reset_completed", email: rec.email, userId: user.id });
 
         // Destroy current session so user must log in with new password
         await destroySession();

@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { destroySession } from "@/lib/dal";
+import { destroySession, getSession } from "@/lib/dal";
+import { auditLog } from "@/lib/helpers/audit-log";
 
 export async function POST(request: NextRequest) {
     // CSRF protection: validate Origin header
@@ -13,6 +14,11 @@ export async function POST(request: NextRequest) {
         if (originHost !== host) {
             return NextResponse.json({ error: "Forbidden" }, { status: 403 });
         }
+    }
+
+    const session = await getSession();
+    if (session.userId) {
+        auditLog({ event: "logout", userId: session.userId, email: session.email });
     }
 
     await destroySession();

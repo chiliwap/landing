@@ -5,6 +5,7 @@ import Plunk from "@plunk/node";
 import React from "react";
 import { createMagicLink, getUserByEmail } from "@/lib/dal";
 import { rateLimit } from "@/lib/helpers/ratelimit";
+import { auditLog } from "@/lib/helpers/audit-log";
 import PasswordResetEmail from "@/components/mail/password-reset";
 
 export async function POST(request: NextRequest) {
@@ -42,6 +43,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ ok: true });
         }
 
+        auditLog({ event: "password_reset_requested", email, ip });
         const magicLink = await createMagicLink(
             user.email,
             "/auth/password/reset/verify",
@@ -60,7 +62,7 @@ export async function POST(request: NextRequest) {
         const apiKey = process.env.PLUNK_API_KEY;
         if (!apiKey) {
             if (process.env.NODE_ENV !== "production") {
-                console.log("Dev password reset link:", resetUrl);
+                // console.log("Dev password reset link:", resetUrl);
             }
             return NextResponse.json({ ok: true });
         }

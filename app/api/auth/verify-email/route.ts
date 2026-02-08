@@ -8,6 +8,7 @@ import { createSession, getUserById } from "@/lib/dal";
 import { dynamodb, USERS_TABLE } from "@/lib/dynamodb";
 import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { rateLimit } from "@/lib/helpers/ratelimit";
+import { auditLog } from "@/lib/helpers/audit-log";
 
 export async function POST(request: NextRequest) {
     try {
@@ -70,6 +71,7 @@ export async function POST(request: NextRequest) {
         // Create iron-session
         await createSession(user.id, user.email, user.name);
 
+        auditLog({ event: "email_verified", email: user.email, userId: user.id });
         return NextResponse.json({ ok: true });
     } catch (e) {
         console.error("email verification error", e);
