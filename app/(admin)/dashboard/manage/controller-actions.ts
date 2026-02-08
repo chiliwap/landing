@@ -1,6 +1,13 @@
 "use server";
-import { getUser } from "@/lib/auth";
-import { listUserControllers, renameController, toggleArmed, requestSync, rebootController, registerController } from "@/lib/controllers";
+import { getUser } from "@/lib/dal";
+import {
+  listUserControllers,
+  rebootController,
+  registerController,
+  renameController,
+  requestSync,
+  toggleArmed,
+} from "@/lib/controllers";
 import { revalidatePath } from "next/cache";
 
 export async function fetchControllers() {

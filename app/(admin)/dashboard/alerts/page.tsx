@@ -1,41 +1,18 @@
-import { getUser, type User } from "@/lib/auth";
+import { getUser, type User } from "@/lib/dal";
+import { getDashboardAlertConfig } from "@/lib/dashboard";
 
-const thresholds = [
-	{
-		id: "t1",
-		label: "High Temperature",
-		trigger: "≥ 60°C",
-		current: "54°C",
-		status: "armed",
-	},
-	{
-		id: "t2",
-		label: "Low Humidity",
-		trigger: "≤ 22%",
-		current: "18%",
-		status: "armed",
-	},
-	{
-		id: "t3",
-		label: "Wind Speed",
-		trigger: "≥ 35km/h",
-		current: "14km/h",
-		status: "idle",
-	},
-];
-
-const history = [
-	{
-		id: "h1",
-		at: Date.now() - 1000 * 60 * 90,
-		label: "Low humidity threshold crossed (auto‑soak queued)",
-	},
-	{
-		id: "h2",
-		at: Date.now() - 1000 * 60 * 300,
-		label: "High temp alert cleared",
-	},
-];
+const statusBadge = (status: string) => {
+	switch (status) {
+		case "armed":
+			return "bg-emerald-500/15 text-emerald-300 ring-emerald-500/40";
+		case "disabled":
+			return "bg-neutral-700/40 text-neutral-400 ring-white/10";
+		case "idle":
+			return "bg-sky-500/15 text-sky-300 ring-sky-500/30";
+		default:
+			return "bg-amber-500/15 text-amber-200 ring-amber-500/30";
+	}
+};
 
 export default async function AlertsPage() {
 	const user: User | null = await getUser();
@@ -46,8 +23,11 @@ export default async function AlertsPage() {
 			</div>
 		);
 	}
+
+	const config = await getDashboardAlertConfig(user.id);
 	const formatTime = (ts: number) =>
 		new Date(ts).toISOString().slice(11, 16) + " UTC";
+
 	return (
 		<main className="pb-24">
 			<header className="border-b border-white/5">
@@ -57,10 +37,12 @@ export default async function AlertsPage() {
 					</h1>
 					<p className="mt-2 text-sm text-neutral-400 max-w-2xl">
 						Configure trigger points that initiate protective automation or send
-						notifications. Values shown are demo only.
+						notifications. {config.activeCount} threshold
+						{config.activeCount === 1 ? " is" : "s are"} currently armed.
 					</p>
 				</div>
 			</header>
+
 			<div className="max-w-6xl mx-auto px-6 mt-10 space-y-14">
 				<section aria-labelledby="configured" className="scroll-mt-24">
 					<h2
@@ -81,40 +63,54 @@ export default async function AlertsPage() {
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-white/5">
-								{thresholds.map((t) => (
-									<tr key={t.id} className="hover:bg-white/5 transition-colors">
-										<td className="py-2.5 px-4 font-medium text-neutral-300 whitespace-nowrap">
-											{t.label}
-										</td>
-										<td className="py-2.5 px-4 text-neutral-200">
-											{t.trigger}
-										</td>
-										<td className="py-2.5 px-4 text-neutral-400">
-											{t.current}
-										</td>
-										<td className="py-2.5 px-4">
-											<span
-												className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset ${
-													t.status === "armed"
-														? "bg-emerald-500/15 text-emerald-400 ring-emerald-500/30"
-														: "bg-neutral-500/10 text-neutral-400 ring-white/10"
-												}`}
-											>
-												{t.status}
-											</span>
-										</td>
-										<td className="py-2.5 px-4 text-right">
-											<div className="flex justify-end gap-2">
-												<button className="cursor-pointer text-[11px] font-medium text-neutral-300 hover:text-white">
-													Edit
-												</button>
-												<button className="cursor-pointer text-[11px] font-medium text-neutral-400 hover:text-red-300">
-													Disable
-												</button>
-											</div>
+								{config.thresholds.length === 0 ? (
+									<tr>
+										<td
+											colSpan={5}
+											className="py-6 px-4 text-xs text-neutral-500 text-center"
+										>
+											No thresholds armed yet. Add humidity, temperature, or
+											wind triggers to automate mitigation when conditions
+											escalate.
 										</td>
 									</tr>
-								))}
+								) : (
+									config.thresholds.map((threshold) => (
+										<tr
+											key={threshold.id}
+											className="hover:bg-white/5 transition-colors"
+										>
+											<td className="py-2.5 px-4 font-medium text-neutral-300 whitespace-nowrap">
+												{threshold.label}
+											</td>
+											<td className="py-2.5 px-4 text-neutral-200">
+												{threshold.trigger}
+											</td>
+											<td className="py-2.5 px-4 text-neutral-400">
+												{threshold.current}
+											</td>
+											<td className="py-2.5 px-4">
+												<span
+													className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset ${statusBadge(
+														threshold.status
+													)}`}
+												>
+													{threshold.status}
+												</span>
+											</td>
+											<td className="py-2.5 px-4 text-right">
+												<div className="flex justify-end gap-2">
+													<button className="cursor-pointer text-[11px] font-medium text-neutral-300 hover:text-white">
+														Edit
+													</button>
+													<button className="cursor-pointer text-[11px] font-medium text-neutral-400 hover:text-red-300">
+														Disable
+													</button>
+												</div>
+											</td>
+										</tr>
+									))
+								)}
 							</tbody>
 						</table>
 					</div>
@@ -125,29 +121,31 @@ export default async function AlertsPage() {
 						id="history"
 						className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2"
 					>
-						Recent Alert Events{" "}
+						Recent Alert Events
 						<span className="text-[10px] font-normal text-neutral-500">
-							({history.length})
+							({config.history.length})
 						</span>
 					</h2>
 					<ol className="space-y-4 rounded-2xl border border-white/10 bg-neutral-900/40 p-6">
-						{history.map((h) => (
-							<li key={h.id} className="flex gap-3">
-								<span className="mt-1.5 h-2 w-2 rounded-full bg-rose-400/80" />
-								<div className="flex-1 min-w-0">
-									<p className="text-[13px] text-neutral-300 leading-snug">
-										{h.label}
-									</p>
-									<p className="text-[10px] uppercase tracking-wide text-neutral-500 mt-1">
-										{formatTime(h.at)}
-									</p>
-								</div>
-							</li>
-						))}
-						{history.length === 0 && (
+						{config.history.length === 0 ? (
 							<li className="text-xs text-neutral-500">
-								No alert events in recent window.
+								No alert events recorded yet. Events will appear here once
+								controllers report threshold crossings.
 							</li>
+						) : (
+							config.history.map((entry) => (
+								<li key={entry.id} className="flex gap-3">
+									<span className="mt-1.5 h-2 w-2 rounded-full bg-rose-400/80" />
+									<div className="flex-1 min-w-0">
+										<p className="text-[13px] text-neutral-300 leading-snug">
+											{entry.label}
+										</p>
+										<p className="text-[10px] uppercase tracking-wide text-neutral-500 mt-1">
+											{formatTime(entry.timestamp)}
+										</p>
+									</div>
+								</li>
+							))
 						)}
 					</ol>
 				</section>
@@ -157,9 +155,8 @@ export default async function AlertsPage() {
 						Help
 					</h2>
 					<p className="text-[11px] text-neutral-500 leading-relaxed max-w-3xl">
-						Connect a real‑time ingestion pipeline (e.g. MQTT → processing →
-						DynamoDB) to evaluate thresholds and push WebSocket notifications.
-						Use feature flags to roll out new metrics safely.
+						{config.notes ??
+							"Connect telemetry ingestion (MQTT → stream processing → DynamoDB) to update thresholds in real time. Use staged rollouts and IAM-scoped access when enabling new alert metrics."}
 					</p>
 				</section>
 			</div>

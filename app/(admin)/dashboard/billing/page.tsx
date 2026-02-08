@@ -3,9 +3,10 @@ import {
 	findUserBillingById,
 	type Billing,
 	type User,
-} from "@/lib/auth";
+} from "@/lib/dal";
 import { Suspense } from "react";
 import Link from "next/link";
+import ExportAnnualSummary from "@/components/billing/export-annual-summary";
 
 // Placeholder fetch functions (replace with real Stripe/backend integrations)
 async function fetchInvoices(userId: string): Promise<
@@ -55,6 +56,12 @@ export default async function BillingPage() {
 	const billing: Billing | null = await findUserBillingById(user.id);
 	const invoices = await fetchInvoices(user.id);
 	const planName = billing?.plan || "Free";
+	const defaultCard = billing?.methods.find(
+		(m) => m.id === billing.defaultMethodId,
+	);
+	const cardLabel = defaultCard
+		? `${defaultCard.details.brand.toUpperCase()} •••• ${defaultCard.details.last4}`
+		: "None";
 
 	return (
 		<main className="pb-20">
@@ -216,9 +223,11 @@ export default async function BillingPage() {
 						<p className="mb-3">
 							Export annual summaries or tax statements once available.
 						</p>
-						<button className="cursor-pointer inline-flex items-center rounded-md border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-medium text-neutral-300 px-4 py-2 transition">
-							Generate Annual Summary
-						</button>
+						<ExportAnnualSummary
+							planName={planName}
+							invoices={invoices}
+							defaultCard={cardLabel}
+						/>
 					</div>
 				</section>
 

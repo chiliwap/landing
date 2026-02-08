@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface NavItem {
@@ -18,11 +18,18 @@ const nav: Array<NavItem> = [
 	{ label: "Controllers", href: "/dashboard/manage" },
 	{ label: "Alerts", href: "/dashboard/alerts" },
 	{ label: "Activity", href: "/dashboard/activity" },
+	{ label: "Schedule", href: "/dashboard/schedule" },
 ];
 
 export default function DashboardSidebar() {
 	const pathname = usePathname();
+	const router = useRouter();
 	const [open, setOpen] = useState(false);
+
+	async function handleLogout() {
+		await fetch("/api/auth/logout", { method: "POST" });
+		router.push("/");
+	}
 	return (
 		<>
 			{/* mobile toggle */}
@@ -105,12 +112,13 @@ export default function DashboardSidebar() {
 							Site
 						</Link>
 						<span className="text-neutral-700">/</span>
-						<Link
-							href="/logout"
-							className="text-neutral-400 hover:text-red-300"
+						<button
+							type="button"
+							onClick={handleLogout}
+							className="text-neutral-400 hover:text-red-300 cursor-pointer"
 						>
 							Logout
-						</Link>
+						</button>
 					</div>
 				</div>
 			</aside>

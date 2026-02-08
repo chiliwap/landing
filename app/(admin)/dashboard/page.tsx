@@ -1,53 +1,34 @@
-import { getUser, type User } from "@/lib/auth";
+import Link from "next/link";
 
-// Placeholder data (would come from metrics/telemetry services or persisted aggregates)
-const kpis = [
-	{ label: "Controllers Online", value: 3, delta: "+1", trend: "up" },
-	{ label: "Active Alerts", value: 0, delta: "0", trend: "flat" },
-	{ label: "Risk Index (24h avg)", value: 62, delta: "+4", trend: "up" },
-	{
-		label: "Water Usage (Today)",
-		value: "118 L",
-		delta: "-12%",
-		trend: "down",
-	},
-];
+import RiskSparkline from "@/components/charts/risk-sparkline";
+import WaterUsageGauge from "@/components/charts/water-usage-gauge";
+import ExportReport from "@/components/dashboard/export-report";
+import WeatherHeader from "@/components/dashboard/weather-card";
+import { getUser, type User } from "@/lib/dal";
+import {
+	getDashboardAlertConfig,
+	getDashboardOverview,
+	listDashboardActivity,
+} from "@/lib/dashboard";
 
-const recentActivity = [
-	{
-		id: "a1",
-		ts: Date.now() - 1000 * 60 * 12,
-		type: "controller.sync",
-		text: "Controller Barn-West telemetry sync (temp 54°C, humidity 18%).",
-	},
-	{
-		id: "a2",
-		ts: Date.now() - 1000 * 60 * 55,
-		type: "automation.soak",
-		text: "Perimeter pre-soak completed (duration 4m, 38 L).",
-	},
-	{
-		id: "a3",
-		ts: Date.now() - 1000 * 60 * 130,
-		type: "controller.armed",
-		text: "Controller Ridge-Line armed for auto-response.",
-	},
-];
+function extractLeadingNumber(input: string | undefined): number | null {
+	if (!input) return null;
+	const match = input.replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
+	if (!match) return null;
+	const value = Number(match[0]);
+	return Number.isFinite(value) ? value : null;
+}
 
-const upcoming = [
-	{
-		id: "u1",
-		title: "Scheduled Pre-Soak",
-		when: "Tomorrow 06:00",
-		note: "Eaves + perimeter",
-	},
-	{
-		id: "u2",
-		title: "Firmware Update window",
-		when: "Oct 06 02:00",
-		note: "Applies to 2 controllers",
-	},
-];
+function computeWaterRatio(today: string, average: string): number | null {
+	const todayValue = extractLeadingNumber(today);
+	const avgValue = extractLeadingNumber(average);
+
+	if (todayValue === null || avgValue === null || avgValue <= 0) {
+		return null;
+	}
+
+	return todayValue / avgValue;
+}
 
 export default async function Dashboard() {
 	const user: User | null = await getUser();
@@ -66,9 +47,40 @@ export default async function Dashboard() {
 			</main>
 		);
 	}
+
+	const [overview, activityFeed, alertsConfig] = await Promise.all([
+		getDashboardOverview(user.id),
+		listDashboardActivity(user.id, { limit: 5 }),
+		getDashboardAlertConfig(user.id),
+	]);
+
+	const riskStats = overview.riskTrend.stats;
+	const riskDeltaDisplay =
+		riskStats.delta > 0 ? `+${riskStats.delta}` : `${riskStats.delta}`;
+
+	const activityColor = (category: string) => {
+		switch (category) {
+			case "automation":
+				return "bg-emerald-400/80";
+			case "alert":
+				return "bg-rose-400/80";
+			case "controller":
+				return "bg-sky-400/80";
+			case "user":
+				return "bg-neutral-300/70";
+			default:
+				return "bg-white/40";
+		}
+	};
+	const riskSeries = overview.riskTrend.series ?? [];
+	const waterRatio = computeWaterRatio(
+		overview.waterUsage.today,
+		overview.waterUsage.sevenDayAvg,
+	);
+
 	return (
 		<main className="pb-24">
-			<header className="border-b border-white/5">
+			<WeatherHeader>
 				<div className="max-w-7xl mx-auto px-6 py-10 flex flex-col gap-6 lg:flex-row lg:items-end">
 					<div className="flex-1 min-w-0">
 						<h1 className="text-3xl font-semibold tracking-tight text-white">
@@ -81,27 +93,28 @@ export default async function Dashboard() {
 						</p>
 					</div>
 					<div className="flex gap-2 flex-wrap text-[11px] font-medium">
-						<a
+						<ExportReport overview={overview} activityFeed={activityFeed} />
+						<Link
 							href="/dashboard/manage"
 							className="px-3 py-1.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 transition"
 						>
 							Controllers
-						</a>
-						<a
+						</Link>
+						<Link
 							href="/dashboard/billing"
 							className="px-3 py-1.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 transition"
 						>
 							Billing
-						</a>
-						<a
+						</Link>
+						<Link
 							href="/dashboard/account"
 							className="px-3 py-1.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 transition"
 						>
 							Account
-						</a>
+						</Link>
 					</div>
 				</div>
-			</header>
+			</WeatherHeader>
 
 			<div className="max-w-7xl mx-auto px-6 mt-10 space-y-12">
 				{/* KPI Row */}
@@ -110,27 +123,27 @@ export default async function Dashboard() {
 						Key metrics
 					</h2>
 					<ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
-						{kpis.map((k) => {
+						{overview.kpis.map((kpi) => {
 							const trendColor =
-								k.trend === "up"
+								kpi.trend === "up"
 									? "text-emerald-400"
-									: k.trend === "down"
-									? "text-rose-400"
-									: "text-neutral-400";
+									: kpi.trend === "down"
+										? "text-rose-400"
+										: "text-neutral-400";
 							return (
 								<li
-									key={k.label}
+									key={kpi.id}
 									className="rounded-xl border border-white/10 bg-neutral-900/40 backdrop-blur-sm p-4 flex flex-col gap-1"
 								>
 									<span className="uppercase tracking-wide text-[10px] text-neutral-500">
-										{k.label}
+										{kpi.label}
 									</span>
 									<div className="flex items-baseline gap-2">
 										<span className="text-xl font-semibold text-white">
-											{k.value}
+											{kpi.value}
 										</span>
 										<span className={`text-[11px] font-medium ${trendColor}`}>
-											{k.delta}
+											{kpi.delta}
 										</span>
 									</div>
 								</li>
@@ -143,54 +156,67 @@ export default async function Dashboard() {
 				<section aria-labelledby="charts" className="grid gap-6 md:grid-cols-3">
 					<div className="md:col-span-2 rounded-2xl border border-white/10 bg-neutral-900/40 p-5 relative overflow-hidden">
 						<h2 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
-							Risk Trend (demo)
+							Risk Trend
 							<span className="text-[10px] font-normal text-neutral-500">
-								24h
+								{overview.riskTrend.timeframe}
 							</span>
 						</h2>
-						<div className="h-52 grid place-items-center text-neutral-500 text-xs tracking-wide">
-							<span className="opacity-70">
-								Chart placeholder – integrate sparkline/time-series
-							</span>
+						<div className="h-52">
+							<RiskSparkline
+								series={riskSeries}
+								narrative={overview.riskTrend.narrative}
+								className="h-full w-full"
+							/>
 						</div>
 						<div className="mt-4 flex gap-4 text-[11px] text-neutral-400">
 							<div>
 								<span className="block text-neutral-300 font-medium">Peak</span>{" "}
-								71
+								{riskStats.peak}
 							</div>
 							<div>
 								<span className="block text-neutral-300 font-medium">Low</span>{" "}
-								54
+								{riskStats.low}
 							</div>
 							<div>
 								<span className="block text-neutral-300 font-medium">
-									Δ 24h
+									Δ {overview.riskTrend.timeframe}
 								</span>{" "}
-								+9
+								{riskDeltaDisplay}
 							</div>
 						</div>
 					</div>
 					<div className="rounded-2xl border border-white/10 bg-neutral-900/40 p-5 flex flex-col">
 						<h2 className="text-sm font-semibold text-neutral-200 mb-4">
-							Water Usage (demo)
+							Water Usage
 						</h2>
-						<div className="h-52 flex-1 grid place-items-center text-neutral-500 text-xs">
-							Placeholder radial / bar chart
+						<div className="h-52 flex-1 flex items-center justify-center">
+							<WaterUsageGauge ratio={waterRatio} />
 						</div>
 						<ul className="mt-4 space-y-2 text-[11px]">
 							<li className="flex justify-between">
 								<span className="text-neutral-400">Today</span>
-								<span className="text-neutral-200">118 L</span>
+								<span className="text-neutral-200">
+									{overview.waterUsage.today}
+								</span>
 							</li>
 							<li className="flex justify-between">
 								<span className="text-neutral-400">7‑day avg</span>
-								<span className="text-neutral-200">132 L</span>
+								<span className="text-neutral-200">
+									{overview.waterUsage.sevenDayAvg}
+								</span>
 							</li>
 							<li className="flex justify-between">
 								<span className="text-neutral-400">Projection</span>
-								<span className="text-neutral-200">↓ 8%</span>
+								<span className="text-neutral-200">
+									{overview.waterUsage.projection}
+								</span>
 							</li>
 						</ul>
+						{overview.waterUsage.notes && (
+							<p className="mt-3 text-[10px] text-neutral-500 leading-relaxed">
+								{overview.waterUsage.notes}
+							</p>
+						)}
 					</div>
 				</section>
 
@@ -204,52 +230,69 @@ export default async function Dashboard() {
 							Recent Activity
 						</h2>
 						<ol className="space-y-4">
-							{recentActivity.map((ev) => (
-								<li key={ev.id} className="flex gap-3">
-									<span className="mt-1.5 h-2 w-2 rounded-full bg-white/40" />
-									<div className="flex-1 min-w-0">
-										<p className="text-[13px] text-neutral-300 leading-snug">
-											{ev.text}
-										</p>
-										<p className="text-[10px] uppercase tracking-wide text-neutral-500 mt-1">
-											{formatTime(ev.ts)}
-										</p>
-									</div>
+							{activityFeed.length === 0 ? (
+								<li className="text-xs text-neutral-500">
+									No activity yet. As automations run and controllers sync,
+									entries will appear here.
 								</li>
-							))}
+							) : (
+								activityFeed.map((ev) => (
+									<li key={ev.eventId} className="flex gap-3">
+										<span
+											className={`mt-1.5 h-2 w-2 rounded-full ${activityColor(
+												ev.category,
+											)}`}
+										/>
+										<div className="flex-1 min-w-0">
+											<p className="text-[13px] text-neutral-300 leading-snug">
+												{ev.summary}
+											</p>
+											<p className="text-[10px] uppercase tracking-wide text-neutral-500 mt-1 flex items-center gap-2">
+												<span>{formatTime(ev.timestamp)}</span>
+												{ev.actor && (
+													<span className="text-neutral-700">/</span>
+												)}
+												{ev.actor && (
+													<span className="font-medium text-neutral-400">
+														{ev.actor}
+													</span>
+												)}
+											</p>
+										</div>
+									</li>
+								))
+							)}
 						</ol>
 						<div className="mt-6 pt-4 border-t border-white/5">
-							<a
+							<Link
 								href="/dashboard/activity"
 								className="text-[11px] font-medium text-neutral-400 hover:text-neutral-200"
 							>
 								View full activity →
-							</a>
+							</Link>
 						</div>
 					</div>
 					<div className="rounded-2xl border border-white/10 bg-neutral-900/40 p-5 flex flex-col">
 						<h2 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
 							Alerts{" "}
 							<span className="text-[10px] font-normal text-neutral-500">
-								(0 active)
+								({alertsConfig.activeCount} active)
 							</span>
 						</h2>
 						<p className="text-xs text-neutral-500 leading-relaxed">
-							No active alerts. Controllers are monitoring humidity &
-							temperature thresholds. You will see real‑time triggers here when
-							risk states escalate.
+							{overview.alertsSummary.description}
 						</p>
 						<div className="mt-6">
-							<a
+							<Link
 								href="/dashboard/alerts"
 								className="text-[11px] font-medium text-neutral-400 hover:text-neutral-200"
 							>
 								Configure thresholds →
-							</a>
+							</Link>
 						</div>
 						<div className="mt-8 text-[10px] text-neutral-600 border-t border-white/5 pt-4 leading-relaxed">
-							Demo data only; connect backend metrics service to populate
-							dynamic risk scoring and automated response logs.
+							{alertsConfig.notes ??
+								"Wire real telemetry here to surface live risk scoring and auto-response history."}
 						</div>
 					</div>
 				</section>
@@ -263,25 +306,44 @@ export default async function Dashboard() {
 						Upcoming
 					</h2>
 					<ul className="grid md:grid-cols-2 gap-4">
-						{upcoming.map((u) => (
-							<li
-								key={u.id}
-								className="rounded-xl border border-white/10 bg-neutral-900/40 p-4"
-							>
-								<div className="flex items-center justify-between gap-4">
-									<div>
-										<p className="text-sm font-medium text-white">{u.title}</p>
-										<p className="text-[11px] text-neutral-500 mt-1">
-											{u.note}
-										</p>
-									</div>
-									<span className="text-[11px] px-2 py-1 rounded-md bg-white/5 ring-1 ring-inset ring-white/10 text-neutral-300 whitespace-nowrap">
-										{u.when}
-									</span>
-								</div>
+						{overview.upcoming.length === 0 ? (
+							<li className="rounded-xl border border-dashed border-white/10 bg-neutral-900/20 p-6 text-xs text-neutral-500">
+								No schedules yet. Plan a pre-soak or maintenance window to see
+								it here.
 							</li>
-						))}
+						) : (
+							overview.upcoming.map((item) => (
+								<li
+									key={item.id}
+									className="rounded-xl border border-white/10 bg-neutral-900/40 p-4"
+								>
+									<div className="flex items-center justify-between gap-4">
+										<div>
+											<p className="text-sm font-medium text-white">
+												{item.title}
+											</p>
+											{item.note && (
+												<p className="text-[11px] text-neutral-500 mt-1">
+													{item.note}
+												</p>
+											)}
+										</div>
+										<span className="text-[11px] px-2 py-1 rounded-md bg-white/5 ring-1 ring-inset ring-white/10 text-neutral-300 whitespace-nowrap">
+											{item.when}
+										</span>
+									</div>
+								</li>
+							))
+						)}
 					</ul>
+					<div className="mt-6 pt-4 border-t border-white/5">
+						<Link
+							href="/dashboard/schedule"
+							className="text-[11px] font-medium text-neutral-400 hover:text-neutral-200"
+						>
+							View full schedule →
+						</Link>
+					</div>
 				</section>
 
 				<section aria-labelledby="notes" className="pb-4">

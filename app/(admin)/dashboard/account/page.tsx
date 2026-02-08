@@ -1,6 +1,7 @@
-import { getUser, findUserBillingById, User, Billing } from "@/lib/auth";
+import { getUser, findUserBillingById, User, Billing } from "@/lib/dal";
 import BillingPanel from "../../../../components/billing/billing-panel";
 import AccountPanel from "../../../../components/account/account-panel";
+import NotificationPreferences from "../../../../components/account/notification-preferences";
 import { Suspense } from "react";
 
 // Helpers: humanize time distance and format local date-time for title hovers
@@ -201,6 +202,13 @@ export default async function Profile() {
 							</Suspense>
 						</div>
 					</div>
+				</section>
+
+				<section id="notifications" aria-labelledby="notifications-heading" className="scroll-mt-24">
+					<h2 id="notifications-heading" className="sr-only">
+						Notification Preferences
+					</h2>
+					<NotificationPreferences />
 				</section>
 
 				<section aria-labelledby="supporting-info" className="pb-4">

@@ -1,37 +1,5 @@
-import { getUser, type User } from "@/lib/auth";
-
-const events = [
-	{
-		id: "e1",
-		ts: Date.now() - 1000 * 60 * 5,
-		category: "automation",
-		text: "Scheduled perimeter soak finished (3m, 24 L).",
-	},
-	{
-		id: "e2",
-		ts: Date.now() - 1000 * 60 * 25,
-		category: "controller",
-		text: "Controller Barn-West sync (temp 53°C, humidity 21%).",
-	},
-	{
-		id: "e3",
-		ts: Date.now() - 1000 * 60 * 60,
-		category: "user",
-		text: "User updated billing method (Visa •••• 4242).",
-	},
-	{
-		id: "e4",
-		ts: Date.now() - 1000 * 60 * 140,
-		category: "controller",
-		text: "Controller Ridge-Line armed.",
-	},
-	{
-		id: "e5",
-		ts: Date.now() - 1000 * 60 * 200,
-		category: "alert",
-		text: "Low humidity alert cleared.",
-	},
-];
+import { getUser, type User } from "@/lib/dal";
+import { listDashboardActivity } from "@/lib/dashboard";
 
 const categoryColor: Record<string, string> = {
 	automation: "bg-emerald-400",
@@ -49,6 +17,7 @@ export default async function ActivityPage() {
 			</div>
 		);
 	}
+	const events = await listDashboardActivity(user.id);
 	const formatTime = (ts: number) =>
 		new Date(ts).toISOString().slice(11, 16) + " UTC";
 	return (
@@ -70,29 +39,44 @@ export default async function ActivityPage() {
 						Events
 					</h2>
 					<ol className="space-y-5">
-						{events.map((ev) => (
-							<li key={ev.id} className="flex gap-4">
-								<div className="pt-1">
-									<span
-										className={`inline-block h-2.5 w-2.5 rounded-full ${
-											categoryColor[ev.category] || "bg-white/40"
-										}`}
-									/>
-								</div>
-								<div className="flex-1 min-w-0">
-									<p className="text-[13px] text-neutral-300 leading-snug">
-										{ev.text}
-									</p>
-									<div className="mt-1 flex items-center gap-2 text-[10px] uppercase tracking-wide text-neutral-500">
-										<span>{formatTime(ev.ts)}</span>
-										<span className="text-neutral-700">/</span>
-										<span className="font-medium text-neutral-400">
-											{ev.category}
-										</span>
-									</div>
-								</div>
+						{events.length === 0 ? (
+							<li className="text-xs text-neutral-500">
+								No activity recorded yet. Controller telemetry and automated
+								runs will flow here once configured.
 							</li>
-						))}
+						) : (
+							events.map((ev) => (
+								<li key={ev.eventId} className="flex gap-4">
+									<div className="pt-1">
+										<span
+											className={`inline-block h-2.5 w-2.5 rounded-full ${
+												categoryColor[ev.category] || "bg-white/40"
+											}`}
+										/>
+									</div>
+									<div className="flex-1 min-w-0">
+										<p className="text-[13px] text-neutral-300 leading-snug">
+											{ev.summary}
+										</p>
+										<div className="mt-1 flex items-center gap-2 text-[10px] uppercase tracking-wide text-neutral-500">
+											<span>{formatTime(ev.timestamp)}</span>
+											<span className="text-neutral-700">/</span>
+											<span className="font-medium text-neutral-400">
+												{ev.category}
+											</span>
+											{ev.actor && (
+												<>
+													<span className="text-neutral-700">/</span>
+													<span className="font-medium text-neutral-400">
+														{ev.actor}
+													</span>
+												</>
+											)}
+										</div>
+									</div>
+								</li>
+							))
+						)}
 					</ol>
 				</section>
 				<section aria-labelledby="notes" className="pb-4">

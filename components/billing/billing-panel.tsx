@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { cardBrands, type CardBrand } from "@/components/billing/card-brands";
 import { generateMeshStyleFromSeed } from "@/lib/meshGradient";
-import { Billing, Card } from "@/lib/auth";
+import { Billing, Card } from "@/lib/dal";
 import Modal from "../ui/modal";
 import PaymentMethodForm from "../forms/payment-method-form";
 import {

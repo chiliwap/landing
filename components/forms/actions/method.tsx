@@ -3,7 +3,7 @@
 import { BILLING_TABLE, dynamodb } from "@/lib/dynamodb";
 import { PutCommand, UpdateCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import type { CardBrand } from "@/components/billing/card-brands";
-import { getUser, type Billing, type Card } from "@/lib/auth";
+import { getUser, type Billing, type Card } from "@/lib/dal";
 import { stripe, getOrCreateCustomer } from "@/lib/stripe";
 
 export type PaymentMethodFormState = {

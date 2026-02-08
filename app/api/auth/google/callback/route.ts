@@ -1,5 +1,6 @@
+import crypto from "crypto";
 import { type NextRequest, NextResponse } from "next/server";
-import { createGoogleUser, createSession, findUserByEmail } from "@/lib/auth";
+import { createOAuthUser, createSession, getSession, getUserByEmail } from "@/lib/dal";
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -14,7 +15,12 @@ export async function GET(request: NextRequest) {
     }
 
     if (!code) {
-        // Redirect to Google OAuth
+        // Initiate OAuth flow: generate state, store in session, redirect to Google
+        const state = crypto.randomBytes(32).toString("hex");
+        const session = await getSession();
+        session.oauthState = state;
+        await session.save();
+
         const googleAuthUrl = new URL(
             "https://accounts.google.com/o/oauth2/v2/auth",
         );
@@ -29,11 +35,30 @@ export async function GET(request: NextRequest) {
         googleAuthUrl.searchParams.set("response_type", "code");
         googleAuthUrl.searchParams.set("scope", "openid email profile");
         googleAuthUrl.searchParams.set("access_type", "offline");
+        googleAuthUrl.searchParams.set("state", state);
 
         return NextResponse.redirect(googleAuthUrl.toString());
     }
 
     try {
+        // Validate state parameter to prevent CSRF
+        const returnedState = searchParams.get("state");
+        const session = await getSession();
+        const storedState = session.oauthState;
+
+        if (!returnedState || !storedState || returnedState !== storedState) {
+            return NextResponse.redirect(
+                new URL(
+                    `/?error=${encodeURIComponent("Invalid OAuth state. Please try again.")}`,
+                    request.url,
+                ),
+            );
+        }
+
+        // Clear the state from session after validation
+        session.oauthState = undefined;
+        await session.save();
+
         // Exchange code for tokens
         const tokenResponse = await fetch(
             "https://oauth2.googleapis.com/token",
@@ -75,33 +100,33 @@ export async function GET(request: NextRequest) {
             throw new Error("Failed to get user info from Google");
         }
 
+        // Reject unverified Google emails
+        if (googleUser.verified_email === false) {
+            return NextResponse.redirect(
+                new URL(
+                    `/?error=${encodeURIComponent("Your Google email is not verified. Please verify it first.")}`,
+                    request.url,
+                ),
+            );
+        }
+
         // Find or create user in DynamoDB
-        let user = await findUserByEmail(googleUser.email);
+        let user = await getUserByEmail(googleUser.email);
 
         if (!user) {
-            user = await createGoogleUser(
+            user = await createOAuthUser(
                 googleUser.email,
                 googleUser.name,
                 googleUser.picture,
             );
         }
 
-        // Create session
-        const session = await createSession(user);
+        // Create iron-session
+        await createSession(user.id, user.email, user.name);
 
-        // Redirect to dashboard with session data
+        // Redirect to dashboard
         const redirectUrl = new URL("/dashboard", request.url);
-        const response = NextResponse.redirect(redirectUrl);
-
-        // Set session cookie
-        response.cookies.set("auth_session", JSON.stringify(session), {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            maxAge: 24 * 60 * 60, // 24 hours
-        });
-
-        return response;
+        return NextResponse.redirect(redirectUrl);
     } catch (error) {
         console.error("Google OAuth error:", error);
         return NextResponse.redirect(

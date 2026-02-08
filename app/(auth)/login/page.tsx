@@ -4,7 +4,7 @@ import Gradient from "@/components/ui/mouse-gradient";
 import Link from "next/link";
 
 import Google from "@/components/auth/google";
-import MagicLinkForm from "@/components/forms/magic-link-form";
+import LoginForm from "@/components/forms/login-form";
 
 export const metadata = {
 	title: "Login | Chiliwap",
@@ -21,7 +21,7 @@ export default function Login() {
 				{/* Login Form Section */}
 				<div className="z-20 absolute inset-0 flex flex-col items-center justify-center h-[86vh] w-full px-4">
 					<h2 className="text-2xl mb-6 logo-text">Sign In</h2>
-					<MagicLinkForm redirectPath="/dashboard" />
+					<LoginForm redirectPath="/dashboard" />
 					<p className="text-sm text-neutral-400 mt-6">
 						Don&apos;t have an account?{" "}
 						<Link
@@ -44,7 +44,7 @@ export default function Login() {
 					<p className="text-sm text-gray-500 mt-4 max-w-sm text-center">
 						Need help signing in?{" "}
 						<Link
-							href="/reset-password"
+							href="/password/reset/request"
 							className="hover:text-orange-500 underline transition-colors duration-750"
 						>
 							Reset your password

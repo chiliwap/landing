@@ -1,5 +1,5 @@
 "use server";
-import { getUser, listUserSessions, revokeSession } from "@/lib/auth";
+import { getUser, listUserSessions, revokeSession } from "@/lib/dal";
 import { revalidatePath } from "next/cache";
 
 export async function getSessions() {

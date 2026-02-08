@@ -1,19 +1,19 @@
-import { cookies } from "next/headers";
-
 import { NextResponse } from "next/server";
-
-import { getSessionFromCookies, validateSession } from "@/lib/auth";
+import { getUserById, verifySession } from "@/lib/dal";
 
 export async function GET() {
-    const sessionCookie = await getSessionFromCookies();
-    if (!sessionCookie) {
+    const session = await verifySession();
+
+    if (!session || !session.userId) {
         return NextResponse.json({ user: null }, { status: 401 });
     }
 
-    const valid = await validateSession(sessionCookie.token);
-    if (!valid) {
+    // Fetch fresh user data from database
+    const user = await getUserById(session.userId);
+
+    if (!user) {
         return NextResponse.json({ user: null }, { status: 401 });
     }
 
-    return NextResponse.json({ user: valid.user });
+    return NextResponse.json({ user });
 }

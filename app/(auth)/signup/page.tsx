@@ -3,7 +3,7 @@ import Footer from "@/components/layout/footer";
 import Nav from "@/components/layout/nav";
 import Gradient from "@/components/ui/mouse-gradient";
 import Link from "next/link";
-import MagicLinkForm from "@/components/forms/magic-link-form";
+import SignupForm from "@/components/forms/signup-form";
 
 export const metadata = {
 	title: "Sign Up | Chiliwap",
@@ -19,7 +19,7 @@ export default function Signup() {
 				{/* Login Form Section */}
 				<div className="z-20 absolute inset-0 flex flex-col items-center justify-center h-[86vh] w-full px-4">
 					<h2 className="text-2xl mb-6 logo-text">Create an account</h2>
-					<MagicLinkForm redirectPath="/dashboard" />
+					<SignupForm redirectPath="/dashboard" />
 					<p className="text-sm text-neutral-400 mt-4 max-w-sm text-center">
 						Already have an account?{" "}
 						<Link

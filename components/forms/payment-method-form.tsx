@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useMemo, useState, useRef } from "react";
 import { cardBrands } from "@/components/billing/card-brands";
 import type { PaymentMethodFormState } from "./actions/method";
-import type { Card } from "@/lib/auth";
+import type { Card } from "@/lib/dal";
 import { CompactSelect } from "../ui/dropdown";
 
 export default function PaymentMethodForm({

@@ -7,7 +7,7 @@ import {
 	useMemo,
 	useCallback,
 } from "react";
-import type { User } from "@/lib/auth";
+import type { User } from "@/lib/dal";
 import {
 	updateProfile,
 	type ProfileUpdateState,

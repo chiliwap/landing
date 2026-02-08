@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createGoogleUser, createSession, findUserByEmail } from "@/lib/auth";
+import { createOAuthUser, createSession, getUserByEmail } from "@/lib/dal";
 
 export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
@@ -16,7 +16,10 @@ export async function GET(request: NextRequest) {
 		const googleAuthUrl = new URL(
 			"https://accounts.google.com/o/oauth2/v2/auth",
 		);
-		googleAuthUrl.searchParams.set("client_id", process.env.GOOGLE_CLIENT_ID!);
+		googleAuthUrl.searchParams.set(
+			"client_id",
+			process.env.GOOGLE_CLIENT_ID!,
+		);
 		googleAuthUrl.searchParams.set(
 			"redirect_uri",
 			process.env.GOOGLE_REDIRECT_URI!,
@@ -28,20 +31,27 @@ export async function GET(request: NextRequest) {
 	}
 
 	try {
-		const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
-			method: "POST",
-			headers: { "Content-Type": "application/x-www-form-urlencoded" },
-			body: new URLSearchParams({
-				client_id: process.env.GOOGLE_CLIENT_ID!,
-				client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-				code,
-				grant_type: "authorization_code",
-				redirect_uri: process.env.GOOGLE_REDIRECT_URI!,
-			}),
-		});
+		const tokenResponse = await fetch(
+			"https://oauth2.googleapis.com/token",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+				},
+				body: new URLSearchParams({
+					client_id: process.env.GOOGLE_CLIENT_ID!,
+					client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+					code,
+					grant_type: "authorization_code",
+					redirect_uri: process.env.GOOGLE_REDIRECT_URI!,
+				}),
+			},
+		);
 		const tokens = await tokenResponse.json();
 		if (!tokenResponse.ok) {
-			throw new Error(tokens.error_description || "Token exchange failed");
+			throw new Error(
+				tokens.error_description || "Token exchange failed",
+			);
 		}
 
 		const userResponse = await fetch(
@@ -53,22 +63,21 @@ export async function GET(request: NextRequest) {
 			throw new Error("Failed to get user info");
 		}
 
-		let user = await findUserByEmail(googleUser.email);
+		let user = await getUserByEmail(googleUser.email);
 		if (!user) {
-			user = await createGoogleUser(
+			user = await createOAuthUser(
 				googleUser.email,
 				googleUser.name,
 				googleUser.picture,
 			);
 		}
-		const session = await createSession(user);
-		const response = NextResponse.redirect(new URL("/dashboard", request.url));
-		response.cookies.set("auth_session", JSON.stringify(session), {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
-			sameSite: "lax",
-			maxAge: 24 * 60 * 60,
-		});
+
+		// Create iron-session
+		await createSession(user.id, user.email, user.name);
+
+		const response = NextResponse.redirect(
+			new URL("/dashboard", request.url),
+		);
 		return response;
 	} catch (e) {
 		console.error("Google OAuth error:", e);
@@ -80,4 +89,3 @@ export async function GET(request: NextRequest) {
 		);
 	}
 }
-

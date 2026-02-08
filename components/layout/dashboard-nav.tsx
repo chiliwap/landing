@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 interface Item {
@@ -18,7 +18,13 @@ const items: Item[] = [
 
 export default function DashboardNav() {
 	const pathname = usePathname();
+	const router = useRouter();
 	const [scrolled, setScrolled] = useState(false);
+
+	async function handleLogout() {
+		await fetch("/api/auth/logout", { method: "POST" });
+		router.push("/");
+	}
 	useEffect(() => {
 		const onScroll = () => setScrolled(window.scrollY > 4);
 		onScroll();
@@ -74,12 +80,13 @@ export default function DashboardNav() {
 							Site
 						</Link>
 						<span className="text-neutral-700">/</span>
-						<Link
-							href="/logout"
-							className="text-neutral-400 hover:text-red-300 text-xs tracking-wide uppercase"
+						<button
+							type="button"
+							onClick={handleLogout}
+							className="text-neutral-400 hover:text-red-300 text-xs tracking-wide uppercase cursor-pointer"
 						>
 							Logout
-						</Link>
+						</button>
 					</div>
 				</div>
 				{/* subtle top hairline gradient */}

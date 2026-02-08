@@ -1,67 +1,67 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getUser, logout } from "./lib/auth";
+import { getIronSession } from "iron-session";
+import { sessionOptions } from "./lib/dal/session";
+import { SessionData } from "./lib/dal/types";
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Check if accessing protected route
     if (pathname.startsWith("/dashboard")) {
-        const sessionCookie = request.cookies.get("auth_session");
-        const localSession = request.headers.get("authorization");
+        // Get session from encrypted cookie
+        const response = NextResponse.next();
+        const session = await getIronSession<SessionData>(
+            request,
+            response,
+            sessionOptions,
+        );
 
-        // If no session found, redirect to login
-        if (!sessionCookie && !localSession) {
-            return NextResponse.redirect(new URL("/", request.url));
+        // If no valid session, redirect to login
+        if (!session.isLoggedIn || !session.userId) {
+            return NextResponse.redirect(new URL("/login", request.url));
         }
 
-        // Validate session if exists
-        if (sessionCookie) {
-            try {
-                const session = JSON.parse(sessionCookie.value);
-                if (session.expiresAt < Math.floor(Date.now() / 1000)) {
-                    // Session expired, clear cookie and redirect
-                    const response = NextResponse.redirect(
-                        new URL("/", request.url),
-                    );
-                    response.cookies.delete("auth_session");
-                    return response;
-                }
-            } catch {
-                // Invalid session, clear cookie and redirect
-                const response = NextResponse.redirect(
-                    new URL("/", request.url),
-                );
-                response.cookies.delete("auth_session");
-                return response;
+        // Check session age for additional security
+        if (session.createdAt) {
+            const maxAge = sessionOptions.cookieOptions?.maxAge ||
+                60 * 60 * 24 * 7;
+            const age = (Date.now() - session.createdAt) / 1000;
+
+            if (age > maxAge) {
+                // Session expired, destroy and redirect
+                session.destroy();
+                return NextResponse.redirect(new URL("/login", request.url));
+            }
+
+            // Session rotation: refresh session if older than half max age
+            const halfAge = maxAge / 2;
+            if (age > halfAge) {
+                session.createdAt = Date.now();
+                await session.save();
             }
         }
 
-        // check if logged in -- if not, redirect to login (i.e. session could be invalid)
-        const user = await getUser();
-        const isAuthenticated = !!user;
-
-        if (!isAuthenticated) {
-            return NextResponse.redirect(new URL("/login", request.url));
-        }
-    } else if (pathname === "/logout") {
-        // Redirect logout requests to home
-        await logout();
-
-        return NextResponse.redirect(new URL("/", request.url));
+        return response;
     } else if (pathname === "/login") {
         // Redirect logged-in users away from login page
-        const user = await getUser();
-        const isAuthenticated = !!user;
+        const response = NextResponse.next();
+        const session = await getIronSession<SessionData>(
+            request,
+            response,
+            sessionOptions,
+        );
 
-        if (isAuthenticated) {
+        if (session.isLoggedIn && session.userId) {
             return NextResponse.redirect(new URL("/dashboard", request.url));
         }
+
+        return response;
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*", "/logout", "/login"],
+    matcher: ["/dashboard/:path*", "/login"],
 };

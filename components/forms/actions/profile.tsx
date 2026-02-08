@@ -2,7 +2,7 @@
 
 import { dynamodb, USERS_TABLE } from "@/lib/dynamodb";
 import { UpdateCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
-import { getUser, type User } from "@/lib/auth";
+import { getUser, type User } from "@/lib/dal";
 
 export interface ProfileUpdateState {
 	ok: boolean;

@@ -71,6 +71,18 @@ Add the following to your environment (e.g. `.env.local`):
 ```
 STRIPE_SECRET_KEY=sk_live_or_test_key
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+
+DYNAMODB_USERS_TABLE=...
+DYNAMODB_SESSIONS_TABLE=...
+DYNAMODB_MAGIC_LINKS_TABLE=...
+DYNAMODB_BILLING_TABLE=...
+DYNAMODB_DASHBOARD_OVERVIEW_TABLE=landing_dashboard_overview
+DYNAMODB_DASHBOARD_ACTIVITY_TABLE=landing_dashboard_activity
+DYNAMODB_DASHBOARD_ALERTS_TABLE=landing_dashboard_alerts
 ```
 
 Optional (only needed if you later add client-side Stripe Elements):
@@ -78,6 +90,36 @@ Optional (only needed if you later add client-side Stripe Elements):
 ```
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_or_test_key
 ```
+
+The three `DYNAMODB_DASHBOARD_*` variables are new and power the dashboard
+overview, activity feed, and alert configuration views. The code validates user
+IDs, seeds a demo user (`user_1758693651591_3resv3c7v`) with sample data, and
+falls back to empty-safe defaults when no records exist.
+
+### Provisioning DynamoDB tables
+
+Use the AWS CLI (or CloudFormation/Terraform of your choice) to create the
+tables. A ready-to-use CLI manifest is available at
+`infra/dynamodb-dashboard-tables.json`. Replace the `${...}` placeholders with
+your actual table names or export them in your shell before running:
+
+```bash
+export DASHBOARD_OVERVIEW_TABLE=landing_dashboard_overview
+export DASHBOARD_ACTIVITY_TABLE=landing_dashboard_activity
+export DASHBOARD_ALERTS_TABLE=landing_dashboard_alerts
+
+jq -c '.tables[]' infra/dynamodb-dashboard-tables.json | while read -r table; do
+  aws dynamodb create-table --cli-input-json "$table"
+done
+```
+
+Each table uses on-demand billing. The activity table expects `userId` (HASH)
+and `timestamp` (RANGE) keys so events are sorted automatically. The overview
+and alerts tables are keyed by `userId`.
+
+After creation, visit the dashboard as the demo user (or call the helper
+functions) once; the server will seed default records and demo entries securely
+via conditional writes.
 
 ### Data Model Changes
 

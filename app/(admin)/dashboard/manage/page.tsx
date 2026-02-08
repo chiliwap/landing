@@ -1,8 +1,7 @@
-import { getUser } from "@/lib/auth";
-import ControllerCard from "@/components/controllers/controller-card";
+import { getUser } from "@/lib/dal";
+import ControllerStateManager from "@/components/controllers/controller-state-manager";
 import {
 	fetchControllers,
-	renameAction,
 	toggleArmedAction,
 	syncAction,
 	rebootAction,
@@ -71,25 +70,22 @@ export default async function ManageDevicesPage() {
 							</p>
 						</div>
 					</div>
-					{controllers.length === 0 && (
+
+					{controllers.length === 0 ? (
 						<p className="text-sm text-neutral-500 border border-dashed border-white/10 rounded-lg p-8 text-center">
 							No controllers registered yet.
 						</p>
+					) : (
+						<ControllerStateManager
+							controllers={controllers}
+							actions={{
+								toggle: toggleArmedAction,
+								sync: syncAction,
+								reboot: rebootAction,
+							}}
+						/>
 					)}
-					<div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-						{controllers.map((c) => (
-							<ControllerCard
-								key={c.id}
-								ctrl={c as any}
-								actions={{
-									rename: renameAction,
-									toggle: toggleArmedAction,
-									sync: syncAction,
-									reboot: rebootAction,
-								}}
-							/>
-						))}
-					</div>
+
 					<p className="mt-8 text-[11px] text-neutral-500 leading-relaxed max-w-2xl">
 						Telemetry updates reflect the last reported values. Sync attempts to
 						fetch fresh metrics; reboot cycles power virtually. Controller

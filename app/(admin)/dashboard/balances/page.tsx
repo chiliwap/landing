@@ -1,4 +1,4 @@
-import { getUser, type User } from "@/lib/auth";
+import { getUser, type User } from "@/lib/dal";
 
 // Placeholder portfolio/balances style data - adapt to domain (e.g., water capacity, controller battery, credit balance)
 const balanceData = [
